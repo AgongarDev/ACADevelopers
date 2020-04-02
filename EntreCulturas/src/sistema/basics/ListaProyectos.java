@@ -1,4 +1,4 @@
-package sistema;
+package sistema.basics;
 
 
 public class ListaProyectos {

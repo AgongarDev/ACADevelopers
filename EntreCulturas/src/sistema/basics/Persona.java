@@ -1,4 +1,4 @@
-package sistema;
+package sistema.basics;
 
 
 import javax.xml.bind.annotation.XmlAccessType;
