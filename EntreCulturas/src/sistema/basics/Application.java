@@ -21,18 +21,22 @@ public static void main( String[] args ) throws IOException, JAXBException {
     	int respuesta = 0;
     	Integer[] opciones = {1, 2, 3};
     	
-    	System.out.println("Entreculturas ONG");
+    	System.out.println("*****Entreculturas ONG******");
+    	System.out.println("****************************");
+    	System.out.println("Bienvenido, usuario invitado");
+    	System.out.println("****************************");
     	
         do {
-        	System.out.println("\n Selecciona una de las siguientes acciones: ");
+        	System.out.println("\n ¿Qué desea hacer?: ");
         	System.out.println("1 - Iniciar sesión como adminitrador");
-        	System.out.println("2 - Iniciar sesión como trabajador");
-        	System.out.println("3 - Salir");
+        	System.out.println("2 - Iniciar sesión como socio");
+        	System.out.println("3 - Ver los proyectos publicados");
+        	System.out.println("4 - Salir");
         	
         	try {
         		respuesta = Integer.parseInt(br.readLine());
             } catch(NumberFormatException nfe) {
-                System.out.println("Error. Inténtalo otra vez");
+                System.out.println("Error. introduzca un valor del 1 al 4");
             }
         	
         } while (!Arrays.asList(opciones).contains(respuesta));
@@ -44,11 +48,15 @@ public static void main( String[] args ) throws IOException, JAXBException {
               break;
            
            case 2:
-        	  Trabajador trabajador = new Trabajador();
-        	  trabajador.abrirSesion();
+        	  Socio socio = new Socio();
+        	  socio.abrirSesion();
               break;
               
            case 3:
+
+        	  break;
+        	   
+           case 4:
         	  System.out.println("La sesión se ha cerrado con éxito.");
         	  System.exit(0);
               break;

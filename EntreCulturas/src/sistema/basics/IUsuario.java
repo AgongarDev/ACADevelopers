@@ -10,7 +10,7 @@ import javax.xml.bind.JAXBException;
  * 
  */
 
-public interface Usuario {
+public interface IUsuario {
 	
 	/**
 	 * Acciones que puede realizar el usuario en la aplicacion cuando inicia sesion

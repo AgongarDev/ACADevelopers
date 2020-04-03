@@ -1,10 +1,16 @@
 package sistema.basics;
 
+import java.util.ArrayList;
+
 public class Ong {
 
 	private String id;
 	private String nombre;
 	private int numSocios;
+	private ArrayList<AdministracionFisica> administraciones = new ArrayList<AdministracionFisica>();
+	private ArrayList<Proyecto> proyectosOng = new ArrayList<Proyecto>();
+	private ArrayList<TotalIngresos> listaIngresos = new ArrayList<TotalIngresos>();
+	private float fondosOng;
 	
 	//Constructores de la clase Ong
 	
@@ -12,11 +18,12 @@ public class Ong {
 		super();
 	}	
 	
-	public Ong(String pid, String pnombre, int psocios) {
+	public Ong(String pid, String pnombre, int psocios, float fondos) {
 		super();
 		this.id = pid;
 		this.nombre = pnombre;
 		this.numSocios = psocios;
+		this.fondosOng = fondos;
 	}	
 
 	//Métodos de la clase Ong
@@ -32,6 +39,10 @@ public class Ong {
 	
 	public String getNombre() {
 		return nombre;
+	}
+	
+	public ArrayList<AdministracionFisica> getAdministraciones(){
+		return administraciones;
 	}
 	
 	public void setNombre(String pnombre) {
@@ -59,4 +70,63 @@ public class Ong {
 		this.numSocios = this.numSocios - cantidad;
 	}
 	
+    public void muestraIngresos(){
+        for (TotalIngresos ingreso : listaIngresos) {
+        	ingreso.toString();
+        }
+    }
+    public void muestraProyectos(){
+        for (Proyecto proyecto : proyectosOng) {
+           	proyecto.toString();
+        }
+    }
+    public void muestraAdministraciones(){
+        for (AdministracionFisica sede : administraciones) {
+        	sede.toString();
+        }
+    }
+    public void addIngresos() {
+    	TotalIngresos nuevoIngreso = new TotalIngresos();
+    	//aquí meteremos los métodos que necesitemos que haga TotalIngreso para añadir una nueva cantidad.
+    	this.listaIngresos.add(nuevoIngreso); 
+    }
+    public void addProyecto() {
+    	Proyecto nuevoProyecto = new Proyecto();
+    	//aquí meteremos los métodos que necesitemos que haga Proyecto para añadir un nuevo proyecto.
+    	this.proyectosOng.add(nuevoProyecto);
+    }
+    public void addAdministracion() {
+    	AdministracionFisica sede = new AdministracionFisica();
+    	this.administraciones.add(sede);
+    }
+    public void borraAdministracion(AdministracionFisica sede) {
+    	for (AdministracionFisica elem : administraciones) {
+    		if (elem.equals(sede)) {
+    			administraciones.remove(elem);
+    		}
+    	}
+    }
+    public void borraProyecto(Proyecto proyecto) {
+    	for (Proyecto elem : proyectosOng) {
+    		if (elem.equals(proyecto)) {
+    			proyectosOng.remove(elem);
+    		}
+    	}
+    }  
+    public void borraIngreso(TotalIngresos ingreso) {
+    	for (TotalIngresos elem : listaIngresos) {
+    		if (elem.equals(ingreso)) {
+    			listaIngresos.remove(elem);
+    		}
+    	}
+    }
+    public void calculaFondos(ArrayList<TotalIngresos>ingresos) {
+    	float sumaImportes = 0;
+    	for (TotalIngresos elem : listaIngresos) {
+    		sumaImportes = sumaImportes + elem.importe;
+    	}
+    	this.fondosOng = sumaImportes;
+    	String fondosToString = String.format ("%.2f", fondosOng);
+    	System.out.println("Los fondos de la ONG "+nombre+" son "+fondosToString);
+    }
 }

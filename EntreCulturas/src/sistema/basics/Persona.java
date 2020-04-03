@@ -38,6 +38,7 @@ public class Persona {
 		
 		/**
 		 * Crea un nuevo objeto Persona sin inicializar sus campos.
+		 * llamamos al método super() para dejar constancia que siempre que se llama al constructor superior, en este caso Objeto.
 		 */
 		
 		public Persona() {

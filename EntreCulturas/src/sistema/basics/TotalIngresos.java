@@ -1,9 +1,10 @@
 package sistema.basics;
 
-
-public class Proyecto {
-
-@Override
+public class TotalIngresos {
+/*
+ * muestra en pantalla el contenido de la clase
+ * */
+    @Override
     public String toString(){
         StringBuilder str = new StringBuilder();
         SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY");
