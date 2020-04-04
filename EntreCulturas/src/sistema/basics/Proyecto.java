@@ -56,8 +56,10 @@ public class Proyecto {
 	public String getlAccion() {
 		return lAccion.getTexto();
 	}
-
-	public void setlAccion(LineaDeAccion lAccion) {
+	/*
+	 * @param string introducimos un string con la lineaDeAccion seleccionada.
+	 * */
+	public void setlAccion(String lAccion) {
 		this.lAccion = LineaDeAccion.valueOf(lAccion);
 	}
 
@@ -164,18 +166,16 @@ public class Proyecto {
 	}
 	
 	
-	/*
-	 * @param string introducimos un string con la lineaDeAccion seleccionada.
-	 * */
-@Override
+
+   	/*@Override
 public String toString(){
-   	/*
+
 	StringBuilder str = new StringBuilder();
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY");
     String landingDate = formatDate.format(this.flightdate.getTime());
     
     //    str = str.append(ID + ": " + this.id + NL);
-    */
+    
     return str.toString();
-}
+}*/
 }
