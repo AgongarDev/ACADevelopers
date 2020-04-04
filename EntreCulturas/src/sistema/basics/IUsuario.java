@@ -2,6 +2,7 @@ package sistema.basics;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.bind.JAXBException;
 
@@ -25,6 +26,6 @@ public interface IUsuario {
 	 * 
 	 * @param lp Lista de proyectos.
 	 */
-	public void consultarProyectos(ListaProyectos lp);
+	public void consultarProyectos(ArrayList<Proyecto> lp);
 
 }

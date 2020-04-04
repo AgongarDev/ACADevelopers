@@ -66,11 +66,11 @@ public class Subvencion {
 	public void setMoneda(String moneda) {
 		this.moneda = moneda;
 	}
-	public TipoSubvencion getTipoSubvencion() {
-		return tipoSubvencion;
+	public String getTipoSubvencion() {
+		return tipoSubvencion.getTexto();
 	}
-	public void setTipoSubvencion(TipoSubvencion tipoSubvencion) {
-		this.tipoSubvencion = tipoSubvencion;
+	public void setTipoSubvencion(String tipo) {
+		this.tipoSubvencion = TipoSubvencion.valueOf(tipo);
 	}
 	
 /*

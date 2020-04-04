@@ -119,7 +119,7 @@ public class Ong {
     public void calculaFondos(ArrayList<TotalIngresos>ingresos) {
     	float sumaImportes = 0;
     	for (TotalIngresos elem : listaIngresos) {
-    		sumaImportes = sumaImportes + elem.importe;
+    		sumaImportes = sumaImportes + elem.getImporte();
     	}
     	this.fondosOng = sumaImportes;
     	String fondosToString = String.format ("%.2f", fondosOng);

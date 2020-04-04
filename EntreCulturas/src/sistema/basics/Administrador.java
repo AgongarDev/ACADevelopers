@@ -47,12 +47,14 @@ public class Administrador extends Persona implements IUsuario {
 		this.tipoContrato = tipoContrato;
 	}
 	
-	
+	@Override
 	public void abrirSesion() throws IOException, JAXBException {
 		//aquí introduciremos el menú de acciones del adminstrador.
 	}
 	// como administrador puede listar la información completa de todos los proyectos existentes.
-	public void listaProyectos() {
+	
+	@Override
+	public void consultarProyectos(ArrayList<Proyecto> lp) {
 		System.out.println("Listado de proyectos :");
 		for (Proyecto elem : listaProyectos) {
 			elem.toString();

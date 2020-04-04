@@ -20,7 +20,7 @@ public class Proyecto {
 	private ArrayList<Accion> accionesARealizar = new ArrayList<Accion>();
 	private float financiacion = 0;
 	private ArrayList<Voluntario> voluntariosAsignados = new ArrayList<Voluntario>();
-	private ArrayList<Trabajador> contratadosAsignados = new ArrayList<Trabajador>();
+	private ArrayList<Administrador> contratadosAsignados = new ArrayList<Administrador>();
 	
 
 
@@ -156,12 +156,12 @@ public class Proyecto {
 	}
 
 	public void listContratadosAsignados() {
-		for (Trabajador elem : contratadosAsignados) {
+		for (Administrador elem : contratadosAsignados) {
 			elem.toString();
 		}
 	}
 
-	public void addContratado(Trabajador trabajador) {
+	public void addContratado(Administrador trabajador) {
 		this.contratadosAsignados.add(trabajador);
 	}
 	
