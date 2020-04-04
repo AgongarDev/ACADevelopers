@@ -30,7 +30,8 @@ public class Persona {
 		protected String domicilio;
 		protected String fechaInicio;
 		protected String fechaFin;
-		protected String sedeAsignada;
+		protected AdministracionFisica sedeAsignada;
+		protected Ong ong;
 		protected String cargo;
 		protected String correo;
 		
@@ -61,8 +62,8 @@ public class Persona {
 		 * 
 		 */
 		public Persona(String dni, String nombre, String apellidos, String telefono,
-			       String domicilio, String fechaInicio, String fechaFin, String sedeAsignada, 
-			       String cargo, String correo) {
+			       String domicilio, String fechaInicio, String fechaFin, AdministracionFisica sedeAsignada, 
+			       String cargo, String correo, Ong ong) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
@@ -74,10 +75,18 @@ public class Persona {
 		this.sedeAsignada = sedeAsignada;
 		this.cargo = cargo;
 		this.correo = correo;
+		this.ong = ong;
 		
 	}
 		// METODOS
 		
+		public Ong getOng() {
+			return ong;
+		}
+
+		public void setOng(Ong ong) {
+			this.ong = ong;
+		}
 		/**
 		 * Metodo de lectura que da el dni de la persona
 		 * 
@@ -217,7 +226,7 @@ public class Persona {
 		 * @return devuelve la sede asignada
 		 */
 		@XmlElement(name = "sedeAsignada")
-		public String getSedeAsignada() {
+		public AdministracionFisica getSedeAsignada() {
 			return sedeAsignada;
 		}
 
@@ -226,8 +235,8 @@ public class Persona {
 		 * 
 		 * @param sedeAsignada
 		 */
-		public void setSedeAsignada(String sedeAsignada) {
-			this.sedeAsignada = sedeAsignada;
+		public void setSedeAsignada(AdministracionFisica sede) {
+			this.sedeAsignada = sede;
 		}
 		
 		/**

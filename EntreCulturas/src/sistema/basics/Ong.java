@@ -7,6 +7,8 @@ public class Ong {
 	private String id;
 	private String nombre;
 	private int numSocios;
+	/*Todas las listas de ONG se deberán llenar después de haber creado el objeto ong, de lo contrario deberíamos crearlo fuera de éste (por ejemplo en el administrador) y creo que lo mejor es 
+	 * que se haga desde esta clase*/
 	private ArrayList<AdministracionFisica> administraciones = new ArrayList<AdministracionFisica>();
 	private ArrayList<Proyecto> proyectosOng = new ArrayList<Proyecto>();
 	private ArrayList<TotalIngresos> listaIngresos = new ArrayList<TotalIngresos>();
@@ -79,6 +81,9 @@ public class Ong {
         for (Proyecto proyecto : proyectosOng) {
            	proyecto.toString();
         }
+    }
+    public ArrayList<Proyecto> getProyectos(){
+    	return proyectosOng;
     }
     public void muestraAdministraciones(){
         for (AdministracionFisica sede : administraciones) {
