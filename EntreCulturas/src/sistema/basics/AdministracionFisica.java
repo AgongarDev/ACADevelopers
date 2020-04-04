@@ -7,6 +7,7 @@ public class AdministracionFisica {
 	private int numEmpleados;
 	private String correo;
 	private int telefono;
+	private Ong ong;
 	
 	//constructores
 	
@@ -14,18 +15,27 @@ public class AdministracionFisica {
 		super();
 	}
 	
-	public AdministracionFisica (String id, String direccion, int empleados, String correo, int telefono) {
+	public AdministracionFisica (String id, String direccion, int empleados, String correo, int telefono, Ong ong) {
 		this.idAdmin = id;
 		this.direccion = direccion;
 		this.numEmpleados = empleados;
 		this.correo = correo;
 		this.telefono = telefono;
+		this.ong = ong;
 	}
 	
 	//getters y setters
 
 	public String getIdAdmin() {
 		return idAdmin;
+	}
+
+	public Ong getOng() {
+		return ong;
+	}
+
+	public void setOng(Ong ong) {
+		this.ong = ong;
 	}
 
 	public void setIdAdmin(String idAdmin) {
