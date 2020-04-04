@@ -15,6 +15,8 @@ import javax.xml.bind.JAXBException;
  */
 public class Application {
 	
+	public Ong ong = new Ong("EntreC", "Entre Culturas", 100000);
+	
 public static void main( String[] args ) throws IOException, JAXBException {
 		
     	BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
