@@ -121,7 +121,7 @@ public class Proyecto {
 	 *
 	 */
 	@XmlElement(name = "nombre")
-	public String getNombre() {
+	public String getNombreProyecto() {
 		return nombre;
 	}
 	/**
@@ -129,7 +129,7 @@ public class Proyecto {
 	 * 
 	 * @param nombre nombre del proyecto.
 	 */
-	public void setNombre(String nombre) {
+	public void setNombreProyecto(String nombre) {
 		this.nombre = nombre;
 	}
 	/**

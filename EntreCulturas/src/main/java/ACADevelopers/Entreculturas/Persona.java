@@ -62,7 +62,7 @@ public class Persona {
 		 * 
 		 */
 		public Persona(String dni, String nombre, String apellidos, String telefono,
-			       String domicilio, String fechaInicio, String fechaFin, AdministracionFisica sedeAsignada, 
+			       String domicilio, String fechaInicio,String fechaFin, AdministracionFisica sedeAsignada, 
 			       String cargo, String correo, Ong ong) {
 		super();
 		this.dni = dni;

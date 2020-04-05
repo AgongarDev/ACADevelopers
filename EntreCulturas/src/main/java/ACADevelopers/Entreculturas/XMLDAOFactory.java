@@ -39,7 +39,7 @@ public class XMLDAOFactory extends DAOFactory {
 	@Override
 	public XMLProyectoDAO getProyectoDAO() {
 		// TODO Auto-generated method stub
-		return new XMLProyectonDAO();
+		return new XMLProyectoDAO();
 	}
 
 }

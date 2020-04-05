@@ -28,4 +28,6 @@ public interface Usuario {
 	 */
 	public void consultarProyectos(ArrayList<Proyecto> lp);
 
+	public void consultarSocios(ArrayList<Socio> ls);
+
 }

@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.bind.JAXBException;
 
-public class Socio extends Persona implements Usuario{
+public class Socio extends Persona {
 
 	private float cuotaAportacion;
 	private boolean estadoAportacion;
 	private TipoCuota tipoCuota;
-	private ArrayList<Proyecto> listaProyectos;
+	private ArrayList<Socio> ListadoSocios;
 	
 	// constructores
 	
@@ -26,7 +26,6 @@ public class Socio extends Persona implements Usuario{
 	}
 
 	//getters y setters
-	
 	public float getCuotaAportacion() {
 		return cuotaAportacion;
 	}
@@ -51,22 +50,13 @@ public class Socio extends Persona implements Usuario{
 		this.tipoCuota.setEnumValue(tipodecuota);
 	}
 
-	public void addProyecto(Proyecto proyecto) {
-		listaProyectos.add(proyecto);
+	public void addSocio(Socio socio) {
+		ListadoSocios.add(socio);
 	}
 	
-	//m�todos de la interfaz
-	
-	@Override
-	public void abrirSesion() throws IOException, JAXBException {
-		//men� de acciones del socio
-		
-	}
-	
-	@Override
-	public void consultarProyectos(ArrayList<Proyecto> lp) {
-		System.out.println("Listado de proyectos :");
-		for (Proyecto elem : listaProyectos) {
+	public void consultarSocios(ArrayList<Socio> ListadoSocios) {
+		System.out.println("Listado de socios :");
+		for (Socio elem : ListadoSocios) {
 			elem.toString();
 		}
 	}
