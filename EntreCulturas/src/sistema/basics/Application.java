@@ -15,13 +15,17 @@ import javax.xml.bind.JAXBException;
  */
 public class Application {
 	
+	/**No entiendo esta línea para qué**/
+	
 	public Ong ong = new Ong("EntreC", "Entre Culturas", 100000);
+	
+	/**No entiendo esta línea a qué apunta**/
 	
 public static void main( String[] args ) throws IOException, JAXBException {
 		
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
-    	int respuesta = 0;
-    	Integer[] opciones = {1, 2, 3};
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+		int respuesta = 0;
+		Integer[] opcionesValidas = {1, 2, 3};
     	
     	System.out.println("*****Entreculturas ONG******");
     	System.out.println("****************************");
@@ -38,7 +42,7 @@ public static void main( String[] args ) throws IOException, JAXBException {
         	try {
         		respuesta = Integer.parseInt(br.readLine());
             } catch(NumberFormatException nfe) {
-                System.out.println("Error. introduzca un valor del 1 al 4");
+                System.out.println("Error. Introduzca un número del 1 al 4");
             }
         	
         } while (!Arrays.asList(opciones).contains(respuesta));
@@ -52,13 +56,13 @@ public static void main( String[] args ) throws IOException, JAXBException {
            case 2:
         	  Socio socio = new Socio();
         	  socio.abrirSesion();
-              break;
-              
+              break; 
            case 3:
-
+        	   Array
+        	   proyecto.listarProyectos()
         	  break;
-        	   
-           case 4:
+        	 A nivel de diseño esto no tiene sentido en este menú**/   
+           case 3:
         	  System.out.println("La sesión se ha cerrado con éxito.");
         	  System.exit(0);
               break;
