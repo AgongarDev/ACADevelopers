@@ -31,7 +31,6 @@ public class Persona {
 		protected String fechaInicio;
 		protected String fechaFin;
 		protected AdministracionFisica sedeAsignada;
-		protected Ong ong;
 		protected String cargo;
 		protected String correo;
 		
@@ -75,18 +74,8 @@ public class Persona {
 		this.sedeAsignada = sedeAsignada;
 		this.cargo = cargo;
 		this.correo = correo;
-		this.ong = ong;
-		
 	}
 		// METODOS
-		
-		public Ong getOng() {
-			return ong;
-		}
-
-		public void setOng(Ong ong) {
-			this.ong = ong;
-		}
 		/**
 		 * Metodo de lectura que da el dni de la persona
 		 * 

@@ -1,5 +1,4 @@
 package ACADevelopers.Entreculturas;
-
 /**
  * Esta clase factoria se usa para crear DAOs que usan
  * XML para el almacenaje de los modelos.
@@ -17,7 +16,7 @@ public class XMLDAOFactory extends DAOFactory {
 	 */
 	@Override
 	public XMLAdministradorDAO getAdministradorDAO() {
-		return new XMLTrabajadorDAO();
+		return new XMLAdministradorDAO();
 	}
 
 	/**
@@ -27,7 +26,6 @@ public class XMLDAOFactory extends DAOFactory {
 	 */
 	@Override
 	public XMLSocioDAO getSocioDAO() {
-		// TODO Auto-generated method stub
 		return new XMLSocioDAO();
 	}
 
@@ -38,8 +36,12 @@ public class XMLDAOFactory extends DAOFactory {
 	 */
 	@Override
 	public XMLProyectoDAO getProyectoDAO() {
-		// TODO Auto-generated method stub
 		return new XMLProyectoDAO();
+	}
+
+	@Override
+	public DAO<Trabajador> getTrabajadorDAO() {
+		return new XMLTrabajadorDAO();
 	}
 
 }

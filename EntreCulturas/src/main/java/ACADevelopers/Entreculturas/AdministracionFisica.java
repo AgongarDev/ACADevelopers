@@ -6,8 +6,7 @@ public class AdministracionFisica {
 	private String direccion;
 	private int numEmpleados;
 	private String correo;
-	private int telefono;
-	private Ong ong;
+	private String telefono;
 	
 	//constructores
 	
@@ -15,27 +14,18 @@ public class AdministracionFisica {
 		super();
 	}
 	
-	public AdministracionFisica (String id, String direccion, int empleados, String correo, int telefono, Ong ong) {
+	public AdministracionFisica (String id, String direccion, int empleados, String correo, String telefono) {
 		this.idAdmin = id;
 		this.direccion = direccion;
 		this.numEmpleados = empleados;
 		this.correo = correo;
 		this.telefono = telefono;
-		this.ong = ong;
 	}
 	
 	//getters y setters
 
 	public String getIdAdmin() {
 		return idAdmin;
-	}
-
-	public Ong getOng() {
-		return ong;
-	}
-
-	public void setOng(Ong ong) {
-		this.ong = ong;
 	}
 
 	public void setIdAdmin(String idAdmin) {
@@ -66,11 +56,11 @@ public class AdministracionFisica {
 		this.correo = correo;
 	}
 
-	public int getTelefono() {
+	public String getTelefono() {
 		return telefono;
 	}
 
-	public void setTelefono(int telefono) {
+	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 	

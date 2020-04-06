@@ -1,84 +1,372 @@
 package ACADevelopers.Entreculturas;
 
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlElement;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Random;
 import java.util.regex.Pattern;
+import javax.xml.bind.JAXBException;
 
-public class Administrador extends Persona implements Usuario {
+/**
+ * Esta clase representa a la persona encargada de crear los proyectos, modificarlos,
+ * asignar el personal y gestionar la financiación de la ONG.
+ * 
+ * @author Cristina, Antonio y Ana.
+ * @version 1.0
+ *
+ */
+public class Administrador extends Personal implements Usuario {
 	
-	private float salarioBruto;
-	private float salarioNeto;
-	private String tipoContrato;
-	private ArrayList<Proyecto> listaProyectos;
-	private String pass;
+	// CAMPOS
 	
+	private String rootPass;
+	private DAOFactory xmlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.XML);
+	private DAO<Socio> socioDAO = (XMLSocioDAO) xmlDAOFactory.getSocioDAO();
+	private DAO<Proyecto> proyectoDAO = (XMLProyectoDAO) xmlDAOFactory.getProyectoDAO();
+	private DAO<Trabajador> trabajadorDAO = (XMLTrabajadorDAO) xmlDAOFactory.getTrabajadorDAO();
 	
-	// Constructor de la clase Trabajador
-	public Administrador ( ) {
+	// CONSTRUCTORES
+	
+	/**
+	 * Constructor que crea un nuevo objeto Admin sin inicializar sus campos.
+	 * 
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	public Administrador() throws JAXBException {
 		super();
 	}
+
+
+	/**
+	 * Constructor que crea un nuevo objeto Administrador inicializando sus campos.
+	 * 
+	 * @param nombre Atributo que guarda el nombre de la persona.
+	 * @param apellidos Atributo que guarda los apellidos de la persona.
+	 * @param id Atributo que guarda el id de la persona.
+	 * @param email Atributo que guarda el email de la persona.
+	 * @param telefono Atributo que guarda el telefono de la persona.
+	 * @param direccion Atributo que guarda la direccion de la persona.
+	 * @param delegacionAsignada Atributo que guarda el nombre de la administracion física asignada a la persona.
+	 * @param antiguedad Atributo que guarda la antiguedad en la ong de la persona.
+	 * @param proyectosAsignados Atributo que guarda los proyectos asignados a la persona.
+	 * @param horarioLaboral Atributo que guarda el horario laboral de la persona.
+	 * @param pass Atributo que guarda la contraseña de loggin de la persona.
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	public Administrador(String nombre, String apellidos, String id, String email,
+			     String telefono, String direccion, AdministracionFisica delegacionAsignada,
+			     Date antiguedad, ListadoProyectos proyectosAsignados,
+			     String horarioLaboral, String pass) throws JAXBException {
+		super(nombre, apellidos, id, email, telefono, direccion, delegacionAsignada, antiguedad, proyectosAsignados);
+		this.rootPass = pass;}
+	// METODOS
 	
-	public Administrador(String dni, String nombre, String apellidos, String telefono, String domicilio,
-			String fechaInicio, String fechaFin, String cargo, String correo, float salarioB, float salarioN, String tipoContrato, AdministracionFisica sede, Ong ong) {
-		super(dni, nombre, apellidos, telefono, domicilio, fechaInicio, fechaFin, sede, cargo, correo, ong);
-		this.salarioBruto = salarioB;
-		this.salarioNeto = salarioN;
-		this.tipoContrato = tipoContrato;
-		this.listaProyectos = ong.getProyectos();
+	/**
+	 * Metodo accesor de lectura que nos da la password del admin.
+	 * 
+	 * @return Nos devuelve la password del admin. 
+	 */
+	public String getRootPass() {
+		return rootPass;
 	}
 
-	// m�todos
-	
-	public float getSalarioBruto() {
-		return salarioBruto;
+	/**
+	 * Metodo accesor de escritura que asigna la password del admin.
+	 * 
+	 * @param rootPass password del admin. 
+	 */
+	public void setRootPass(String rootPass) {
+		this.rootPass = rootPass;
 	}
-	public void setSalarioBruto(float salarioBruto) {
-		this.salarioBruto = salarioBruto;
-	}
-	public float getSalarioNeto() {
-		return salarioNeto;
-	}
-	public void setSalarioNeto(float salarioNeto) {
-		this.salarioNeto = salarioNeto;
-	}
-	public String getTipoContrato() {
-		return tipoContrato;
-	}
-	public void setTipoContrato(String tipoContrato) {
-		this.tipoContrato = tipoContrato;
-	}
-	
+
+	/**
+	 * Metodo que genera el menu de acciones que puede realizar el admin
+	 * en la aplicacion cuando inicia sesion.
+	 */
 	@Override
-	public void consultarProyectos(ArrayList<Proyecto> lp) {
-		System.out.println("Listado de proyectos :");
-		for (Proyecto elem : listaProyectos) {
-			elem.toString();
+	public void abrirSesion() throws IOException, JAXBException {
+		    	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int respuestaOpcion = 0;
+		Integer[] opcionesValidas = {1, 2, 3, 4, 5};
+  	    String respuestaNuevaAccion;
+		
+    	System.out.println("\n***************************");
+    	System.out.println(" Opciones de administrador");
+    	System.out.println("***************************");
+    	
+        do {
+        	
+        	System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
+        	System.out.println("1 - Dar de alta un socio");
+        	System.out.println("2 - Imprimir listado de trabajadores");
+        	System.out.println("3 - Crear un proyecto");
+        	System.out.println("4 - Modificar un proyecto");
+        	System.out.println("5 - Salir");
+        	
+        	try {
+        		respuestaOpcion = Integer.parseInt(br.readLine());
+            } catch(NumberFormatException nfe) {
+                System.out.println("Los caracteres introducidos no son válidos.");
+            }
+        	
+        } while (!Arrays.asList(opcionesValidas).contains(respuestaOpcion));
+        
+        switch(respuestaOpcion) {
+        
+           case 1:
+        	  darAltaSocio();
+
+        	  do {
+        		  
+        		  do {
+        			  System.out.println("¿Deseas dar de alta un socio? (S/N)");
+            		  respuestaNuevaAccion = br.readLine();
+        		  } while (!respuestaNuevaAccion.equalsIgnoreCase("s") && !respuestaNuevaAccion.equalsIgnoreCase("n"));
+        		  
+        		  if (respuestaNuevaAccion.equalsIgnoreCase("s")) {
+        			  darAltaSocio();
+      				}
+        		  
+        	  } while (!respuestaNuevaAccion.equalsIgnoreCase("n"));
+        	  
+        	  abrirSesion();
+        	  
+              break;
+           
+           case 2:
+           	  imprimirListadoTrabajadores();
+           	  abrirSesion();
+              break;
+              
+           case 3:
+         	  darAltaProyecto();
+         	  
+        	  do {
+        		  
+        		  do {
+        			  System.out.println("¿Deseas dar de crear un proyecto? (S/N)");
+            		  respuestaNuevaAccion = br.readLine();
+        		  } while (!respuestaNuevaAccion.equalsIgnoreCase("s") && !respuestaNuevaAccion.equalsIgnoreCase("n"));
+        		  
+        		  if (respuestaNuevaAccion.equalsIgnoreCase("s")) {
+        			  darAltaProyecto();
+      				}
+        		  
+        	  } while (!respuestaNuevaAccion.equalsIgnoreCase("n"));
+        	  
+        	  abrirSesion();
+         	  
+               break;
+               
+           case 4:
+        	   imprimirListadoDelegaciones();
+        	   abrirSesion();
+        	   
+               break;
+              
+           case 5:
+        	   System.out.println("La sesión se ha cerrado con éxito.");
+        	   System.exit(0);
+        	   
+               break;
+        }
+    
+	}
+	
+	/**
+	 * Metodo que permite al administrador consultar el listado
+	 * de trabajadores de la ONG.
+	 * 
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	public void imprimirListadoTrabajadores() throws JAXBException {
+		trabajadorDAO.obtenerTodos();
+	}
+	
+	/**
+	 * Metodo que permite al administrador consultar el listado
+	 * de delegaciones de la ONG.
+	 * 
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	public void imprimirListadoDelegaciones() throws JAXBException {
+		proyectoDAO.obtenerTodos();
+	}
+	
+	/**
+	 * Metodo que permite al empleado introducir por consola los
+	 * datos de alta de un nuevo trabajador.
+	 * 
+	 * @throws IOException si se produce un error de entrada/salida.
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	private void darAltaSocio() throws IOException, JAXBException {
+		Socio nuevoSocio = new Socio();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("\nIntroduce el nombre del socio: ");
+		nuevoSocio.setNombre(br.readLine());
+		System.out.println("\nIntroduce los apellidos del socio: ");
+		nuevoSocio.setApellidos(br.readLine());
+		System.out.println("\nIntroduce el dni del socio: ");
+		nuevoSocio.setDni(br.readLine());
+		System.out.println("\nIntroduce el email del socio: ");
+		nuevoSocio.setCorreo(br.readLine());
+		System.out.println("\nIntroduce el teléfono del socio: ");
+        try {
+        	String numero = br.readLine();
+        	validarNumeroTelefono(numero);
+        	nuevoSocio.setTelefono(numero);
+        } catch (TelefonoNoValidoException e) {
+        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
+        	nuevoSocio.setTelefono("000000000");
+        }
+        System.out.println("\nIntroduce fecha de inscripción del socio: ");
+		nuevoSocio.setFechaInicio(br.readLine());
+		System.out.println("\nIntroduce fecha de fin de inscrpción del socio: ");
+		nuevoSocio.setFechaInicio(br.readLine());
+		/*
+		 * Bloque sede asignada
+		 */
+		System.out.println("\nIntroduce el id de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setIdAdmin(br.readLine());
+		System.out.println("\nIntroduce la dirección de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setDireccion(br.readLine());
+		
+		System.out.println("\nIntroduce la dirección de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setNumEmpleados(br.read());
+		
+		System.out.println("\nIntroduce e-mail de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setCorreo(br.readLine());
+		
+		System.out.println("\nIntroduce el teléfono de la sede asignada: ");
+        try {
+        	String numero = br.readLine();
+        	validarNumeroTelefono(numero);
+    		nuevoSocio.sedeAsignada.setTelefono(numero);
+        } catch (TelefonoNoValidoException e) {
+        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
+    		nuevoSocio.sedeAsignada.setTelefono("000000000");
+        }
+        /*
+		 * Fin Bloque sede asignada
+		 */
+        System.out.println("\nIntroduce e-mail del socio: ");
+		nuevoSocio.setCorreo(br.readLine());
+        
+		System.out.println("\nIntroduce cargo del socio: ");
+		nuevoSocio.setCargo(br.readLine());
+        
+        /*
+      	* Bloque Cuota
+      	*/
+		System.out.println("\nIntroduce cantidad de aportación del socio: ");
+		nuevoSocio.setCuotaAportacion(br.read());
+		System.out.println("¿La aportación está activa? (S/N): ");
+		if (br.readLine().equalsIgnoreCase("s")) {
+			nuevoSocio.estadoAportacion.equals(true);
+		} else {
+			nuevoSocio.estadoAportacion.equals(false);		
+		}
+		System.out.println("\nIntroduce el tipo de cuota del socio (M/T/A): ");
+		switch (br.readLine()) {
+			case "M":
+				nuevoSocio.setTipoCuota(TipoCuota.MES);
+				break;
+	
+			case "T":
+				nuevoSocio.setTipoCuota(TipoCuota.TRIM);
+				break;
+	
+			case "A":
+				nuevoSocio.setTipoCuota(TipoCuota.ANUAL);
+				break;
+	
+			default:
+				break;
+		}
+		Random random = new Random();
+		String pass = String.format("%06d", random.nextInt(1000000));
+		nuevoSocio.setPass(pass);
+		socioDAO.crearNuevo(nuevoSocio);
+		
+	}
+	
+	/**
+	 * Metodo que permite al empleado introducir por consola los
+	 * datos de alta de un nuevo Proyecto.
+	 * 
+	 * @throws IOException si se produce un error de entrada/salida.
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	private void darAltaProyecto() throws IOException, JAXBException {
+		Proyecto nuevoProyecto = new Proyecto();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("\nIntroduce el nombre del proyecto: ");
+		nuevoProyecto.setNombreProyecto(br.readLine());
+		System.out.println("\nIntroduce el ID del proyecto: ");
+		nuevoProyecto.setIdProyecto(br.readLine());
+		System.out.println("\nIntroduce la linea de acción del proyecto (C/A/F/E): ");
+		switch (br.readLine()) {
+			case "C":
+				nuevoProyecto.setlAccion(LineaDeAccion.COOP);
+				break;
+	
+			case "A":
+				nuevoProyecto.setlAccion(LineaDeAccion.ACC);;
+				break;
+	
+			case "F":
+				nuevoProyecto.setlAccion(LineaDeAccion.FORT);
+				break;
+			case "E":
+				nuevoProyecto.setlAccion(LineaDeAccion.EDU);
+				break;
+	
+			default:
+				break;
+		}
+		System.out.println("\nIntroduce fecha de inicio del proyecto: ");
+			nuevoProyecto.setFechaInicio(br.readLine());
+		System.out.println("\nIntroduce fecha de fin del proyecto: ");
+			nuevoProyecto.setFechaInicio(br.readLine());
+		System.out.println("\nIntroduce sublínea de acción del proyecto: ");
+			nuevoProyecto.setSublineaDeAccion(br.readLine());
+		System.out.println("\nIntroduce país del proyecto: ");
+			nuevoProyecto.setPais(br.readLine());
+		System.out.println("\nIntroduce dirección del proyecto: ");
+			nuevoProyecto.setDireccion(br.readLine());
+		System.out.println("\nIntroduce el nombre del socio local: ");
+				
+		proyectoDAO.crearNuevo(nuevoProyecto);
+		
+	}
+	
+	/**
+	 * Metodo que valida si el numero de telefono introducido es correcto.
+	 * 
+	 * @param numero Numero de telefono introducido.
+	 */
+	private void validarNumeroTelefono(String numero) {
+		final String regexStr = "^(\\+34|0034|34)?[6789]\\d{8}$";
+		if (!Pattern.matches(regexStr, numero)) {
+			throw new TelefonoNoValidoException(numero);
 		}
 	}
 
-	/**
-	 * Metodo accesor de lectura que nos da la password del trabajador.
-	 * 
-	 * @return Nos devuelve la password del trabajador.
-	 */
-	@XmlElement(name = "pass")
-	public String getPass() {
-		return pass;
+
+	@Override
+	public void consultarProyectos(ArrayList<Proyecto> lp) {
+		
 	}
 
-	/**
-	 * Metodo accesor de lectura que asigna la password del trabajador.
-	 * 
-	 * @param pass La password del trabajador.
-	 */
-	public void setPass(String pass) {
-		this.pass = pass;
+
+	@Override
+	public void consultarSocios(ArrayList<Socio> ls) {
+		
 	}
 
 }

@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
  * Esta clase representa a cada uno de los miembros del personal de la ONG
  * que tienen un contrato de trabajo y tienen un horario laboral.
  * 
- * @author Yaiza, Teresa y Marc.
+ * @author Antonio,Ana y Cristina.
  * @version 1.0
  *
  */

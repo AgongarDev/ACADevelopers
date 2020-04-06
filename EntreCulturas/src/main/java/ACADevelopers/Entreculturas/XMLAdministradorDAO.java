@@ -3,139 +3,104 @@ package ACADevelopers.Entreculturas;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-
 /**
  * Esta clase instancia objetos XML DAO para interaccionar con
- * los objetos trabajador y persistirlos en formato XML.
+ * los objetos administrador y persistirlos en formato XML.
  * 
- * @author Yaiza, Teresa y Marc.
+ * @author Antonio,Cristina y Ana.
  * @version 1.0
  *
  */
-public class XMLAdministradorDAO implements DAO<Trabajador>{
-	
-	// CAMPOS
-	
-	private ListadoTrabajadores listadoTrabajadores = new ListadoTrabajadores();
-	
-	
-	// CONSTRUCTORES
+public class XMLAdministradorDAO implements DAO<Administrador>{
+	// Campos
+	private ListadoAdministradores listadoAdministradores = new ListadoAdministradores();	
+	// Constructores
 	
 	/**
-	 * Constructor que crea un nuevo objeto XMLTrabajadorDAO sin inicializar sus campos.
+	 * Constructor que crea un nuevo objeto XMLAdministradorDAO sin inicializar sus campos.
 	 */
-    public XMLTrabajadorDAO() {
-    	
+     public XMLAdministradorDAO() {
     }
-
-	/**
-	 * Constructor que crea un nuevo objeto XMLTrabajadorDAO inicializando sus campos.
-	 * 
-	 * @param listadoTrabajadores Atributo que guarda el listado de los trabajadores de la ONG.
-	 */
-	public XMLTrabajadorDAO(ListadoTrabajadores listadoTrabajadores) {
-		super();
-		this.listadoTrabajadores = listadoTrabajadores;
-	}
+     
+     /**
+ 	 * Constructor que crea un nuevo objeto XMLAdministradorDAO inicializando sus campos.
+ 	 * 
+ 	 * @param listadoAdministradores Atributo que guarda el listado de los administradores de la ONG.
+ 	 */
+     public XMLAdministradorDAO(ListadoAdministradores listadoAdministradores) {
+ 		super();
+ 		this.listadoAdministradores = listadoAdministradores;
+ 	}
+	// Metodos
     
-    
-	// METODOS
-	
-	/**
-	 * Metodo accesor de lectura que nos da el lista de trabajadores de la ONG.
-	 * 
-	 * @return Nos devuelve el listado de trabajadores.
-	 */
-	public ListadoTrabajadores getListadoTrabajadores() {
-		return listadoTrabajadores;
-	}
-	
-	/**
-	 * Metodo accesor de escritura que asigna el listado de trabajadores de la ONG.
-	 * 
-	 * @param listadoTrabajadores El listado de trabajadores de la ONG.
-	 */
-	public void setListadoTrabajadores(ListadoTrabajadores listadoTrabajadores) {
-		this.listadoTrabajadores = listadoTrabajadores;
-	}
-
-	/**
-	 * Metodo para crear un nuevo objeto trabajador a persistir
+     /**
+ 	 * Metodo accesor de lectura que nos da la lista de administradores de la ONG.
+ 	 * 
+ 	 * @return Nos devuelve la lista de administradores.
+ 	 */
+     public ListadoAdministradores getListadoAdministradores() {
+ 		return listadoAdministradores;
+ 	}
+     /**
+ 	 * Metodo accesor de escritura que asigna el listado de administradores de la ONG.
+ 	 * 
+ 	 * @param listadoAdministradores Listado de administradores que hay en la ONG.
+ 	 */
+ 	public void setListadoAdministradores(ListadoAdministradores listadoAdministradores) {
+ 		this.listadoAdministradores = listadoAdministradores;		
+ 	}
+ 	
+ 	/**
+	 * Metodo para crear un nuevo objeto administrador a persistir
 	 * en formato XML.
 	 * 
-	 * @param t Objeto trabajador a persistir.
+	 * @param a Objeto administrador a persistir.
 	 */
 	@Override
-	public void crearNuevo(Trabajador t) throws JAXBException {
-		listadoTrabajadores.add(t);
-		JAXBContext context = JAXBContext.newInstance(Trabajador.class);
+	public void crearNuevo(Administrador a) throws JAXBException {
+		listadoAdministradores.add(a);
+		JAXBContext context = JAXBContext.newInstance(Administrador.class);
 	    Marshaller mar= context.createMarshaller();
-	    mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-	    
+	    mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);   
 	    //Crea el directorio "xml" en caso de que no exista.
 	    File f = new File("xml/");
 	  	  if (!f.exists()) {
 	  	    f.mkdirs();
 	  	}
-	  	  
-	    mar.marshal(t, new File("xml/trabajador.xml"));
-		System.out.println("Se ha creado un nuevo trabajador");
+	    mar.marshal(a, new File("xml/administrador.xml"));
+		System.out.println("Se ha creado un nuevo administrador");
 	}
-
-	/**
-	 * Metodo para obtener un objeto trabajador persistido.
-	 * 
-	 * @param id Identificador unico del objeto trabajador.
-	 * @return Objeto trabajador persistido.
-	 */
 	@Override
-	public Optional<Trabajador> obtener(String id) {
-		System.out.println("Se ha obtenido un trabajador");
-        //return encontrarTrabajadorPorId(id); 
+	public Optional<Administrador> obtener(String dni) {
+		System.out.println("Se ha creado un nuevo administrador:");
+		 //return encontrarAdministradorPorId(id);
 		return null;
 	}
-
-	/**
-	 * Metodo para actualizar un objeto trabajador persistido.
-	 * 
-	 * @param t Objeto trabajador a actualizar.
-	 * @param params Parametros del objeto trabajador a modificar.
-	 */
 	@Override
-	public void actualizar(Trabajador t, String[] params) {
-    	encontrarTrabajadorPorId(t.getId()).setNombre(t.getNombre()); 
-        System.out.println("El trabajador con ID " + t.getId()  + " ha sido actualizado"); 
-		
+	public void actualizar(Administrador a, String[] params) {
+		encontrarAdministradorPorId(a.getDni()).setNombre(a.getNombre()); 
+        System.out.println("El administrador con ID " + a.getDni()  + " ha sido actualizado"); 		
 	}
-
 	/**
-	 * Metodo para borrar un objeto trabajador persistido.
+	 * Metodo para borrar un objeto administrador persistido.
 	 * 
-	 * @param t Objeto trabajador a borrar.
+	 * @param a Objeto administrador a borrar.
 	 */
 	@Override
-	public void borrar(Trabajador t) {
-        System.out.println("El trabajador con ID " + t.getId() + "ha sido eliminado"); 
+	public void borrar(Administrador a) {
+		System.out.println("El administrador con ID " + a.getDni() + "ha sido eliminado"); 	
 	}
-
-	/**
-	 * Metodo para recuperar todos los objetos trabajador persistidos.
-	 * 
-	 * @return Listado con los objetos trabajador persistidos.
-	 */
 	@Override
-	public List<Trabajador> obtenerTodos() throws JAXBException {
-		if (listadoTrabajadores.getListadoTrabajadores() != null) {
-			System.out.println("La ONG cuenta con " + listadoTrabajadores.getListadoTrabajadores().size() + " trabajadores:");
-	    	for (Trabajador t : listadoTrabajadores.getListadoTrabajadores()) {
-	    		System.out.println(t.toString());
-	    	}
-	    	
-	    	JAXBContext context = JAXBContext.newInstance(ListadoTrabajadores.class);
+	public List<Administrador> obtenerTodos() throws JAXBException {
+		if (listadoAdministradores.getListadoAdministradores() != null) {
+			System.out.println("La ONG cuenta con " + listadoAdministradores.getListadoAdministradores().size() + " administradores:");
+	    	for (Administrador a : listadoAdministradores.getListadoAdministradores()) {
+	    		System.out.println(a.toString());
+	    	}   	
+	    	JAXBContext context = JAXBContext.newInstance(ListadoAdministradores.class);
 	    	Marshaller marshaller = context.createMarshaller();
 			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			
@@ -144,29 +109,27 @@ public class XMLAdministradorDAO implements DAO<Trabajador>{
 		  	  if (!f.exists()) {
 		  	    f.mkdirs();
 		  	}
-			
-			marshaller.marshal(listadoTrabajadores, new File("xml/trabajadores.xml"));
-			
+			marshaller.marshal(listadoAdministradores, new File("xml/administradores.xml"));
 	    } else {
-	    	System.out.println("La lista de trabajadores está vacía.");
+	    	System.out.println("La lista de administradores está vacía.");
 	    }
-		return listadoTrabajadores.getListadoTrabajadores();
+		return listadoAdministradores.getListadoAdministradores();
 	}
 	
 	/**
-	 * Metodo que permite encontrar uno trabajador dentro del
-	 * listado de trabajadores en funcion de su id.
+	 * Metodo que permite encontrar a un administrador dentro del
+	 * listado de administradores en funcion de su id.
 	 * 
-	 * @param id Id del trabajador buscado.
-	 * @return Trabajador buscado.
+	 * @param id Id del administrador buscado.
+	 * @return Administrador buscado.
 	 */
-    public Trabajador encontrarTrabajadorPorId(String id) {
-    	for (Trabajador t : listadoTrabajadores.getListadoTrabajadores()) {
-    		if (t.getId().equals(id)) {
-    			return t;
+    public Administrador encontrarAdministradorPorId(String dni) {
+    	for (Administrador a : listadoAdministradores.getListadoAdministradores()) {
+    		if (a.getDni().equals(dni)) {
+    			return a;
     		}
     	}
     	return null;	
     }
-
 }
+	

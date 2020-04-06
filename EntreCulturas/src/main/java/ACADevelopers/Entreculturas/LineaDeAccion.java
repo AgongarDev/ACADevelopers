@@ -5,20 +5,20 @@ public enum LineaDeAccion {
 	ACC("Acci�n Humanitaria"),
 	FORT("Fortalecimiento institucional"), 
 	EDU("Educaci�n para el desarrollo");
-	
 	private final String texto;
-	
-	LineaDeAccion(String texto) {
-		this.texto = texto;
+	private LineaDeAccion laccion;
+	LineaDeAccion (String texto) {
+	this.texto = texto;
 	}
-	
+	public void setEnumValue (LineaDeAccion nuevalaccion) {
+	this.laccion = nuevalaccion; 
+	}
 	public String getTexto() {
-		return texto;
-	}
-	
+	return texto;
+	}	
 	@Override
 	public String toString() {
-		return this.texto;
-		
+	return this.texto;
 	}
-}
+	}
+

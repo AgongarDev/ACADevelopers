@@ -1,20 +1,29 @@
 package ACADevelopers.Entreculturas;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import javax.xml.bind.JAXBException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.regex.Pattern;
 
-import ACADevelopers.Entreculturas.DAO;
-import ACADevelopers.Entreculturas.Socio;
-import ACADevelopers.Entreculturas.XMLSocioDAO;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 public class Socio extends Persona implements Usuario {
-
+    private String pass;
 	private float cuotaAportacion;
-	private boolean estadoAportacion;
+	Boolean estadoAportacion;
 	private TipoCuota tipoCuota;
 	private ArrayList<Socio> ListadoSocios;
-	private DAO<Socio> socioDAO = (XMLSocioDAO) XMLDAOFactory.getSocioDAO();
+	private DAOFactory xmlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.XML);
+	private DAO<Socio> socioDAO = (XMLSocioDAO) xmlDAOFactory.getSocioDAO();
+	private DAO<Proyecto>proyectoDAO = (XMLProyectoDAO) xmlDAOFactory.getProyectoDAO();
 	// constructores
 	
 	public Socio() {
@@ -22,14 +31,35 @@ public class Socio extends Persona implements Usuario {
 	}
 
 	public Socio(String dni, String nombre, String apellidos, String telefono, String domicilio, String fechaInicio,
-			String fechaFin, AdministracionFisica sedeAsignada, String cargo, String correo, Ong ong, float cuotaAportacion, boolean estadoAportacion, TipoCuota tipoCuota) {
-		super(dni, nombre, apellidos, telefono, domicilio, fechaInicio, fechaFin, sedeAsignada, cargo, correo, ong);
+			String fechaFin, AdministracionFisica sedeAsignada, String cargo, String correo, float cuotaAportacion, Boolean estadoAportacion, TipoCuota tipoCuota) {
+		super();
 		this.cuotaAportacion = cuotaAportacion;
 		this.estadoAportacion = estadoAportacion;
 		this.tipoCuota = tipoCuota;
+		
 	}
 
-	//getters y setters
+	//MÉTODOS
+	
+	/**
+	 * Metodo accesor de lectura que nos da la password del trabajador.
+	 * 
+	 * @return Nos devuelve la password del trabajador.
+	 */
+	@XmlElement(name = "pass")
+	public String getPass() {
+		return pass;
+	}
+	/**
+	 * Metodo accesor de lectura que asigna la password del trabajador.
+	 * 
+	 * @param pass La password del trabajador.
+	 */
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+	
+	
 	public float getCuotaAportacion() {
 		return cuotaAportacion;
 	}
@@ -38,11 +68,10 @@ public class Socio extends Persona implements Usuario {
 		this.cuotaAportacion = cuotaAportacion;
 	}
 
-	public boolean isEstadoAportacion() {
+	public Boolean getEstadoAportacion() {
 		return estadoAportacion;
 	}
-
-	public void setEstadoAportacion(boolean estadoAportacion) {
+	public void setEstadoAportacion(Boolean estadoAportacion) {
 		this.estadoAportacion = estadoAportacion;
 	}
 
@@ -76,8 +105,5 @@ public class Socio extends Persona implements Usuario {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-
 	
 }

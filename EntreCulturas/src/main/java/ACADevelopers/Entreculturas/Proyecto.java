@@ -1,8 +1,6 @@
 package ACADevelopers.Entreculturas;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,8 +23,8 @@ public class Proyecto {
 	private String idProyecto;
 	private LineaDeAccion lAccion;
 	private String nombre;
-	private Date fechaInicio;
-	private Date fechaFinalizacion;
+	private String fechaInicio;
+	private String fechaFinalizacion;
 	private String sublineaDeAccion;
 	private String pais;
 	private String direccion;
@@ -61,7 +59,7 @@ public class Proyecto {
 	 * @param sociolocal Atributo que guarda la identidad del socio local del proyecto. 
 	 * @param financiador Atributo que guarda la identidad del financiador del proyecto. 
 	 */
-	public Proyecto (String id, String nombre, LineaDeAccion lAccion, Date fechaInicio,Date fechaFin, String subLineaDeAccion, String pais, String direccion, Colaborador socioLocal, Aportador financiador) {
+	public Proyecto (String id, String nombre, LineaDeAccion lAccion, String fechaInicio,String fechaFin, String subLineaDeAccion, String pais, String direccion, Colaborador socioLocal, Aportador financiador) {
 		super();
 		this.idProyecto = id;
 		this.nombre = nombre;
@@ -111,8 +109,8 @@ public class Proyecto {
 	 * 
 	 * @param lAccion línea de Acción del proyecto.
 	 */
-	public void setlAccion(String lAccion) {
-		this.lAccion = LineaDeAccion.valueOf(lAccion);
+	public void setlAccion(LineaDeAccion lineadeaccion) {
+		this.lAccion.setEnumValue(lineadeaccion);
 	}
 	/**
 	 * Metodo accesor de lectura que nos da el nombre del Proyecto.
@@ -139,7 +137,7 @@ public class Proyecto {
 	 *
 	 */
 	@XmlElement(name = "fechaInicio")
-	public Date getFechaInicio() {
+	public String getFechaInicio() {
 		return fechaInicio;
 	}
 	/**
@@ -147,7 +145,7 @@ public class Proyecto {
 	 * 
 	 * @param fechaInicio Inicio del proyecto.
 	 */
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 	/**
@@ -157,7 +155,7 @@ public class Proyecto {
 	 *
 	 */
 	@XmlElement(name = "fechaFinalizacion")
-	public Date getFechaFinalizacion() {
+	public String getFechaFinalizacion() {
 		return fechaFinalizacion;
 	}
 	/**
@@ -165,7 +163,7 @@ public class Proyecto {
 	 * 
 	 * @param fechaInicio Inicio del proyecto.
 	 */
-	public void setFechaFinalizacion(Date fechaFinalizacion) {
+	public void setFechaFinalizacion(String fechaFinalizacion) {
 		this.fechaFinalizacion = fechaFinalizacion;
 	}
 	/**

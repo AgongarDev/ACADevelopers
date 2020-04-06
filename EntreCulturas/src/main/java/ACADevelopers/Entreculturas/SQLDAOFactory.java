@@ -17,7 +17,6 @@ public class SQLDAOFactory extends DAOFactory {
 	 */
 	@Override
 	public DAO<Administrador> getAdministradorDAO() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -28,7 +27,6 @@ public class SQLDAOFactory extends DAOFactory {
 	 */
 	@Override
 	public DAO<Socio> getSocioDAO() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -39,7 +37,11 @@ public class SQLDAOFactory extends DAOFactory {
 	 */
 	@Override
 	public DAO<Proyecto> getProyectoDAO() {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DAO<Trabajador> getTrabajadorDAO() {
 		return null;
 	}
 
