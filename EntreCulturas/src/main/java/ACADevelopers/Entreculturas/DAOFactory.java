@@ -32,5 +32,13 @@ public abstract class DAOFactory {
 	    }
 		
 	}
+	/**
+	 * Metodo que permite acceder a un Administrador XML data object.
+	 * 
+	 * @return Nos devuelve un trabajador XML data object
+	 */
+	public XMLTrabajadorDAO getTrabajadorrDAO() {
+		return null;
+	}
 	
 }

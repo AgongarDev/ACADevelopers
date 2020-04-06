@@ -1,4 +1,4 @@
-package ouc.fp.ongmanager;
+package ACADevelopers.Entreculturas;
 
 /**
  * Esta clase factoria se usa para crear DAOs que usan

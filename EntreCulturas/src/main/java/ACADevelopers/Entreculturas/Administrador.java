@@ -1,8 +1,14 @@
 package ACADevelopers.Entreculturas;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlElement;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class Administrador extends Persona implements Usuario {
 	
@@ -10,6 +16,7 @@ public class Administrador extends Persona implements Usuario {
 	private float salarioNeto;
 	private String tipoContrato;
 	private ArrayList<Proyecto> listaProyectos;
+	private String pass;
 	
 	
 	// Constructor de la clase Trabajador
@@ -48,19 +55,30 @@ public class Administrador extends Persona implements Usuario {
 	}
 	
 	@Override
-	public void abrirSesion() throws IOException, JAXBException {
-		//aqu� introduciremos el men� de acciones del adminstrador.
-	}
-	// como administrador puede listar la informaci�n completa de todos los proyectos existentes.
-	
-	@Override
 	public void consultarProyectos(ArrayList<Proyecto> lp) {
 		System.out.println("Listado de proyectos :");
 		for (Proyecto elem : listaProyectos) {
 			elem.toString();
 		}
 	}
-	
-	
-	
+
+	/**
+	 * Metodo accesor de lectura que nos da la password del trabajador.
+	 * 
+	 * @return Nos devuelve la password del trabajador.
+	 */
+	@XmlElement(name = "pass")
+	public String getPass() {
+		return pass;
+	}
+
+	/**
+	 * Metodo accesor de lectura que asigna la password del trabajador.
+	 * 
+	 * @param pass La password del trabajador.
+	 */
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
 }

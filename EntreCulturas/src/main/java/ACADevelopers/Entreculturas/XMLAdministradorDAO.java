@@ -1,4 +1,4 @@
-package ouc.fp.ongmanager;
+package ACADevelopers.Entreculturas;
 
 import java.io.File;
 import java.util.List;
@@ -16,7 +16,7 @@ import javax.xml.bind.Marshaller;
  * @version 1.0
  *
  */
-public class XMLTrabajadorDAO implements DAO<Trabajador>{
+public class XMLAdministradorDAO implements DAO<Trabajador>{
 	
 	// CAMPOS
 	

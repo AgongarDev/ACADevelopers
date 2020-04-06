@@ -25,6 +25,8 @@ public interface Usuario {
 	 * Permite al usuario consultar el listado de proyectos en los que trabaja la ONG
 	 * 
 	 * @param lp Lista de proyectos.
+	 *
+	 * * @param ls Lista de proyectos.
 	 */
 	public void consultarProyectos(ArrayList<Proyecto> lp);
 

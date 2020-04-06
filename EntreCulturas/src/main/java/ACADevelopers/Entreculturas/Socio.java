@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.bind.JAXBException;
 
-public class Socio extends Persona {
+import ACADevelopers.Entreculturas.DAO;
+import ACADevelopers.Entreculturas.Socio;
+import ACADevelopers.Entreculturas.XMLSocioDAO;
+
+public class Socio extends Persona implements Usuario {
 
 	private float cuotaAportacion;
 	private boolean estadoAportacion;
 	private TipoCuota tipoCuota;
 	private ArrayList<Socio> ListadoSocios;
-	
+	private DAO<Socio> socioDAO = (XMLSocioDAO) XMLDAOFactory.getSocioDAO();
 	// constructores
 	
 	public Socio() {
@@ -59,6 +63,18 @@ public class Socio extends Persona {
 		for (Socio elem : ListadoSocios) {
 			elem.toString();
 		}
+	}
+
+	@Override
+	public void abrirSesion() throws IOException, JAXBException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void consultarProyectos(ArrayList<Proyecto> lp) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
