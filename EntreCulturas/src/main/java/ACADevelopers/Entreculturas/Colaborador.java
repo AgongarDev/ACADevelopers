@@ -10,7 +10,4 @@ public class Colaborador extends Persona {
 			String fechaInicio, String fechaFin, AdministracionFisica sedeAsignada, String cargo, String correo) {
 		super();
 	}
-	public void setIdSocioLocal(String idSocio) {
-		this.dni = idSocio;
-	}
 }
