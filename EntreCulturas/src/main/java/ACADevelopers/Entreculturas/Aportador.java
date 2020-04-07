@@ -24,8 +24,8 @@ public class Aportador {
 	public String getTipoAportador() {
 		return tipoAportador.getTexto();
 	}
-	public void setTipoAportador(String tipoAportador) {
-		this.tipoAportador = TipoAportador.valueOf(tipoAportador);
+	public void setTipoAportador(TipoAportador tipodeaportador) {
+		this.tipoAportador = tipodeaportador;
 	}
 	public void nuevaAportacion(String codAportacion, float importe, String moneda,
 		Date fechaAportacion) {

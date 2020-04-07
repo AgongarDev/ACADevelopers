@@ -26,7 +26,7 @@ public class Administrador extends Personal implements Usuario {
 	private DAOFactory xmlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.XML);
 	private DAO<Socio> socioDAO = (XMLSocioDAO) xmlDAOFactory.getSocioDAO();
 	private DAO<Proyecto> proyectoDAO = (XMLProyectoDAO) xmlDAOFactory.getProyectoDAO();
-	private DAO<Trabajador> trabajadorDAO = (XMLTrabajadorDAO) xmlDAOFactory.getTrabajadorDAO();
+	
 	
 	// CONSTRUCTORES
 	
@@ -102,9 +102,9 @@ public class Administrador extends Personal implements Usuario {
         	
         	System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
         	System.out.println("1 - Dar de alta un socio");
-        	System.out.println("2 - Imprimir listado de trabajadores");
-        	System.out.println("3 - Crear un proyecto");
-        	System.out.println("4 - Modificar un proyecto");
+        	System.out.println("2 - Crear un proyecto");
+        	System.out.println("3 - Modificar un proyecto");
+        	System.out.println("4 - Modificar datos de un socio");
         	System.out.println("5 - Salir");
         	
         	try {
@@ -118,7 +118,7 @@ public class Administrador extends Personal implements Usuario {
         switch(respuestaOpcion) {
         
            case 1:
-        	  darAltaSocio();
+        	 /** darAltaSocio();*/
 
         	  do {
         		  
@@ -137,13 +137,9 @@ public class Administrador extends Personal implements Usuario {
         	  
               break;
            
-           case 2:
-           	  imprimirListadoTrabajadores();
-           	  abrirSesion();
-              break;
               
-           case 3:
-         	  darAltaProyecto();
+           case 2:
+         	  /**darAltaProyecto();*/
          	  
         	  do {
         		  
@@ -162,6 +158,12 @@ public class Administrador extends Personal implements Usuario {
          	  
                break;
                
+           case 3:
+        	   imprimirListadoDelegaciones();
+        	   abrirSesion();
+        	   
+               break;
+           
            case 4:
         	   imprimirListadoDelegaciones();
         	   abrirSesion();
@@ -236,7 +238,7 @@ public class Administrador extends Personal implements Usuario {
 		System.out.println("\nIntroduce la dirección de la sede asignada: ");
 		nuevoSocio.sedeAsignada.setDireccion(br.readLine());
 		
-		System.out.println("\nIntroduce la dirección de la sede asignada: ");
+		System.out.println("\nIntroduce la numero empleados de la sede asignada: ");
 		nuevoSocio.sedeAsignada.setNumEmpleados(br.read());
 		
 		System.out.println("\nIntroduce e-mail de la sede asignada: ");
@@ -339,10 +341,92 @@ public class Administrador extends Personal implements Usuario {
 			nuevoProyecto.setPais(br.readLine());
 		System.out.println("\nIntroduce dirección del proyecto: ");
 			nuevoProyecto.setDireccion(br.readLine());
+			/*
+			 * Bloque socio local del proyecto
+			 */
+		System.out.println("\nIntroduce el dni del socio local: ");
+		    nuevoProyecto.getSocioLocal().setDni(br.readLine());
 		System.out.println("\nIntroduce el nombre del socio local: ");
-				
-		proyectoDAO.crearNuevo(nuevoProyecto);
+		    nuevoProyecto.getSocioLocal().setNombre(br.readLine());
+		System.out.println("\nIntroduce el apellidos del socio local: ");
 		
+		    nuevoProyecto.getSocioLocal().setApellidos(br.readLine());
+		System.out.println("\nIntroduce el apellidos del socio local: ");
+		    nuevoProyecto.getSocioLocal().setApellidos(br.readLine());
+		System.out.println("\nIntroduce el teléfono del socio locala: ");
+	        try {
+	        	String numero = br.readLine();
+	        	validarNumeroTelefono(numero);
+	    		nuevoProyecto.getSocioLocal().setTelefono(numero);
+	        } catch (TelefonoNoValidoException e) {
+	        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
+	        	nuevoProyecto.getSocioLocal().setTelefono("000000000");
+	        }
+	    System.out.println("\nIntroduce el domicilio del socio local: ");
+		    nuevoProyecto.getSocioLocal().setDomicilio(br.readLine());
+		System.out.println("\nIntroduce el fecha inicio de colaboración del socio local: ");
+		    nuevoProyecto.getSocioLocal().setFechaInicio(br.readLine());
+		System.out.println("\nIntroduce el fecha en la que la persona finaliza su colaboraci�n del socio local: ");
+		    nuevoProyecto.getSocioLocal().setFechaFin(br.readLine());
+			/*
+			 * Bloque sede asignada del socio local
+			 */
+			System.out.println("\nIntroduce el id de la sede asignada: ");
+			 nuevoProyecto.getSocioLocal().sedeAsignada.setIdAdmin(br.readLine());
+			System.out.println("\nIntroduce la dirección de la sede asignada: ");
+			nuevoProyecto.getSocioLocal().sedeAsignada.setDireccion(br.readLine());
+			
+			System.out.println("\nIntroduce la dirección de la sede asignada: ");
+			nuevoProyecto.getSocioLocal().sedeAsignada.setNumEmpleados(br.read());
+			
+			System.out.println("\nIntroduce e-mail de la sede asignada: ");
+			nuevoProyecto.getSocioLocal().sedeAsignada.setCorreo(br.readLine());
+			
+			System.out.println("\nIntroduce el teléfono de la sede asignada: ");
+	        try {
+	        	String numero = br.readLine();
+	        	validarNumeroTelefono(numero);
+	        	nuevoProyecto.getSocioLocal().sedeAsignada.setTelefono(numero);
+	        } catch (TelefonoNoValidoException e) {
+	        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
+	        	nuevoProyecto.getSocioLocal().sedeAsignada.setTelefono("000000000");
+	        }
+	        /*
+			 * Fin Bloque sede asignada
+			 */
+		System.out.println("\nIntroduce el cargo del socio local: ");
+		    nuevoProyecto.getSocioLocal().setCargo(br.readLine());
+		System.out.println("\nIntroduce el correo del socio local: ");
+		    nuevoProyecto.getSocioLocal().setCorreo(br.readLine());
+		proyectoDAO.crearNuevo(nuevoProyecto);
+		/****
+		 * Fin Bloque socio local del proyecto
+		 ****/
+		/****
+		 *Inicio Bloque aportador del proyecto
+		 ****/
+		System.out.println("\nIntroduce el dni del aportador del proyecto: ");
+	    nuevoProyecto.getFinanciador().setIdAportador(br.readLine());
+		System.out.println("\nIntroduce el tipo de aportador (I/P/E/H): ");
+		switch (br.readLine()) {
+			case "I":
+				nuevoProyecto.getFinanciador().setTipoAportador(TipoAportador.INST);
+				break;
+	
+			case "P":
+				nuevoProyecto.getFinanciador().setTipoAportador(TipoAportador.PART);
+				break;
+	
+			case "E":
+				nuevoProyecto.getFinanciador().setTipoAportador(TipoAportador.EMPR);
+				break;
+			case "H":
+				nuevoProyecto.getFinanciador().setTipoAportador(TipoAportador.HEREN);
+				break;
+	
+			default:
+				break;
+		}
 	}
 	
 	/**
