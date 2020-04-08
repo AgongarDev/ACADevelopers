@@ -9,15 +9,6 @@ package ACADevelopers.Entreculturas;
  */
 public class XMLDAOFactory extends DAOFactory {
 
-	/**
-	 * Metodo que permite acceder a un Administrador XML data object.
-	 * 
-	 * @return Nos devuelve un trabajador XML data object
-	 */
-	@Override
-	public XMLAdministradorDAO getAdministradorDAO() {
-		return new XMLAdministradorDAO();
-	}
 
 	/**
 	 * Metodo que permite acceder a un socio XML data object.
@@ -30,14 +21,22 @@ public class XMLDAOFactory extends DAOFactory {
 	}
 
 	/**
-	 * Metodo que permite acceder a un delegacion XML data object.
+	 * Metodo que permite acceder a un proyecto XML data object.
 	 * 
-	 * @return Nos devuelve un delegacion XML data object
+	 * @return Nos devuelve un proyecto XML data object
 	 */
 	@Override
 	public XMLProyectoDAO getProyectoDAO() {
 		return new XMLProyectoDAO();
 	}
-
+	/**
+	 * Metodo que permite acceder a un trabajador XML data object.
+	 * 
+	 * @return Nos devuelve un trabajador XML data object
+	 */
+	@Override
+	public XMLTrabajadorDAO getTrabajadorDAO() {
+		return new XMLTrabajadorDAO();
+	}
 
 }

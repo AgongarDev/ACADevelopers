@@ -46,9 +46,9 @@ public class Proyecto {
 		super();
 	}
 	/**
-	 * Constructor que crea un nuevo objeto Delegacion inicializando sus campos.
+	 * Constructor que crea un nuevo objeto Proyecto inicializando sus campos.
 	 * 
-	 * @param idProyecto Atributo que guarda el nombre del proyecto.
+	 * @param idProyecto Atributo que guarda el id del proyecto.
 	 * @param nombre Atributo que guarda el nombre del proyecto. 
 	 * @param lAccion Atributo que guarda la linea de acción del proyecto.
 	 * @param fechaInicio Atributo que guarda la fecha en que comienza el proyecto.

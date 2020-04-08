@@ -16,7 +16,7 @@ public class SQLDAOFactory extends DAOFactory {
 	 * @return Nos devuelve un trabajador SQL data object
 	 */
 	@Override
-	public DAO<Administrador> getAdministradorDAO() {
+	public DAO<Trabajador> getTrabajadorDAO() {
 		return null;
 	}
 

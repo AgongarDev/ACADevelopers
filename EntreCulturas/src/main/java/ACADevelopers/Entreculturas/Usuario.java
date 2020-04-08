@@ -26,7 +26,7 @@ public interface Usuario {
 	 * 
 	 * @param lp Lista de proyectos.
 	 *
-	 * * @param ls Lista de proyectos.
+	 * * @param ls Lista de socios.
 	 */
 	public void consultarProyectos(ArrayList<Proyecto> lp);
 

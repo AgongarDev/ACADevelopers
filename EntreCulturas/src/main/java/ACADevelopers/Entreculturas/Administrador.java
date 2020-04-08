@@ -27,7 +27,7 @@ public class Administrador extends Persona implements Usuario {
 	private DAOFactory xmlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.XML);
 	private DAO<Socio> socioDAO = (XMLSocioDAO) xmlDAOFactory.getSocioDAO();
 	private DAO<Proyecto> proyectoDAO = (XMLProyectoDAO) xmlDAOFactory.getProyectoDAO();
-	
+	private DAO<Trabajador> trabajadorDAO = (XMLTrabajadorDAO) xmlDAOFactory.getTrabajadorDAO();
 	
 	// CONSTRUCTORES
 	
@@ -105,8 +105,8 @@ public class Administrador extends Persona implements Usuario {
         	System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
         	System.out.println("1 - Dar de alta un socio");
         	System.out.println("2 - Crear un proyecto");
-        	System.out.println("3 - Modificar un proyecto");
-        	System.out.println("4 - Modificar datos de un socio");
+        	System.out.println("3 - Listar trabajadores");
+        	System.out.println("4 - Listar socio");
         	System.out.println("5 - Salir");
         	
         	try {
@@ -161,13 +161,13 @@ public class Administrador extends Persona implements Usuario {
                break;
                
            case 3:
-        	   imprimirListadoDelegaciones();
+        	   imprimirListadoTrabajadores();
         	   abrirSesion();
         	   
                break;
            
            case 4:
-        	   imprimirListadoDelegaciones();
+        	   imprimirListadoSocios();
         	   abrirSesion();
         	   
                break;
@@ -181,21 +181,15 @@ public class Administrador extends Persona implements Usuario {
     
 	}
 	
-	/**
-	 * Metodo que permite al administrador consultar el listado
-	 * de trabajadores de la ONG.
-	 * 
-	 * @throws JAXBException si se produce una excepción de tipo JAXB.
-	 */
 	
 	/**
 	 * Metodo que permite al administrador consultar el listado
-	 * de delegaciones de la ONG.
+	 * de socios de la ONG.
 	 * 
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
 	 */
-	public void imprimirListadoDelegaciones() throws JAXBException {
-		proyectoDAO.obtenerTodos();
+	public void imprimirListadoSocios() throws JAXBException {
+		socioDAO.obtenerTodos();
 	}
 	
 	/**
@@ -213,7 +207,15 @@ public class Administrador extends Persona implements Usuario {
 		System.out.println("\nIntroduce los apellidos del socio: ");
 		nuevoSocio.setApellidos(br.readLine());
 		System.out.println("\nIntroduce el dni del socio: ");
-		nuevoSocio.setDni(br.readLine());
+		 try {
+	        	String dni = br.readLine();
+	        	validarDni(dni);
+	    		nuevoSocio.setDni(dni);
+	        } catch (TelefonoNoValidoException e) {
+	        	System.out.println("Dni no válido, podrá modificarlo más adelante"); 
+	    		nuevoSocio.setDni("000000000");
+	        }
+		
 		System.out.println("\nIntroduce el email del socio: ");
 		nuevoSocio.setCorreo(br.readLine());
 		System.out.println("\nIntroduce el teléfono del socio: ");
@@ -297,8 +299,7 @@ public class Administrador extends Persona implements Usuario {
 	}
 	
 	/**
-	 * Metodo que permite al empleado introducir por consola los
-	 * datos de alta de un nuevo Proyecto.
+	 * Metodo que permite al empleado introducir por consola los datos de alta de un nuevo Proyecto.
 	 * 
 	 * @throws IOException si se produce un error de entrada/salida.
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
@@ -344,7 +345,14 @@ public class Administrador extends Persona implements Usuario {
 			 * Bloque socio local del proyecto
 			 */
 		System.out.println("\nIntroduce el dni del socio local: ");
-		    nuevoProyecto.getSocioLocal().setDni(br.readLine());
+		    try {
+	        	String dni = br.readLine();
+	        	validarDni(dni);
+	        	nuevoProyecto.getSocioLocal().setDni(dni);
+	        } catch (TelefonoNoValidoException e) {
+	        	System.out.println("Dni no válido, podrá modificarlo más adelante"); 
+	        	nuevoProyecto.getSocioLocal().setDni("000000000");
+	        }
 		System.out.println("\nIntroduce el nombre del socio local: ");
 		    nuevoProyecto.getSocioLocal().setNombre(br.readLine());
 		System.out.println("\nIntroduce el apellidos del socio local: ");
@@ -405,7 +413,14 @@ public class Administrador extends Persona implements Usuario {
 		 *Inicio Bloque aportador del proyecto
 		 ****/
 		System.out.println("\nIntroduce el dni del aportador del proyecto: ");
-	    nuevoProyecto.getFinanciador().setIdAportador(br.readLine());
+	    try {
+        	String dni = br.readLine();
+        	validarDni(dni);
+        	nuevoProyecto.getFinanciador().setIdAportador(dni);
+        } catch (TelefonoNoValidoException e) {
+        	System.out.println("Dni no válido, podrá modificarlo más adelante"); 
+        	nuevoProyecto.getFinanciador().setIdAportador("000000000");
+        }
 		System.out.println("\nIntroduce el tipo de aportador (I/P/E/H): ");
 		switch (br.readLine()) {
 			case "I":
@@ -427,7 +442,15 @@ public class Administrador extends Persona implements Usuario {
 				break;
 		}
 	}
-	
+	/**
+	 * Metodo que permite al administrador consultar el listado
+	 * de trabajadores de la ONG.
+	 * 
+	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 */
+	public void imprimirListadoTrabajadores() throws JAXBException {
+		trabajadorDAO.obtenerTodos();
+	}
 	/**
 	 * Metodo que valida si el numero de telefono introducido es correcto.
 	 * 
@@ -440,7 +463,17 @@ public class Administrador extends Persona implements Usuario {
 		}
 	}
 
-
+	/**
+	 * Metodo que valida si el numero de dni introducido es correcto.
+	 * 
+	 * @param numero Numero de telefono introducido.
+	 */
+	private void validarDni(String dni) {
+		final String dniRegexp = "\\d{8}[A-HJ-NP-TV-Z]";
+		if (!Pattern.matches(dniRegexp, dni)) {
+			throw new DniNoValidoException(dni);
+		}
+	}
 	@Override
 	public void consultarProyectos(ArrayList<Proyecto> lp) {
 		

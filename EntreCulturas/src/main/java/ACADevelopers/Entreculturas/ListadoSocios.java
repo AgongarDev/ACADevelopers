@@ -52,7 +52,7 @@ public class ListadoSocios {
 	
 	/**
 	 * Metodo accesor de lectura que nos da el listado de los
-	 * proyectos que se estan realizando actualmente en la ONG.
+	 *socios en la ONG.
 	 * @return nos devuelve el listado de los proyectos que se estan realizando.
 	 */
 	@XmlElements ({ @XmlElement(name = "socio", type = Socio.class, required = false)})
@@ -61,10 +61,9 @@ public class ListadoSocios {
 	}
 	
 	/**
-	 * Metodo accesor de escritura que asigna el listado de los
-	 * proyectos que se estan realizando actualmente en la ONG.
+	 * Metodo accesor de escritura que asigna un socio al listado.
 	 * 
-	 * @param listadoProyectos El listado de los proyectos que se estan realizando.
+	 * @param listadoSocios El listado de los socios.
 	 */
 	public void setListadoSocios(List<Socio> listadoSocios) {
 		this.listadoSocios = listadoSocios;
