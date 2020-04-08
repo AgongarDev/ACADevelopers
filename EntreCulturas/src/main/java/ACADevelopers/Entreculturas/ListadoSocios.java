@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 
 
 /**
@@ -14,10 +17,13 @@ import javax.xml.bind.annotation.XmlElement;
  * @version 1.0
  *
  */
-@XmlRootElement(name = "socios")
+@XmlRootElement(name = "Socios")
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
+
 public class ListadoSocios {
 	
 	// CAMPOS
+
 	private List<Socio> listadoSocios;
 
 	
@@ -26,6 +32,7 @@ public class ListadoSocios {
 	/**
 	 * Constructor que crea un nuevo objeto ListadoProyectos sin inicializar sus campos. 
 	 */
+	
 	public ListadoSocios() {
 		super();
 	}
@@ -48,7 +55,7 @@ public class ListadoSocios {
 	 * proyectos que se estan realizando actualmente en la ONG.
 	 * @return nos devuelve el listado de los proyectos que se estan realizando.
 	 */
-	@XmlElement(name = "Socio")
+	@XmlElements ({ @XmlElement(name = "socio", type = Socio.class, required = false)})
 	public List<Socio> getListadoSocios() {
 		return listadoSocios;
 	}

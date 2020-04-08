@@ -5,10 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
+
 import javax.xml.bind.JAXBException;
+
 
 /**
  * Esta clase representa a la persona encargada de crear los proyectos, modificarlos,
@@ -18,7 +19,7 @@ import javax.xml.bind.JAXBException;
  * @version 1.0
  *
  */
-public class Administrador extends Personal implements Usuario {
+public class Administrador extends Persona implements Usuario {
 	
 	// CAMPOS
 	
@@ -56,12 +57,13 @@ public class Administrador extends Personal implements Usuario {
 	 * @param pass Atributo que guarda la contraseña de loggin de la persona.
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
 	 */
-	public Administrador(String nombre, String apellidos, String id, String email,
-			     String telefono, String direccion, AdministracionFisica delegacionAsignada,
-			     Date antiguedad, ListadoProyectos proyectosAsignados,
-			     String horarioLaboral, String pass) throws JAXBException {
-		super(nombre, apellidos, id, email, telefono, direccion, delegacionAsignada, antiguedad, proyectosAsignados);
-		this.rootPass = pass;}
+	public Administrador(String dni, String nombre, String apellidos, String telefono,
+		       String domicilio, String fechaInicio,String fechaFin, AdministracionFisica sedeAsignada, 
+		       String cargo, String correo, Ong ong, String pass) throws JAXBException {
+		super(dni, nombre, apellidos, telefono, domicilio, fechaInicio, fechaFin, sedeAsignada, cargo, correo);
+		
+		this.rootPass = pass;
+		}
 	// METODOS
 	
 	/**
@@ -185,9 +187,6 @@ public class Administrador extends Personal implements Usuario {
 	 * 
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
 	 */
-	public void imprimirListadoTrabajadores() throws JAXBException {
-		trabajadorDAO.obtenerTodos();
-	}
 	
 	/**
 	 * Metodo que permite al administrador consultar el listado

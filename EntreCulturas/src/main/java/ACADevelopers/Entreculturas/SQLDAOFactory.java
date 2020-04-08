@@ -40,9 +40,5 @@ public class SQLDAOFactory extends DAOFactory {
 		return null;
 	}
 
-	@Override
-	public DAO<Trabajador> getTrabajadorDAO() {
-		return null;
-	}
 
 }

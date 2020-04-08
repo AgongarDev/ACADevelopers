@@ -39,9 +39,5 @@ public class XMLDAOFactory extends DAOFactory {
 		return new XMLProyectoDAO();
 	}
 
-	@Override
-	public DAO<Trabajador> getTrabajadorDAO() {
-		return new XMLTrabajadorDAO();
-	}
 
 }

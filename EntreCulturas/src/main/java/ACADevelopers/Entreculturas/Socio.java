@@ -1,19 +1,16 @@
 package ACADevelopers.Entreculturas;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.regex.Pattern;
-
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlSeeAlso;
+
+@XmlRootElement(name = "Socio")
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 
 public class Socio extends Persona implements Usuario {
     private String pass;
@@ -31,13 +28,14 @@ public class Socio extends Persona implements Usuario {
 	}
 
 	public Socio(String dni, String nombre, String apellidos, String telefono, String domicilio, String fechaInicio,
-			String fechaFin, AdministracionFisica sedeAsignada, String cargo, String correo, float cuotaAportacion, Boolean estadoAportacion, TipoCuota tipoCuota) {
-		super();
+			String fechaFin, AdministracionFisica sedeAsignada, String cargo, String correo, float cuotaAportacion, boolean estadoAportacion, TipoCuota tipoCuota) 
+	{
+		super(dni, nombre, apellidos, telefono, domicilio, fechaInicio, fechaFin, sedeAsignada, cargo, correo);
 		this.cuotaAportacion = cuotaAportacion;
 		this.estadoAportacion = estadoAportacion;
 		this.tipoCuota = tipoCuota;
-		
 	}
+
 
 	//MÉTODOS
 	
@@ -59,7 +57,7 @@ public class Socio extends Persona implements Usuario {
 		this.pass = pass;
 	}
 	
-	
+	@XmlElement(name = "cuota")
 	public float getCuotaAportacion() {
 		return cuotaAportacion;
 	}
@@ -68,6 +66,7 @@ public class Socio extends Persona implements Usuario {
 		this.cuotaAportacion = cuotaAportacion;
 	}
 
+	@XmlElement(name = "activo")
 	public Boolean getEstadoAportacion() {
 		return estadoAportacion;
 	}
@@ -75,6 +74,7 @@ public class Socio extends Persona implements Usuario {
 		this.estadoAportacion = estadoAportacion;
 	}
 
+	@XmlElement
 	public String getTipoCuota() {
 		return tipoCuota.toString();
 	}
@@ -86,7 +86,7 @@ public class Socio extends Persona implements Usuario {
 	public void addSocio(Socio socio) {
 		ListadoSocios.add(socio);
 	}
-	
+
 	public void consultarSocios(ArrayList<Socio> ListadoSocios) {
 		System.out.println("Listado de socios :");
 		for (Socio elem : ListadoSocios) {

@@ -1,10 +1,10 @@
 package ACADevelopers.Entreculturas;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -14,12 +14,12 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 
-@XmlRootElement(name = "persona")
+@XmlRootElement(name = "socio")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"dni", "nombre", "apellidos", "telefono", "domicilio", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})
-
-public class Persona {
+@XmlSeeAlso ({Socio.class, Administrador.class})
+public abstract class Persona {
 
 	    // CAMPOS
 	
@@ -61,9 +61,8 @@ public class Persona {
 		 * 
 		 */
 		public Persona(String dni, String nombre, String apellidos, String telefono,
-			       String domicilio, String fechaInicio,String fechaFin, AdministracionFisica sedeAsignada, 
-			       String cargo, String correo, Ong ong) {
-		super();
+			       String domicilio, String fechaInicio, String fechaFin, AdministracionFisica sedeAsignada, 
+			       String cargo, String correo) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellidos = apellidos;

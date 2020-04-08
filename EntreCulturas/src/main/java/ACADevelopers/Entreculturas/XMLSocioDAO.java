@@ -119,7 +119,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 */
 	@Override
 	public void borrar(Socio s) {
-        System.out.println("El socio con ID " + s.getDni() + "ha sido eliminado"); 
+        System.out.println("El socio con DNI " + s.getDni() + "ha sido eliminado"); 
 	}
 
 	/**
