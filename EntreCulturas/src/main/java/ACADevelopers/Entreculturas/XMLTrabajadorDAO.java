@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 
 /**
  * Esta clase instancia objetos XML DAO para interaccionar con
@@ -70,11 +71,28 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * @param t Objeto trabajador a persistir.
 	 */
 	@Override
-	public void crearNuevo(Trabajador t) throws JAXBException {
+	public void crearNuevo(Trabajador t) {
 		listadoTrabajadores.add(t);
-		JAXBContext context = JAXBContext.newInstance(Trabajador.class);
-	    Marshaller mar= context.createMarshaller();
-	    mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		JAXBContext context = null;
+		try {
+			context = JAXBContext.newInstance(Trabajador.class);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    Marshaller mar = null;
+		try {
+			mar = context.createMarshaller();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    try {
+			mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		} catch (PropertyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    //Crea el directorio "xml" en caso de que no exista.
 	    File f = new File("xml/");
@@ -82,7 +100,12 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	  	    f.mkdirs();
 	  	}
 	  	  
-	    mar.marshal(t, new File("xml/trabajador.xml"));
+	    try {
+			mar.marshal(t, new File("xml/trabajador.xml"));
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Se ha creado un nuevo trabajador");
 	}
 
@@ -106,9 +129,9 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * @param params Parametros del objeto trabajador a modificar.
 	 */
 	@Override
-	public void actualizar(Trabajador t, String[] params) {
-    	encontrarTrabajadorPorId(t.getDni()).setNombre(t.getNombre()); 
-        System.out.println("El trabajador con ID " + t.getDni()  + " ha sido actualizado"); 
+	public void actualizar(String id) {
+    	encontrarTrabajadorPorId(id); 
+        System.out.println("El trabajador con ID " + id  + " ha sido actualizado"); 
 		
 	}
 

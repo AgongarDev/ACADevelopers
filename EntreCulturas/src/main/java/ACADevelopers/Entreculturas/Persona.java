@@ -2,6 +2,7 @@ package ACADevelopers.Entreculturas;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
@@ -80,7 +81,7 @@ public abstract class Persona {
 		 * 
 		 * @return devuelve el dni de la persona
 		 */
-		@XmlElement(name = "dni")
+		@XmlAttribute(name = "dni")
 		public String getDni() {
 			return dni;
 		}

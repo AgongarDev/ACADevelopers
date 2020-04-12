@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Socios>
-    <socio>
-        <dni>87654321Q</dni>
+    <socio dni="87654321Q">
         <nombre>socioPrueba1</nombre>
         <apellidos>Uno</apellidos>
         <telefono>971179179</telefono>
@@ -18,7 +17,8 @@
         <cargo>cargo1</cargo>
         <correo>correo1</correo>
         <cuota>123.0</cuota>
-        <activo>true</activo>
-        <tipoCuota>Trimestral</tipoCuota>
+        <Estado>true</Estado>
+        <pass>**</pass>
+        <TipoDeCuota>Trimestral</TipoDeCuota>
     </socio>
 </Socios>

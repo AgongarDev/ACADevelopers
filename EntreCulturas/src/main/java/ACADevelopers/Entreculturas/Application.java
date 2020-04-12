@@ -6,6 +6,11 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
 /**
  * 
  *Clase que lanza la aplicación
@@ -15,7 +20,7 @@ public class Application {
 	
 	public Ong ong = new Ong("EntreC", "Entre Culturas", 100000);
 	
-public static void main( String[] args ) throws IOException, JAXBException {
+public static void main( String[] args ) throws IOException, JAXBException, XPathExpressionException, ParserConfigurationException, SAXException, TransformerException {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		int respuesta = 0;

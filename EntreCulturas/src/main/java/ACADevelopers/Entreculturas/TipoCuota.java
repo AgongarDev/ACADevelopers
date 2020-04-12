@@ -6,14 +6,15 @@ public enum TipoCuota {
 	ANUAL("Anual");
 
 	private final String texto;
-	private TipoCuota cuota;
+	//private TipoCuota cuota;
 	
 	TipoCuota (String texto) {
 		this.texto = texto;
 	}
-	public void setEnumValue (TipoCuota nuevotipodecuota) {
+/*	public void setEnumValue (TipoCuota nuevotipodecuota) {
 		this.cuota = nuevotipodecuota; 
-	}
+	}*/
+	
 	public String getTexto() {
 		return texto;
 	}

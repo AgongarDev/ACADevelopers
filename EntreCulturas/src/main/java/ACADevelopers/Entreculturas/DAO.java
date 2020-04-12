@@ -1,9 +1,15 @@
 package ACADevelopers.Entreculturas;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
 
 /**
  * Interfaz que proporciona acceso a los metodos de persistencia.
@@ -19,8 +25,9 @@ public interface DAO<T> {
 	 * 
 	 * @param t Objeto a persistir.
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
+	 * @throws IOException 
 	 */
-    public void crearNuevo(T t) throws JAXBException;
+    public void crearNuevo(T t);
     
 	/**
 	 * Metodo para obtener un objeto persistido.
@@ -33,10 +40,14 @@ public interface DAO<T> {
 	/**
 	 * Metodo para actualizar un objeto persistido.
 	 * 
-	 * @param t Objeto a actualizar.
-	 * @param params Parametros del objeto a modificar.
+	 * @param id el identificador del objeto.
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws TransformerException 
+	 * @throws XPathExpressionException 
 	 */
-    public void actualizar(T t, String[] params);
+    public void actualizar (String id) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException;
     
 	/**
 	 * Metodo para borrar un objeto persistido.

@@ -28,7 +28,7 @@ public class XMLSocioDAOTest {
 	    	sedePrueba = new AdministracionFisica( "AFP1", "Direccion", 100, "correo", "971971971" );
 	    	
 	    	socioPrueba1 = new Socio("87654321Q", "socioPrueba1", "Uno", "971179179", "calle socioPrueba 1" , "07/04/2020",
-	    				"08/05/2020", sedePrueba, "cargo1", "correo1", 123, true, TipoCuota.TRIM);
+	    				"08/05/2020", sedePrueba, "cargo1", "correo1", 123, true, TipoCuota.TRIM, "**");
 	    }
 	    
 	    /* el método borrarDatosPrueba se ejecuta al final de la prueba, después de cualquier otro.

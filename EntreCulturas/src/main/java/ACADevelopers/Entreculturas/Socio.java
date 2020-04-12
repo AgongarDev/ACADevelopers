@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlRootElement(name = "Socio")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-@XmlType(propOrder={"pass","dni", "nombre","apellidos", "domicilio","telefono", "fechaInicio","fechaFin","sedeAsignada","cargo","correo","cuotaAportacion","estadoAportacion","tipoCuota"})
 public class Socio extends Persona implements Usuario {
     private String pass;
 	private float cuotaAportacion;
@@ -75,7 +74,6 @@ public class Socio extends Persona implements Usuario {
 	 * 
 	 * @return Nos devuelve la password del socio.
 	 */
-	@XmlElement(name = "pass")
 	public String getPass() {
 		return pass;
 	}
@@ -109,9 +107,8 @@ public class Socio extends Persona implements Usuario {
 	 * 
 	 * @return Nos devuelve la el estado de la aportación del socio.
 	 */
-     @XmlElement(name = "Estado")
-
-
+    
+	@XmlElement(name = "Estado")
 	public Boolean getEstadoAportacion() {
 		return estadoAportacion;
 	}
@@ -120,6 +117,7 @@ public class Socio extends Persona implements Usuario {
  	 * 
  	 * @param estadoAportacion el estado de La aportacion del socio.
  	 */
+	
 	public void setEstadoAportacion(Boolean estadoAportacion) {
 		this.estadoAportacion = estadoAportacion;
 	}
@@ -128,22 +126,24 @@ public class Socio extends Persona implements Usuario {
 	 * 
 	 * @return Nos devuelve el tipo de cuota del socio.
 	 */
-     @XmlElement(name = "Tipo de cuota")
+    
+	@XmlElement(name = "TipoDeCuota")
 	public String getTipoCuota() {
-		return tipoCuota.toString();
+		return tipoCuota.getTexto();
 	}
      /**
  	 * Metodo accesor de lectura que asigna el tipo de cuota del socio.
  	 * 
  	 * @param tipoCuota el tipo de cuota del socio.
  	 */
+	
 	public void setTipoCuota(TipoCuota tipodecuota) {
-		this.tipoCuota.setEnumValue(tipodecuota);
+		this.tipoCuota = tipodecuota;
 	}
 	/**
 	 * Metodo accesor de lectura que nos añade un socio.
 	 */
-    @XmlElement(name ="listado de socios")
+    
 	public void addSocio(Socio socio) {
 		ListadoSocios.add(socio);
 	}
@@ -229,6 +229,7 @@ public class Socio extends Persona implements Usuario {
 		 * 
 		 * @throws JAXBException si se produce una excepción de tipo JAXB.
 		 */
+		
 		public void imprimirListadoSocios() throws JAXBException {
 			socioDAO.obtenerTodos();
 		}
@@ -240,6 +241,7 @@ public class Socio extends Persona implements Usuario {
 		 * @throws IOException si se produce un error de entrada/salida.
 		 * @throws JAXBException si se produce una excepción de tipo JAXB.
 		 */
+		
 		private void darAltaSocio() throws IOException, JAXBException {
 			Socio nuevoSocio = new Socio();
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

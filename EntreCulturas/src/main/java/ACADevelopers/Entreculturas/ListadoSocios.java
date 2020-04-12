@@ -55,7 +55,7 @@ public class ListadoSocios {
 	 *socios en la ONG.
 	 * @return nos devuelve el listado de los proyectos que se estan realizando.
 	 */
-	@XmlElements ({ @XmlElement(name = "socio", type = Socio.class, required = false)})
+	@XmlElement(name = "socio")
 	public List<Socio> getListadoSocios() {
 		return listadoSocios;
 	}

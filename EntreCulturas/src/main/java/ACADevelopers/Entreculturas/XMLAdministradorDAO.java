@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 /**
  * Esta clase instancia objetos XML DAO para interaccionar con
  * los objetos administrador y persistirlos en formato XML.
@@ -60,17 +61,39 @@ public class XMLAdministradorDAO implements DAO<Administrador>{
 	 * @param a Objeto administrador a persistir.
 	 */
 	@Override
-	public void crearNuevo(Administrador a) throws JAXBException {
+	public void crearNuevo(Administrador a) {
 		listadoAdministradores.add(a);
-		JAXBContext context = JAXBContext.newInstance(Administrador.class);
-	    Marshaller mar= context.createMarshaller();
-	    mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);   
+		JAXBContext context = null;
+		try {
+			context = JAXBContext.newInstance(Administrador.class);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    Marshaller mar = null;
+		try {
+			mar = context.createMarshaller();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    try {
+			mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		} catch (PropertyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
 	    //Crea el directorio "xml" en caso de que no exista.
 	    File f = new File("xml/");
 	  	  if (!f.exists()) {
 	  	    f.mkdirs();
 	  	}
-	    mar.marshal(a, new File("xml/administrador.xml"));
+	    try {
+			mar.marshal(a, new File("xml/administrador.xml"));
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("Se ha creado un nuevo administrador");
 	}
 	@Override
@@ -80,9 +103,9 @@ public class XMLAdministradorDAO implements DAO<Administrador>{
 		return null;
 	}
 	@Override
-	public void actualizar(Administrador a, String[] params) {
-		encontrarAdministradorPorId(a.getDni()).setNombre(a.getNombre()); 
-        System.out.println("El administrador con ID " + a.getDni()  + " ha sido actualizado"); 		
+	public void actualizar(String id) {
+		encontrarAdministradorPorId(id); 
+        System.out.println("El administrador con ID " + id + " ha sido actualizado"); 		
 	}
 	/**
 	 * Metodo para borrar un objeto administrador persistido.

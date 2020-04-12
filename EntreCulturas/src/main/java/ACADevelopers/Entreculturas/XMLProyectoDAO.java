@@ -15,6 +15,7 @@ import java.util.Optional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 
 public class XMLProyectoDAO implements DAO<Proyecto>{
 	
@@ -70,11 +71,28 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * @param d Objeto delegacion a persistir.
 	 */
 	@Override
-	public void crearNuevo(Proyecto p) throws JAXBException {
+	public void crearNuevo(Proyecto p) {
 		listadoProyectos.add(p);
-		JAXBContext context = JAXBContext.newInstance(Proyecto.class);
-	    Marshaller mar= context.createMarshaller();
-	    mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		JAXBContext context = null;
+		try {
+			context = JAXBContext.newInstance(Proyecto.class);
+		} catch (JAXBException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	    Marshaller mar = null;
+		try {
+			mar = context.createMarshaller();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    try {
+			mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+		} catch (PropertyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 	    //Crea el directorio "xml" en caso de que no exista.
 	    File f = new File("xml/");
@@ -82,7 +100,12 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	  	    f.mkdirs();
 	  	}
 	    
-	    mar.marshal(p, new File("xml/proyecto.xml"));
+	    try {
+			mar.marshal(p, new File("xml/proyecto.xml"));
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    
 		System.out.println("Se ha creado un nuevo proyecto");
 	}
@@ -107,9 +130,9 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * @param params Parametros del objeto proyecto a modificar.
 	 */
 	@Override
-	public void actualizar(Proyecto p, String[] params) {
-		encontrarProyectoPorId(p.getIdProyecto()).setNombreProyecto(p.getNombreProyecto());
-        System.out.println("El proyecto con ID " + p.getIdProyecto()  + " ha sido actualizada"); 
+	public void actualizar(String id) {
+		encontrarProyectoPorId(id);
+        System.out.println("El proyecto con ID " + id + " ha sido actualizada"); 
 	}
 
 	/**

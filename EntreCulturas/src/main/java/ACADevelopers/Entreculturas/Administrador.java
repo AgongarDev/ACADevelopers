@@ -9,6 +9,11 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.xml.sax.SAXException;
 
 
 /**
@@ -22,6 +27,8 @@ import javax.xml.bind.JAXBException;
 public class Administrador extends Persona implements Usuario {
 	
 	// CAMPOS
+	
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	
 	private String rootPass;
 	private DAOFactory xmlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.XML);
@@ -87,13 +94,16 @@ public class Administrador extends Persona implements Usuario {
 	/**
 	 * Metodo que genera el menu de acciones que puede realizar el admin
 	 * en la aplicacion cuando inicia sesion.
+	 * @throws TransformerException 
+	 * @throws SAXException 
+	 * @throws ParserConfigurationException 
+	 * @throws XPathExpressionException 
 	 */
 	@Override
-	public void abrirSesion() throws IOException, JAXBException {
+	public void abrirSesion() throws IOException, JAXBException, XPathExpressionException, ParserConfigurationException, SAXException, TransformerException {
 		    	
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int respuestaOpcion = 0;
-		Integer[] opcionesValidas = {1, 2, 3, 4, 5};
+		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 0};
   	    String respuestaNuevaAccion;
 		
     	System.out.println("\n***************************");
@@ -104,10 +114,11 @@ public class Administrador extends Persona implements Usuario {
         	
         	System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
         	System.out.println("1 - Dar de alta un socio");
-        	System.out.println("2 - Crear un proyecto");
-        	System.out.println("3 - Listar trabajadores");
-        	System.out.println("4 - Listar socio");
-        	System.out.println("5 - Salir");
+        	System.out.println("2 - Actualizar datos de un socio");
+        	System.out.println("3 - Crear un proyecto");
+        	System.out.println("4 - Listar trabajadores");
+        	System.out.println("5 - Listar socio");
+        	System.out.println("0 - Salir");
         	
         	try {
         		respuestaOpcion = Integer.parseInt(br.readLine());
@@ -121,58 +132,34 @@ public class Administrador extends Persona implements Usuario {
         
            case 1:
         	 /** darAltaSocio();*/
-
-        	  do {
-        		  
-        		  do {
-        			  System.out.println("¿Deseas dar de alta un socio? (S/N)");
-            		  respuestaNuevaAccion = br.readLine();
-        		  } while (!respuestaNuevaAccion.equalsIgnoreCase("s") && !respuestaNuevaAccion.equalsIgnoreCase("n"));
-        		  
-        		  if (respuestaNuevaAccion.equalsIgnoreCase("s")) {
-        			  darAltaSocio();
-      				}
-        		  
-        	  } while (!respuestaNuevaAccion.equalsIgnoreCase("n"));
-        	  
+        	  darAltaSocio();
         	  abrirSesion();
         	  
               break;
            
-              
            case 2:
-         	  /**darAltaProyecto();*/
-         	  
-        	  do {
-        		  
-        		  do {
-        			  System.out.println("¿Deseas dar de crear un proyecto? (S/N)");
-            		  respuestaNuevaAccion = br.readLine();
-        		  } while (!respuestaNuevaAccion.equalsIgnoreCase("s") && !respuestaNuevaAccion.equalsIgnoreCase("n"));
-        		  
-        		  if (respuestaNuevaAccion.equalsIgnoreCase("s")) {
-        			  darAltaProyecto();
-      				}
-        		  
-        	  } while (!respuestaNuevaAccion.equalsIgnoreCase("n"));
-        	  
-        	  abrirSesion();
-         	  
+        	   actualizarSocio();
+        	   break;
+
+           case 3:
+         	  /**darAltaProyecto();*/        		  
+        	   darAltaProyecto();
+        	   abrirSesion();
                break;
                
-           case 3:
+           case 4:
         	   imprimirListadoTrabajadores();
         	   abrirSesion();
         	   
                break;
            
-           case 4:
+           case 5:
         	   imprimirListadoSocios();
         	   abrirSesion();
         	   
                break;
               
-           case 5:
+           case 0:
         	   System.out.println("La sesión se ha cerrado con éxito.");
         	   System.exit(0);
         	   
@@ -200,14 +187,17 @@ public class Administrador extends Persona implements Usuario {
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
 	 */
 	private void darAltaSocio() throws IOException, JAXBException {
+		
 		Socio nuevoSocio = new Socio();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
 		System.out.println("\nIntroduce el nombre del socio: ");
 		nuevoSocio.setNombre(br.readLine());
+		
 		System.out.println("\nIntroduce los apellidos del socio: ");
 		nuevoSocio.setApellidos(br.readLine());
-		System.out.println("\nIntroduce el dni del socio: ");
-		 try {
+		
+		System.out.println("\nIntroduce el dni del socio: "); 
+		try {
 	        	String dni = br.readLine();
 	        	validarDni(dni);
 	    		nuevoSocio.setDni(dni);
@@ -218,8 +208,9 @@ public class Administrador extends Persona implements Usuario {
 		
 		System.out.println("\nIntroduce el email del socio: ");
 		nuevoSocio.setCorreo(br.readLine());
+		
 		System.out.println("\nIntroduce el teléfono del socio: ");
-        try {
+		try {
         	String numero = br.readLine();
         	validarNumeroTelefono(numero);
         	nuevoSocio.setTelefono(numero);
@@ -229,32 +220,30 @@ public class Administrador extends Persona implements Usuario {
         }
         System.out.println("\nIntroduce fecha de inscripción del socio: ");
 		nuevoSocio.setFechaInicio(br.readLine());
+		
 		System.out.println("\nIntroduce fecha de fin de inscrpción del socio: ");
 		nuevoSocio.setFechaInicio(br.readLine());
+		
 		/*
 		 * Bloque sede asignada
 		 */
 		System.out.println("\nIntroduce el id de la sede asignada: ");
-		nuevoSocio.sedeAsignada.setIdAdmin(br.readLine());
-		System.out.println("\nIntroduce la dirección de la sede asignada: ");
-		nuevoSocio.sedeAsignada.setDireccion(br.readLine());
-		
-		System.out.println("\nIntroduce la numero empleados de la sede asignada: ");
-		nuevoSocio.sedeAsignada.setNumEmpleados(br.read());
-		
-		System.out.println("\nIntroduce e-mail de la sede asignada: ");
-		nuevoSocio.sedeAsignada.setCorreo(br.readLine());
-		
-		System.out.println("\nIntroduce el teléfono de la sede asignada: ");
-        try {
-        	String numero = br.readLine();
-        	validarNumeroTelefono(numero);
-    		nuevoSocio.sedeAsignada.setTelefono(numero);
-        } catch (TelefonoNoValidoException e) {
-        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
-    		nuevoSocio.sedeAsignada.setTelefono("000000000");
-        }
-        /*
+		String idAdmin = br.readLine();
+		try { 
+			nuevoSocio.sedeAsignada.setIdAdmin(idAdmin);
+		} 
+		catch (RuntimeException e) {
+			String respuestaNuevaAccion;
+  			System.out.println("La sede "+idAdmin+" no existe. ¿Desea crear una nueva sede con este ID?");
+  			respuestaNuevaAccion = br.readLine();
+			if (respuestaNuevaAccion.equalsIgnoreCase("s") && !respuestaNuevaAccion.equalsIgnoreCase("n")) {
+				AdministracionFisica sedeSocio = crearSede(idAdmin);
+				nuevoSocio.setSedeAsignada(sedeSocio);  
+  		  	} else { 
+  			  nuevoSocio.sedeAsignada = null;
+  		  		}
+		}
+  		   /*
 		 * Fin Bloque sede asignada
 		 */
         System.out.println("\nIntroduce e-mail del socio: ");
@@ -267,14 +256,17 @@ public class Administrador extends Persona implements Usuario {
       	* Bloque Cuota
       	*/
 		System.out.println("\nIntroduce cantidad de aportación del socio: ");
-		nuevoSocio.setCuotaAportacion(br.read());
+		float cantidad = 50;//Float.parseFloat(br.readLine());
+		nuevoSocio.setCuotaAportacion(cantidad);
+		
 		System.out.println("¿La aportación está activa? (S/N): ");
 		if (br.readLine().equalsIgnoreCase("s")) {
-			nuevoSocio.estadoAportacion.equals(true);
+			nuevoSocio.estadoAportacion = true;
 		} else {
-			nuevoSocio.estadoAportacion.equals(false);		
+			nuevoSocio.estadoAportacion = false;		
 		}
-		System.out.println("\nIntroduce el tipo de cuota del socio (M/T/A): ");
+		
+		System.out.println("\nIntroduce el tipo de cuota del socio en mayúscula (M/T/A): ");
 		switch (br.readLine()) {
 			case "M":
 				nuevoSocio.setTipoCuota(TipoCuota.MES);
@@ -288,14 +280,18 @@ public class Administrador extends Persona implements Usuario {
 				nuevoSocio.setTipoCuota(TipoCuota.ANUAL);
 				break;
 	
-			default:
+			default: 
+				nuevoSocio.setTipoCuota(TipoCuota.ANUAL);
+				System.out.println("Se ha asignado una cuota ANUAL");
 				break;
 		}
+		
 		Random random = new Random();
+		
 		String pass = String.format("%06d", random.nextInt(1000000));
 		nuevoSocio.setPass(pass);
-		socioDAO.crearNuevo(nuevoSocio);
 		
+		socioDAO.crearNuevo(nuevoSocio);
 	}
 	
 	/**
@@ -305,12 +301,15 @@ public class Administrador extends Persona implements Usuario {
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
 	 */
 	private void darAltaProyecto() throws IOException, JAXBException {
+		
 		Proyecto nuevoProyecto = new Proyecto();
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
 		System.out.println("\nIntroduce el nombre del proyecto: ");
 		nuevoProyecto.setNombreProyecto(br.readLine());
+		
 		System.out.println("\nIntroduce el ID del proyecto: ");
 		nuevoProyecto.setIdProyecto(br.readLine());
+		
 		System.out.println("\nIntroduce la linea de acción del proyecto (C/A/F/E): ");
 		switch (br.readLine()) {
 			case "C":
@@ -331,6 +330,7 @@ public class Administrador extends Persona implements Usuario {
 			default:
 				break;
 		}
+		
 		System.out.println("\nIntroduce fecha de inicio del proyecto: ");
 			nuevoProyecto.setFechaInicio(br.readLine());
 		System.out.println("\nIntroduce fecha de fin del proyecto: ");
@@ -471,9 +471,46 @@ public class Administrador extends Persona implements Usuario {
 	private void validarDni(String dni) {
 		final String dniRegexp = "\\d{8}[A-HJ-NP-TV-Z]";
 		if (!Pattern.matches(dniRegexp, dni)) {
-			throw new DniNoValidoException(dni);
+			throw new DniNoValidoException("El DNI introducido no es válido");
 		}
 	}
+	
+	public AdministracionFisica crearSede(String id) throws IOException {
+	
+		AdministracionFisica sede = new AdministracionFisica();
+		
+		System.out.println("\nIntroduce la dirección de la sede asignada: ");
+		sede.setDireccion(br.readLine());
+	
+		System.out.println("\nIntroduce la numero empleados de la sede asignada: ");
+		sede.setNumEmpleados(br.read());
+	
+		System.out.println("\nIntroduce e-mail de la sede asignada: ");
+		sede.setCorreo(br.readLine());
+	
+		System.out.println("\nIntroduce el teléfono de la sede asignada: ");
+		try {
+			String numero = br.readLine();
+			validarNumeroTelefono(numero);
+			sede.setTelefono(numero);
+		} catch (TelefonoNoValidoException e) {
+			System.out.println("Número no válido, podrá modificarlo más adelante"); 
+			sede.setTelefono("000000000");
+		}
+		
+		return sede;
+	}
+	
+	public void actualizarSocio() throws IOException, XPathExpressionException, ParserConfigurationException, SAXException, TransformerException {
+		
+		System.out.println("Introduzca DNI del socio");
+ 	   	String dniSocio = br.readLine();
+ 	   
+ 	   	socioDAO.actualizar(dniSocio);   
+ 	   	
+ 	   System.out.println("El socio con ID " + dniSocio + " ha sido actualizado"); 
+	}
+	
 	@Override
 	public void consultarProyectos(ArrayList<Proyecto> lp) {
 		
