@@ -54,9 +54,9 @@ public class XMLSocioDAO implements DAO<Socio> {
 	
 	// CAMPOS
 	
-	private static String RUTAXML = "./xml/socios.xml";
+	private static String RUTAXML = "xml/socios.xml";
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private boolean haySocios = true;
+	private JAXBContext jaxbContext;
 	
 	private ListadoSocios listadoSocios = new ListadoSocios();
 	
@@ -92,6 +92,9 @@ public class XMLSocioDAO implements DAO<Socio> {
 		return listadoSocios;
 	}
 
+	public void creaContextoJAXB() throws JAXBException {
+		jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
+	}
 	/**
 	 * Metodo accesor de escritura que asigna el listado de socios de la ONG.
 	 * 
@@ -127,11 +130,21 @@ public class XMLSocioDAO implements DAO<Socio> {
 	public void crearNuevo(Socio s) {
 		
 		File archivoXML = new File(RUTAXML);
-		List<Socio> socios = obtenerTodos();
-	
-			try {
-				socios.add(s);
-				FileOutputStream fos = new FileOutputStream(archivoXML);
+		List<Socio> sociosONG = obtenerTodos();
+			
+		try {
+		    	sociosONG.add(s);
+				this.listadoSocios.setListadoSocios(sociosONG);
+				
+				creaContextoJAXB();
+				Marshaller marshaller = jaxbContext.createMarshaller();
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+				marshaller.marshal(listadoSocios, archivoXML);
+				
+			} catch (JAXBException ex) {
+					ex.printStackTrace();
+				}
+			/*FileOutputStream fos = new FileOutputStream(archivoXML);
 				XMLEncoder encoder = new XMLEncoder(fos);
 				encoder.writeObject(socios);
 				encoder.close();
@@ -140,7 +153,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 			} catch ( IOException ex) {
 				ex.printStackTrace();
 			}
-			
+			*/
 			System.out.println("Se ha creado un nuevo socio");
 	}
 
@@ -179,6 +192,16 @@ public class XMLSocioDAO implements DAO<Socio> {
     	
 		return nodoAActualizar;
         }
+    public Document creaDOM(String rutaDOM) throws ParserConfigurationException, SAXException, IOException {
+    	
+    	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+       	factory.setNamespaceAware(true); // never forget this!
+       	DocumentBuilder builder = factory.newDocumentBuilder();
+       	Document doc = builder.parse(new File(rutaDOM));
+       	
+       	return doc;
+    }
+    
     
 	/* Método para actualizar un objeto socio persistido.
 	 * 
@@ -188,31 +211,33 @@ public class XMLSocioDAO implements DAO<Socio> {
 	@Override
 	public void actualizar (String id) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
 		
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true); // never forget this!
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new File(RUTAXML));
-		
- 	   	System.out.println("Introduzca el campo a modificar");
+        System.out.println("Introduzca el campo a modificar");
  	   	String nodoACambiar = br.readLine();
  	   
  	   	System.out.println("Introduzca el nuevo valor");
  	   	String valorACambiar = br.readLine();
  	   	
- 		XPath xpath = XPathFactory.newInstance().newXPath();
-		XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar);
-		Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE);
-		nodo.setTextContent(valorACambiar);
-		
-		Transformer tf = TransformerFactory.newInstance().newTransformer();
-		tf.setOutputProperty(OutputKeys.INDENT, "yes");
-		tf.setOutputProperty(OutputKeys.METHOD, "xml");
-		tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-		
-		DOMSource domSource = new DOMSource(doc);
-		StreamResult sr = new StreamResult(new File(RUTAXML));
-		tf.transform(domSource, sr);
-      
+ 	   	File archivoXML = new File(RUTAXML);
+ 	   	if (archivoLegible(archivoXML)) {
+	 	   	
+ 	   		Document doc = creaDOM(RUTAXML);
+	 		XPath xpath = XPathFactory.newInstance().newXPath();
+			XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar);
+			Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE);
+			nodo.setTextContent(valorACambiar);
+			
+			Transformer tf = TransformerFactory.newInstance().newTransformer();
+			tf.setOutputProperty(OutputKeys.INDENT, "yes");
+			tf.setOutputProperty(OutputKeys.METHOD, "xml");
+			tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			
+			DOMSource domSource = new DOMSource(doc);
+			StreamResult sr = new StreamResult(new File(RUTAXML));
+			tf.transform(domSource, sr);
+			
+ 	   	} else {
+ 	   		System.out.println("No existen datos a actualizar");
+ 	   	}
 	}
 
 	/**
@@ -238,17 +263,16 @@ public class XMLSocioDAO implements DAO<Socio> {
 		if (archivoLegible(archivoXML)) {
 		
 			try {
-				FileInputStream fis = new FileInputStream(archivoXML);
-				XMLDecoder decoder = new XMLDecoder(fis);
-			
-				@SuppressWarnings("unchecked")
-				List<Socio> lista = (List<Socio>) decoder.readObject();
-				decoder.close();
-				fis.close();
-				this.listadoSocios.setListadoSocios(lista);
 				
-				} catch (IOException ex) {
-					ex.printStackTrace();
+				creaContextoJAXB();
+				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+				@SuppressWarnings("unchecked")
+				List<Socio> socios = (List<Socio>) unmarshaller.unmarshal(archivoXML);
+				this.listadoSocios.setListadoSocios(socios);
+				} 
+				catch (JAXBException e) {
+
+					e.printStackTrace();
 				}
 		
 			if (listadoSocios.getListadoSocios() != null) {

@@ -1,73 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<java version="1.8.0_241" class="java.beans.XMLDecoder">
- <object class="java.util.ArrayList">
-  <void method="add">
-   <object class="ACADevelopers.Entreculturas.Socio">
-    <void property="apellidos">
-     <string>uno</string>
-    </void>
-    <void property="cargo">
-     <string></string>
-    </void>
-    <void property="correo">
-     <string></string>
-    </void>
-    <void property="cuotaAportacion">
-     <float>50.0</float>
-    </void>
-    <void property="dni">
-     <string>11111111H</string>
-    </void>
-    <void property="estadoAportacion">
-     <boolean>false</boolean>
-    </void>
-    <void property="fechaInicio">
-     <string></string>
-    </void>
-    <void property="nombre">
-     <string>uno</string>
-    </void>
-    <void property="pass">
-     <string>219941</string>
-    </void>
-    <void property="telefono">
-     <string>000000000</string>
-    </void>
-   </object>
-  </void>
-  <void method="add">
-   <object class="ACADevelopers.Entreculturas.Socio">
-    <void property="apellidos">
-     <string>dos</string>
-    </void>
-    <void property="cargo">
-     <string></string>
-    </void>
-    <void property="correo">
-     <string></string>
-    </void>
-    <void property="cuotaAportacion">
-     <float>50.0</float>
-    </void>
-    <void property="dni">
-     <string>22222222D</string>
-    </void>
-    <void property="estadoAportacion">
-     <boolean>false</boolean>
-    </void>
-    <void property="fechaInicio">
-     <string></string>
-    </void>
-    <void property="nombre">
-     <string>dos</string>
-    </void>
-    <void property="pass">
-     <string>294248</string>
-    </void>
-    <void property="telefono">
-     <string>000000000</string>
-    </void>
-   </object>
-  </void>
- </object>
-</java>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Socios>
+    <socio dni="43150120L">
+        <nombre>uno</nombre>
+        <apellidos>hju</apellidos>
+        <telefono>000000000</telefono>
+        <fechaInicio></fechaInicio>
+        <cargo></cargo>
+        <correo></correo>
+        <cuota>50.0</cuota>
+        <Estado>false</Estado>
+        <pass>447360</pass>
+        <TipoDeCuota>Anual</TipoDeCuota>
+    </socio>
+</Socios>

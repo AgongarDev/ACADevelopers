@@ -104,7 +104,6 @@ public class Administrador extends Persona implements Usuario {
 		    	
 		int respuestaOpcion = 0;
 		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 0};
-  	    String respuestaNuevaAccion;
 		
     	System.out.println("\n***************************");
     	System.out.println(" Opciones de administrador");
@@ -246,8 +245,6 @@ public class Administrador extends Persona implements Usuario {
   		   /*
 		 * Fin Bloque sede asignada
 		 */
-        System.out.println("\nIntroduce e-mail del socio: ");
-		nuevoSocio.setCorreo(br.readLine());
         
 		System.out.println("\nIntroduce cargo del socio: ");
 		nuevoSocio.setCargo(br.readLine());
