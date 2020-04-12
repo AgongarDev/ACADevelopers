@@ -191,7 +191,7 @@ public class XMLSocioDAO implements DAO<Socio> {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true); // never forget this!
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new File("xml/socios.xml"));
+        Document doc = builder.parse(new File(RUTAXML));
 		
  	   	System.out.println("Introduzca el campo a modificar");
  	   	String nodoACambiar = br.readLine();
@@ -210,7 +210,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 		tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 		
 		DOMSource domSource = new DOMSource(doc);
-		StreamResult sr = new StreamResult(new File("xml/socios.xml"));
+		StreamResult sr = new StreamResult(new File(RUTAXML));
 		tf.transform(domSource, sr);
       
 	}
