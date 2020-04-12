@@ -1,39 +1,35 @@
 package ACADevelopers.Entreculturas;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.FileHandler;
 
 import org.w3c.dom.Document;
+// imports necesarios para realizar todo el trabajo de actualización e impresión de datos a XML
 
-/* estos imports son necesarios para realizar todo el trabajo de actualización e impresión de datos a XML*/
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.crypto.dsig.spec.XPathType;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+
 import javax.xml.soap.Node;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -55,9 +51,9 @@ public class XMLSocioDAO implements DAO<Socio> {
 	// CAMPOS
 	
 	private static String RUTAXML = "xml/socios.xml";
-	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	private static String NL = System.getProperty("line.separator");
+	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private JAXBContext jaxbContext;
-	
 	private ListadoSocios listadoSocios = new ListadoSocios();
 	
 	
@@ -81,7 +77,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	}
 
 	
-	// METODOS
+	// METODOS ACCESORES
 	
 	/**
 	 * Metodo accesor de lectura que nos da el lista de socios de la ONG.
@@ -90,10 +86,6 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 */
 	public ListadoSocios getListadoSocios() {
 		return listadoSocios;
-	}
-
-	public void creaContextoJAXB() throws JAXBException {
-		jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
 	}
 	/**
 	 * Metodo accesor de escritura que asigna el listado de socios de la ONG.
@@ -104,14 +96,28 @@ public class XMLSocioDAO implements DAO<Socio> {
 		this.listadoSocios = listadoSocios;
 	}
 	
+	// MÉTODOS DE CONTEXTO XML
+
+	/**
+	 * Crea el context JAXB con la estructura ListadoSocios.class con el que trabajar
+	 * @throws JAXBException
+	 */
+	public void creaContextoJAXB() throws JAXBException {
+		jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
+	}
+	
+	/**
+	 * comprueba si el archivo o si tiene información para evitar excepciones de acceso por valores null.
+	 * @param archivo
+	 */
 	public boolean archivoLegible (File archivo) {
 			
 		try {
 			if ((!archivo.createNewFile()) && (archivo.length() != 0)) {
 					return true;
 				} else {
-					System.out.println("Archivo sin datos");
-			
+					System.out.println("...El archivo de socios no existe o no tiene datos");
+					System.out.println("...Se va a crear un nuevo archivo");
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -120,41 +126,32 @@ public class XMLSocioDAO implements DAO<Socio> {
 	}
 	
 	/**
-	 * Metodo para crear un nuevo objeto socio a persistir
+	 * Método para crear un nuevo objeto socio a persistir
 	 * en formato XML.
 	 * 
 	 * @param s Objeto socio a persistir.
-	 * @throws JAXBException 
 	 */
 	@Override
 	public void crearNuevo(Socio s) {
 		
-		File archivoXML = new File(RUTAXML);
-		List<Socio> sociosONG = obtenerTodos();
+		File archivoXML = new File(RUTAXML); // crea el archivo destinado a guardar información de los socios en la carpeta xml.
+		List<Socio> sociosONG = obtenerTodos(); // guardamos en una lista contenedor los datos que obtenemos del archivo o una lista vacía si no existen.
 			
 		try {
-		    	sociosONG.add(s);
-				this.listadoSocios.setListadoSocios(sociosONG);
+		    	sociosONG.add(s); // añadimos los datos del nuevo socio a la lista contenedor
+		    	this.listadoSocios.setListadoSocios(sociosONG); // añadimos al listadoSocios de la clase, la matriz con los datos de la lista contenedor.
+		    	System.out.println("...Añadido un nuevo socio al listado");
 				
-				creaContextoJAXB();
-				Marshaller marshaller = jaxbContext.createMarshaller();
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-				marshaller.marshal(listadoSocios, archivoXML);
+				creaContextoJAXB(); // creamos un nuevo contextoJAXB en el que trabajar
+				Marshaller marshaller = jaxbContext.createMarshaller(); // creamos un marshaller para imprimir los datos de socio
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // configuramos que imprima los datos en un fichero con el formato estructurado en las clases Persona, Socio y ListadoSocios.
+				marshaller.marshal(listadoSocios, archivoXML); //imprimimos
 				
-			} catch (JAXBException ex) {
+			} catch (JAXBException ex) { //arroja excepción si no encuentra datos que imprimir
 					ex.printStackTrace();
 				}
-			/*FileOutputStream fos = new FileOutputStream(archivoXML);
-				XMLEncoder encoder = new XMLEncoder(fos);
-				encoder.writeObject(socios);
-				encoder.close();
-				fos.close();
-				
-			} catch ( IOException ex) {
-				ex.printStackTrace();
-			}
-			*/
-			System.out.println("Se ha creado un nuevo socio");
+
+		System.out.println(NL+"¡Enhorabuena! se ha creado un nuevo socio"); //literalmente, necesitaba leer algo así cuando consiguiera que se imprimiera un socio tras otro.
 	}
 
 	/**
@@ -163,80 +160,71 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * @param id Identificador unico del objeto socio.
 	 * @return Objeto socio persistido.
 	 */
+	//método sin programar
 	@Override
 	public Optional<Socio> obtener(String id) {
-		System.out.println("Se ha obtenido un socio");
+		System.out.println("...Se ha obtenido un socio");
         //return encontrarTrabajadorPorId(id); 
 		return null;
 	}
 
-	/*
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
-	 */
-	
-
 	/**
-	 * Metodo que permite encontrar uno socio dentro del
-	 * listado de socios en funcion de su id.
-	 * 
-	 * @param id Id del socio buscado.
-	 * @return Socio buscado.
-	 * @throws XPathExpressionException 
-	 */
-	
-    public Node encontrarSocioPorDni(String id, XPath xpath, Document doc) throws XPathExpressionException {
-    	
-    	Node nodoAActualizar = (Node) xpath.compile("//socio[dni='"+id+"']").evaluate(doc, XPathConstants.NODE);
-    	
-		return nodoAActualizar;
-        }
+	 * Crea un documento del tipo DOM para poder interactuar con los datos de un archivo de lenguaje de marcado.
+	 * @param rutaDOM la ruta del archivo a formatear
+	 * @throw ParserConfigurationException
+	 * @throw SAXException
+	 * @Throw IOException
+	 * @return Documento formateado para interacción.
+	 * */
     public Document creaDOM(String rutaDOM) throws ParserConfigurationException, SAXException, IOException {
     	
     	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-       	factory.setNamespaceAware(true); // never forget this!
+       	factory.setNamespaceAware(true);
        	DocumentBuilder builder = factory.newDocumentBuilder();
        	Document doc = builder.parse(new File(rutaDOM));
        	
        	return doc;
     }
-    
-    
-	/* Método para actualizar un objeto socio persistido.
+    /**
+     * Método para actualizar un objeto socio persistido.
 	 * 
-	 * 	@param s Objeto socio a actualizar.
-	 * @param params Parametros del objeto socio a modificar.
-	 */
+	 * @param s Objeto socio a actualizar.
+	 * @param id dni del socio al que apuntar.
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws XPathExpressionException
+	 * @throws TransformerException
+     */
 	@Override
 	public void actualizar (String id) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
 		
         System.out.println("Introduzca el campo a modificar");
- 	   	String nodoACambiar = br.readLine();
+ 	   	String nodoACambiar = br.readLine(); //guardamos el string del nodo a modificar. Tiene que tener el mismo formato que en el xml (no espacios, minúsculas, acentos,...)
  	   
  	   	System.out.println("Introduzca el nuevo valor");
- 	   	String valorACambiar = br.readLine();
+ 	   	String valorACambiar = br.readLine(); // guardamos el nuevo valor (Strings independientemente del tipo (float,int..) ya que eso se programará en la lectura de datos.
  	   	
- 	   	File archivoXML = new File(RUTAXML);
- 	   	if (archivoLegible(archivoXML)) {
+ 	   	File archivoXML = new File(RUTAXML); //creamos el archivo
+ 	   	if (archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
 	 	   	
- 	   		Document doc = creaDOM(RUTAXML);
-	 		XPath xpath = XPathFactory.newInstance().newXPath();
-			XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar);
-			Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE);
-			nodo.setTextContent(valorACambiar);
+ 	   		Document doc = creaDOM(RUTAXML); // creamos el DOM para poder navegar entre los nodos
+	 		XPath xpath = XPathFactory.newInstance().newXPath(); //creamos el path con el API XPath
+			XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar); // compilamos la ruta del nodo
+			Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE); // apuntamos al nodo objetivo
+			nodo.setTextContent(valorACambiar); // cambiamos el valor del nodo 
 			
-			Transformer tf = TransformerFactory.newInstance().newTransformer();
+			Transformer tf = TransformerFactory.newInstance().newTransformer(); //transformador para la sobreimpresión
 			tf.setOutputProperty(OutputKeys.INDENT, "yes");
 			tf.setOutputProperty(OutputKeys.METHOD, "xml");
 			tf.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			
-			DOMSource domSource = new DOMSource(doc);
-			StreamResult sr = new StreamResult(new File(RUTAXML));
-			tf.transform(domSource, sr);
+			DOMSource domSource = new DOMSource(doc); // transformamos la información
+			StreamResult sr = new StreamResult(new File(RUTAXML)); //localizamos el archivo a actualizar
+			tf.transform(domSource, sr);// imprimimos los datos en el archivo
 			
- 	   	} else {
- 	   		System.out.println("No existen datos a actualizar");
+ 	   	} else { // si el archivo no tiene datos o no existe, sale con mensaje.
+ 	   		System.out.println(NL+"No existen datos a actualizar");
  	   	}
 	}
 
@@ -246,12 +234,14 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * @param s Objeto socio a borrar.
 	 */
 	@Override
+	//método no programado
 	public void borrar(Socio s) {
-        System.out.println("El socio con DNI " + s.getDni() + "ha sido eliminado"); 
+        System.out.println(NL+"El socio con DNI " + s.getDni() + "ha sido eliminado"); 
 	}
 
 	/**
 	 * Metodo para recuperar todos los objetos socio persistidos.
+	 * Devuelve un listado del tipo Array con los objetos del tipo socio formateados del archivo xml
 	 * 
 	 * @return Listado con los objetos socio persistidos.
 	 */
@@ -260,29 +250,27 @@ public class XMLSocioDAO implements DAO<Socio> {
 	
 		File archivoXML = new File(RUTAXML);
 		
-		if (archivoLegible(archivoXML)) {
+		if (archivoLegible(archivoXML)) { //si el archivo existe y tiene datos
 		
 			try {
-				
-				creaContextoJAXB();
-				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+				creaContextoJAXB(); // creamos un contexto de JAXB
+				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller(); //creamos un unmarshaller para leer los datos del archivo xml
 				@SuppressWarnings("unchecked")
-				List<Socio> socios = (List<Socio>) unmarshaller.unmarshal(archivoXML);
-				this.listadoSocios.setListadoSocios(socios);
+				List<Socio> socios = (List<Socio>) unmarshaller.unmarshal(archivoXML); //volcamos los datos formateados en una lista contenedor.
+				this.listadoSocios.setListadoSocios(socios); // asignamos los datos al objeto listadoSocios de la clase 
 				} 
 				catch (JAXBException e) {
-
 					e.printStackTrace();
 				}
 		
-			if (listadoSocios.getListadoSocios() != null) {
-				System.out.println("La ONG cuenta con " + listadoSocios.getListadoSocios().size() + " socios:");
-		    	for (Socio s : listadoSocios.getListadoSocios()) {
+			if (listadoSocios.getListadoSocios() != null) { // si el listado tiene datos imprimimos una línea con el número de socios
+				System.out.println(NL+"La ONG cuenta con " + listadoSocios.getListadoSocios().size() + " socios:");
+		    	for (Socio s : listadoSocios.getListadoSocios()) { //imprimimos todos los datos de los socios en pantalla
 		    		System.out.println(s.toString());
 		    		}
 		    	} 
-			} else {
-				System.out.println("La lista de socios está vacía.");
+			} else { // si no existe el archivo o no tiene datos, devuelve un array vacío para evitar problemas de acceso del tipo null.
+				System.out.println("...La lista de socios está vacía.");
 				return new ArrayList<Socio>();
 		  }
 		return listadoSocios.getListadoSocios();
