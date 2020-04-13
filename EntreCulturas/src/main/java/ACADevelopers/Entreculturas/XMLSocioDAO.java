@@ -125,21 +125,30 @@ public class XMLSocioDAO implements DAO<Socio> {
 	@Override
 	public void crearNuevo(Socio socio) {
 		
-		File archivoXML = new File(RUTAXML); // crea el archivo destinado a guardar información de los socios en la carpeta xml.
-		obtenerTodos(); // guardamos en una lista contenedor los datos que obtenemos del archivo o una lista vacía si no existen.
+		// crea el archivo destinado a guardar información de los socios en la carpeta xml.
+		File archivoXML = new File(RUTAXML); 
+		// guardamos en una lista contenedor los datos que obtenemos del archivo o una lista vacía si no existen.
+		obtenerTodos(); 
 			try {
-		    	this.getSocios().add(socio); // añadimos los datos del nuevo socio a la lista contenedor		    
+				// añadimos los datos del nuevo socio a la lista contenedor
+		    	this.getSocios().add(socio); 		    
 		    	System.out.println("...Añadido un nuevo socio al listado"+COMENTARIO);
 				
-				JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);// creamos el contexto de ListadoSocios
-				Marshaller marshaller = jaxbContext.createMarshaller(); // creamos un marshaller para imprimir los datos de socio
+		    	// creamos el contexto de ListadoSocios
+				JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
 				
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // configuramos que imprima los datos en un fichero con el formato estructurado en las clases Persona, Socio y ListadoSocios.
+				//creamos un marshaller para imprimir los datos de socio
+				Marshaller marshaller = jaxbContext.createMarshaller(); 
+			
+				//configuramos que imprima los datos en un fichero con el formato estructurado en las clases Persona, Socio y ListadoSocios.
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); 
+				//imprimimos
+				marshaller.marshal(socios, archivoXML); 
 				
-				marshaller.marshal(socios, archivoXML); //imprimimos
-				
-				} catch (JAXBException ex) { //arroja excepción si no encuentra datos que imprimir
+				//arroja excepción si no encuentra datos que imprimir
+				} catch (JAXBException ex) { 
 					ex.printStackTrace();
+					
 		System.out.println(NL+"¡Enhorabuena! se ha creado un nuevo socio"); //literalmente, necesitaba leer algo así cuando consiguiera que se imprimiera un socio tras otro.
 		System.out.println(NL+socio.toString());
 		}
