@@ -62,6 +62,6 @@ public interface DAO<T> {
 	 * @return Listado con los objetos persistidos.
 	 * @throws JAXBException si se produce una excepción de tipo JAXB.
 	 */
-    public List<T> obtenerTodos() throws JAXBException;
+    public List<T> obtenerTodos();
 
 }

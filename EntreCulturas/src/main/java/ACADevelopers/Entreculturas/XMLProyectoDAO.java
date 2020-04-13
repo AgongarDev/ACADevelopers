@@ -151,23 +151,26 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * @return Listado con los objetos proyecto persistidos.
 	 */
 	@Override
-	public List<Proyecto> obtenerTodos() throws JAXBException {
+	public List<Proyecto> obtenerTodos() {
 		if (listadoProyectos.getListadoProyectos() != null) {
 			System.out.println("La ONG cuenta con " + listadoProyectos.getListadoProyectos().size() + " sedes:");
 	    	for (Proyecto p : listadoProyectos.getListadoProyectos()) {
 	    		System.out.println(p.toString());
 	    	}
-	    	JAXBContext context = JAXBContext.newInstance(ListadoProyectos.class);
-	    	Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
+	    	try {
+	    		JAXBContext context = JAXBContext.newInstance(ListadoProyectos.class);
+	    		Marshaller marshaller = context.createMarshaller();
+	    		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    		marshaller.marshal(listadoProyectos, new File("xml/proyectos.xml"));
+	    	} catch (JAXBException e) {
+	    		e.printStackTrace();
+	    	}
 		    //Crea el directorio "xml" en caso de que no exista.
 		    File f = new File("xml/");
 		  	  if (!f.exists()) {
 		  	    f.mkdirs();
 		  	}
 			
-			marshaller.marshal(listadoProyectos, new File("xml/proyectos.xml"));
 	    } else {
 	    	System.out.println("La lista de proyectos está vacía.");
 	    }

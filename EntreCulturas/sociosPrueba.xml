@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Socios>
-    <socio dni="87654321Q">
+    <Socio dni="87654321Q">
         <nombre>socioPrueba1</nombre>
         <apellidos>Uno</apellidos>
         <telefono>971179179</telefono>
@@ -20,5 +20,26 @@
         <Estado>true</Estado>
         <pass>**</pass>
         <TipoDeCuota>Trimestral</TipoDeCuota>
-    </socio>
+    </Socio>
+    <socios dni="87654321Q">
+        <nombre>socioPrueba1</nombre>
+        <apellidos>Uno</apellidos>
+        <telefono>971179179</telefono>
+        <domicilio>calle socioPrueba 1</domicilio>
+        <fechaInicio>07/04/2020</fechaInicio>
+        <fechaFin>08/05/2020</fechaFin>
+        <sedeAsignada>
+            <correo>correo</correo>
+            <direccion>Direccion</direccion>
+            <idAdmin>AFP1</idAdmin>
+            <numEmpleados>100</numEmpleados>
+            <telefono>971971971</telefono>
+        </sedeAsignada>
+        <cargo>cargo1</cargo>
+        <correo>correo1</correo>
+        <cuota>123.0</cuota>
+        <Estado>true</Estado>
+        <pass>**</pass>
+        <TipoDeCuota>Trimestral</TipoDeCuota>
+    </socios>
 </Socios>

@@ -10,7 +10,6 @@ import org.junit.After;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 
 /*Clase preparada para hacer tests de las impresiones en xml*/
 public class XMLSocioDAOTest {
@@ -45,13 +44,15 @@ public class XMLSocioDAOTest {
 	     */
 	    @Test
 	    public void datosXMLTest() throws JAXBException, FileNotFoundException { // excepciones controladas
-	        ListadoSocios socios = new ListadoSocios(); // creamos una instancia de la clase ListadoSocios ya que es la que imprime XMLSocioDAO
-	        socios.add(socioPrueba1);// añadimos los datos de la prueba.
+	        
+	    	ListadoSocios lsocios = new ListadoSocios(); // creamos una instancia de la clase ListadoSocios ya que es la que imprime XMLSocioDAO
+	        lsocios.getSocios().add(socioPrueba1);// añadimos los datos de la prueba.
+	       
 	        JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class); // jaxbcontext nos ayudará a imprimir los datos si la estructura es correcta.
 	        Marshaller marshaller = jaxbContext.createMarshaller();
 	        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,true);
-	        marshaller.marshal(socios, new File("sociosPrueba.xml")); // imprime los datos en un xml: si no se puede, lanza excepcion.
-	        marshaller.marshal(socios, System.out); // imprime los datos en pantalla.
+	        marshaller.marshal(lsocios, new File("sociosPrueba.xml")); // imprime los datos en un xml: si no se puede, lanza excepcion.
+	        marshaller.marshal(lsocios, System.out); // imprime los datos en pantalla.
 	    }
 	    
 	}

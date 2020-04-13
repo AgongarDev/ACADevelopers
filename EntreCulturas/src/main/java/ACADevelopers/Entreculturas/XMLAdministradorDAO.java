@@ -117,22 +117,25 @@ public class XMLAdministradorDAO implements DAO<Administrador>{
 		System.out.println("El administrador con ID " + a.getDni() + "ha sido eliminado"); 	
 	}
 	@Override
-	public List<Administrador> obtenerTodos() throws JAXBException {
+	public List<Administrador> obtenerTodos() {
 		if (listadoAdministradores.getListadoAdministradores() != null) {
 			System.out.println("La ONG cuenta con " + listadoAdministradores.getListadoAdministradores().size() + " administradores:");
 	    	for (Administrador a : listadoAdministradores.getListadoAdministradores()) {
 	    		System.out.println(a.toString());
 	    	}   	
-	    	JAXBContext context = JAXBContext.newInstance(ListadoAdministradores.class);
-	    	Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
+	    	try {
+	    		JAXBContext context = JAXBContext.newInstance(ListadoAdministradores.class);
+	    		Marshaller marshaller = context.createMarshaller();
+	    		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    		marshaller.marshal(listadoAdministradores, new File("xml/administradores.xml"));
+	    	} catch (JAXBException e) {
+	    		e.printStackTrace();
+	    	}
 		    //Crea el directorio "xml" en caso de que no exista.
 		    File f = new File("xml/");
 		  	  if (!f.exists()) {
 		  	    f.mkdirs();
 		  	}
-			marshaller.marshal(listadoAdministradores, new File("xml/administradores.xml"));
 	    } else {
 	    	System.out.println("La lista de administradores está vacía.");
 	    }

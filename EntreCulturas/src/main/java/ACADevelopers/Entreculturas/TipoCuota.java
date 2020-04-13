@@ -1,5 +1,10 @@
 package ACADevelopers.Entreculturas;
 
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType( name = "TipoDeCuota")
+@XmlEnum
 public enum TipoCuota {
 	TRIM("Trimestral"), 
 	MES("Mensual"), 

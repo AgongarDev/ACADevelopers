@@ -15,7 +15,6 @@ import javax.xml.bind.annotation.XmlType;
  *
  */
 
-@XmlRootElement(name = "socio")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"dni", "nombre", "apellidos", "telefono", "domicilio", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})

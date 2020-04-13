@@ -48,17 +48,16 @@ import org.xml.sax.SAXException;
  */
 public class XMLSocioDAO implements DAO<Socio> {
 	
-	// CAMPOS
+	//CONSTANTES
+	public static final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
+	private static String NL = System.getProperty("line.separator"); // separador de línea multiplataforma
+	private static String RUTAXML = "xml/socios.xml"; // ruta del archivo de persistencia xml
 	
-	private static String RUTAXML = "xml/socios.xml";
-	private static String NL = System.getProperty("line.separator");
-	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	private JAXBContext jaxbContext;
-	private ListadoSocios listadoSocios = new ListadoSocios();
-	
+	// VARIABLES
+	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // buffer de recogida de entrada teclado
+	private ListadoSocios socios = new ListadoSocios();
 	
 	// CONSTRUCTORES
-	
 	/**
 	 * Constructor que crea un nuevo objeto XMLSocioDAO sin inicializar sus campos.
 	 */
@@ -73,7 +72,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 */
 	public XMLSocioDAO(ListadoSocios listadoSocios) {
 		super();
-		this.listadoSocios = listadoSocios;
+		this.socios = listadoSocios;
 	}
 
 	
@@ -84,8 +83,8 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * 
 	 * @return Nos devuelve el listado de socios.
 	 */
-	public ListadoSocios getListadoSocios() {
-		return listadoSocios;
+	public ArrayList<Socio> getSocios() {
+		return (ArrayList<Socio>) socios.getSocios();
 	}
 	/**
 	 * Metodo accesor de escritura que asigna el listado de socios de la ONG.
@@ -93,19 +92,11 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * @param listadoSocios El listado de socios de la ONG.
 	 */
 	public void setListadoSocios(ListadoSocios listadoSocios) {
-		this.listadoSocios = listadoSocios;
+		this.socios = listadoSocios;
 	}
 	
 	// MÉTODOS DE CONTEXTO XML
 
-	/**
-	 * Crea el context JAXB con la estructura ListadoSocios.class con el que trabajar
-	 * @throws JAXBException
-	 */
-	public void creaContextoJAXB() throws JAXBException {
-		jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
-	}
-	
 	/**
 	 * comprueba si el archivo o si tiene información para evitar excepciones de acceso por valores null.
 	 * @param archivo
@@ -116,8 +107,8 @@ public class XMLSocioDAO implements DAO<Socio> {
 			if ((!archivo.createNewFile()) && (archivo.length() != 0)) {
 					return true;
 				} else {
-					System.out.println("...El archivo de socios no existe o no tiene datos");
-					System.out.println("...Se va a crear un nuevo archivo");
+					System.out.println("...El archivo de socios no existe o no tiene datos"+COMENTARIO);
+					System.out.println("...Se va a crear un nuevo archivo"+COMENTARIO);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -132,26 +123,26 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * @param s Objeto socio a persistir.
 	 */
 	@Override
-	public void crearNuevo(Socio s) {
+	public void crearNuevo(Socio socio) {
 		
 		File archivoXML = new File(RUTAXML); // crea el archivo destinado a guardar información de los socios en la carpeta xml.
-		List<Socio> sociosONG = obtenerTodos(); // guardamos en una lista contenedor los datos que obtenemos del archivo o una lista vacía si no existen.
-			
-		try {
-		    	sociosONG.add(s); // añadimos los datos del nuevo socio a la lista contenedor
-		    	this.listadoSocios.setListadoSocios(sociosONG); // añadimos al listadoSocios de la clase, la matriz con los datos de la lista contenedor.
-		    	System.out.println("...Añadido un nuevo socio al listado");
+		obtenerTodos(); // guardamos en una lista contenedor los datos que obtenemos del archivo o una lista vacía si no existen.
+			try {
+		    	this.getSocios().add(socio); // añadimos los datos del nuevo socio a la lista contenedor		    
+		    	System.out.println("...Añadido un nuevo socio al listado"+COMENTARIO);
 				
-				creaContextoJAXB(); // creamos un nuevo contextoJAXB en el que trabajar
+				JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);// creamos el contexto de ListadoSocios
 				Marshaller marshaller = jaxbContext.createMarshaller(); // creamos un marshaller para imprimir los datos de socio
-				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // configuramos que imprima los datos en un fichero con el formato estructurado en las clases Persona, Socio y ListadoSocios.
-				marshaller.marshal(listadoSocios, archivoXML); //imprimimos
 				
-			} catch (JAXBException ex) { //arroja excepción si no encuentra datos que imprimir
+				marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); // configuramos que imprima los datos en un fichero con el formato estructurado en las clases Persona, Socio y ListadoSocios.
+				
+				marshaller.marshal(socios, archivoXML); //imprimimos
+				
+				} catch (JAXBException ex) { //arroja excepción si no encuentra datos que imprimir
 					ex.printStackTrace();
-				}
-
 		System.out.println(NL+"¡Enhorabuena! se ha creado un nuevo socio"); //literalmente, necesitaba leer algo así cuando consiguiera que se imprimiera un socio tras otro.
+		System.out.println(NL+socio.toString());
+		}
 	}
 
 	/**
@@ -163,7 +154,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	//método sin programar
 	@Override
 	public Optional<Socio> obtener(String id) {
-		System.out.println("...Se ha obtenido un socio");
+		System.out.println("...Se ha obtenido un socio"+COMENTARIO);
         //return encontrarTrabajadorPorId(id); 
 		return null;
 	}
@@ -251,29 +242,27 @@ public class XMLSocioDAO implements DAO<Socio> {
 		File archivoXML = new File(RUTAXML);
 		
 		if (archivoLegible(archivoXML)) { //si el archivo existe y tiene datos
-		
+			
 			try {
-				creaContextoJAXB(); // creamos un contexto de JAXB
-				Unmarshaller unmarshaller = jaxbContext.createUnmarshaller(); //creamos un unmarshaller para leer los datos del archivo xml
-				@SuppressWarnings("unchecked")
-				List<Socio> socios = (List<Socio>) unmarshaller.unmarshal(archivoXML); //volcamos los datos formateados en una lista contenedor.
-				this.listadoSocios.setListadoSocios(socios); // asignamos los datos al objeto listadoSocios de la clase 
-				} 
-				catch (JAXBException e) {
+					JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
+					Unmarshaller unmarshaller = jaxbContext.createUnmarshaller(); //creamos un unmarshaller para leer los datos del archivo xml
+					this.socios = (ListadoSocios) unmarshaller.unmarshal(archivoXML); //volcamos los datos formateados en una lista contenedor.
+
+				} catch (JAXBException e) {
 					e.printStackTrace();
-				}
-		
-			if (listadoSocios.getListadoSocios() != null) { // si el listado tiene datos imprimimos una línea con el número de socios
-				System.out.println(NL+"La ONG cuenta con " + listadoSocios.getListadoSocios().size() + " socios:");
-		    	for (Socio s : listadoSocios.getListadoSocios()) { //imprimimos todos los datos de los socios en pantalla
-		    		System.out.println(s.toString());
+				}			
+								
+			if (socios.getSocios() != null) { // si el listado tiene datos imprimimos una línea con el número de socios
+				System.out.println(NL+"La ONG cuenta con " + socios.getSocios().size() + " socios:");
+		    	for (Socio socio : socios.getSocios()) { //imprimimos todos los datos de los socios en pantalla
+		    		System.out.println(socio.toString());
 		    		}
-		    	} 
-			} else { // si no existe el archivo o no tiene datos, devuelve un array vacío para evitar problemas de acceso del tipo null.
-				System.out.println("...La lista de socios está vacía.");
-				return new ArrayList<Socio>();
+			}
+		} else { // si no existe el archivo o no tiene datos, devuelve un array vacío para evitar problemas de acceso del tipo null.
+			System.out.println("...La lista de socios está vacía."+COMENTARIO);
+			return new ArrayList<Socio>();
 		  }
-		return listadoSocios.getListadoSocios();
+		return socios.getSocios();
 	}
 	
  }

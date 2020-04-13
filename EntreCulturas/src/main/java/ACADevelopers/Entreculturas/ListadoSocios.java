@@ -7,8 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
-
 
 /**
  * Esta clase que representa el listado de proyectos que se estan realizando en la ONG.
@@ -19,34 +17,10 @@ import javax.xml.bind.annotation.XmlElements;
  */
 @XmlRootElement(name = "Socios")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-
 public class ListadoSocios {
 	
 	// CAMPOS
-
-	private List<Socio> listadoSocios;
-
-	
-	// CONSTRUCTORES
-	
-	/**
-	 * Constructor que crea un nuevo objeto ListadoProyectos sin inicializar sus campos. 
-	 */
-	
-	public ListadoSocios() {
-		super();
-	}
-
-	/**
-	 *  Constructor que crea un nuevo objeto ListadoProyectos inicializando sus campos.
-	 *  
-	 * @param listadoProyectos El listado de proyectos que se estan realizando en la ONG.
-	 */
-	public ListadoSocios(ArrayList<Socio> listadoSocios) {
-		super();
-		this.listadoSocios = listadoSocios;
-	}
-
+	private List<Socio> listaSocios = new ArrayList<Socio>();
 
 	// METODOS
 	
@@ -55,9 +29,8 @@ public class ListadoSocios {
 	 *socios en la ONG.
 	 * @return nos devuelve el listado de los proyectos que se estan realizando.
 	 */
-	@XmlElement(name = "socio")
-	public List<Socio> getListadoSocios() {
-		return listadoSocios;
+	public List<Socio> getSocios() {
+		return listaSocios;
 	}
 	
 	/**
@@ -65,22 +38,8 @@ public class ListadoSocios {
 	 * 
 	 * @param listadoSocios El listado de los socios.
 	 */
-	public void setListadoSocios(List<Socio> listadoSocios) {
-		this.listadoSocios = listadoSocios;
+	public void setSocios(List<Socio> lsocios) {
+		this.listaSocios = lsocios;
 	}
-	
-	 /**
-     * Este metodo nos permite agregar un socio al listado.
-     * 
-     * @param s socio.
-     */
-    public void add(Socio s) {
-    	
-        if (this.listadoSocios == null) {
-            this.listadoSocios = new ArrayList<Socio>();
-        }
-        this.listadoSocios.add(s);
 
-    }
-	
 }

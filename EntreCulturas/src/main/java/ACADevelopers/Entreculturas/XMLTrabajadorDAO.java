@@ -151,24 +151,28 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * @return Listado con los objetos trabajador persistidos.
 	 */
 	@Override
-	public List<Trabajador> obtenerTodos() throws JAXBException {
+	public List<Trabajador> obtenerTodos() {
 		if (listadoTrabajadores.getListadoTrabajadores() != null) {
 			System.out.println("La ONG cuenta con " + listadoTrabajadores.getListadoTrabajadores().size() + " trabajadores:");
 	    	for (Trabajador t : listadoTrabajadores.getListadoTrabajadores()) {
 	    		System.out.println(t.toString());
 	    	}
+	    	try {
+	    		
+	    		JAXBContext context = JAXBContext.newInstance(ListadoTrabajadores.class);
+	    		Marshaller marshaller = context.createMarshaller();
+	    		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);	
+	    		marshaller.marshal(listadoTrabajadores, new File("xml/trabajadores.xml"));
+	    	}
+	    	catch (JAXBException e) {
+	    		e.printStackTrace();
+	    	}
 	    	
-	    	JAXBContext context = JAXBContext.newInstance(ListadoTrabajadores.class);
-	    	Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			
 		    //Crea el directorio "xml" en caso de que no exista.
 		    File f = new File("xml/");
 		  	  if (!f.exists()) {
 		  	    f.mkdirs();
 		  	}
-			
-			marshaller.marshal(listadoTrabajadores, new File("xml/trabajadores.xml"));
 			
 	    } else {
 	    	System.out.println("La lista de trabajadores está vacía.");

@@ -13,7 +13,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  * Clase que representa cada uno de los socios que forman la ONG
@@ -41,6 +40,7 @@ public class Socio extends Persona implements Usuario {
 	public Socio() {
 		super();
 	}
+	
 	/**
 	 * Constructor que crea un nuevo objeto Socio inicializando sus campos.
 	 * 
@@ -77,6 +77,7 @@ public class Socio extends Persona implements Usuario {
 	public String getPass() {
 		return pass;
 	}
+	
 	/**
 	 * Metodo accesor de lectura que asigna la password del socio.
 	 * 
@@ -85,6 +86,7 @@ public class Socio extends Persona implements Usuario {
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
+	
 	/**
 	 * Metodo accesor de lectura que nos da la aportación que realiza el socio.
 	 * 
@@ -94,6 +96,7 @@ public class Socio extends Persona implements Usuario {
 	public float getCuotaAportacion() {
 		return cuotaAportacion;
 	}
+	
 	/**
 	 * Metodo accesor de lectura que asigna la aportación del socio.
 	 * 
@@ -102,52 +105,53 @@ public class Socio extends Persona implements Usuario {
 	public void setCuotaAportacion(float cuotaAportacion) {
 		this.cuotaAportacion = cuotaAportacion;
 	}
+	
 	/**
 	 * Metodo accesor de lectura que nos da el estado de la aportación que realiza el socio.
 	 * 
 	 * @return Nos devuelve la el estado de la aportación del socio.
 	 */
-    
 	@XmlElement(name = "Estado")
 	public Boolean getEstadoAportacion() {
 		return estadoAportacion;
 	}
+	
      /**
  	 * Metodo accesor de lectura que asigna el estado de la  aportación del socio.
  	 * 
  	 * @param estadoAportacion el estado de La aportacion del socio.
  	 */
-	
 	public void setEstadoAportacion(Boolean estadoAportacion) {
 		this.estadoAportacion = estadoAportacion;
 	}
+	
 	/**
 	 * Metodo accesor de lectura que nos da el tipo de cuota del socio.
 	 * 
 	 * @return Nos devuelve el tipo de cuota del socio.
 	 */
-    
-	@XmlElement(name = "TipoDeCuota")
-	public String getTipoCuota() {
-		return tipoCuota.getTexto();
+	public TipoCuota getTipoCuota() {
+		return tipoCuota;
 	}
+	
      /**
  	 * Metodo accesor de lectura que asigna el tipo de cuota del socio.
  	 * 
  	 * @param tipoCuota el tipo de cuota del socio.
  	 */
-	
 	public void setTipoCuota(TipoCuota tipodecuota) {
 		this.tipoCuota = tipodecuota;
 	}
+	
 	/**
 	 * Metodo accesor de lectura que nos añade un socio.
 	 */
-    
 	public void addSocio(Socio socio) {
 		ListadoSocios.add(socio);
 	}
-		 /* Metodo que genera el menu de acciones que puede realizar el trabajador
+	
+		/**
+		 * Metodo que genera el menu de acciones que puede realizar el trabajador
 		 * en la aplicacion cuando inicia sesion.
 		 */
 		@Override
