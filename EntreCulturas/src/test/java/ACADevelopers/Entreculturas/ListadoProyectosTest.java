@@ -3,6 +3,9 @@ package ACADevelopers.Entreculturas;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+import acadevs.entreculturas.modelo.ListadoProyectos;
+import acadevs.entreculturas.modelo.Proyecto;
+
 import javax.xml.bind.JAXBException;
 
 /* Clase preparada para hacer tests de los métodos de ListadoProyectos*/
