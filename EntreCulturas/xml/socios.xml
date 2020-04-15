@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Socios>
+    <socios dni="11111111R">
+        <nombre>uno</nombre>
+        <apellidos>uno</apellidos>
+        <telefono>000000000</telefono>
+        <fechaInicio></fechaInicio>
+        <cargo></cargo>
+        <correo></correo>
+        <cuota>50.0</cuota>
+        <Estado>false</Estado>
+        <pass>774771</pass>
+        <tipoCuota>ANUAL</tipoCuota>
+    </socios>
+    <socios dni="22222222T">
+        <nombre>dos</nombre>
+        <apellidos>dos</apellidos>
+        <telefono>000000000</telefono>
+        <fechaInicio></fechaInicio>
+        <cargo></cargo>
+        <correo></correo>
+        <cuota>50.0</cuota>
+        <Estado>false</Estado>
+        <pass>713276</pass>
+        <tipoCuota>ANUAL</tipoCuota>
+    </socios>
+    <socios dni="43150101T">
+        <nombre>tres</nombre>
+        <apellidos>tres</apellidos>
+        <telefono>000000000</telefono>
+        <fechaInicio></fechaInicio>
+        <cargo></cargo>
+        <correo></correo>
+        <cuota>50.0</cuota>
+        <Estado>false</Estado>
+        <pass>058261</pass>
+        <tipoCuota>ANUAL</tipoCuota>
+    </socios>
+    <socios dni="43180101Q">
+        <nombre>cuatro</nombre>
+        <apellidos>cuatro</apellidos>
+        <telefono>000000000</telefono>
+        <fechaInicio></fechaInicio>
+        <cargo></cargo>
+        <correo></correo>
+        <cuota>50.0</cuota>
+        <Estado>false</Estado>
+        <pass>138453</pass>
+        <tipoCuota>ANUAL</tipoCuota>
+    </socios>
+    <socios dni="43171120Q">
+        <nombre>cinco</nombre>
+        <apellidos>cinco</apellidos>
+        <telefono>000000000</telefono>
+        <fechaInicio></fechaInicio>
+        <cargo></cargo>
+        <correo></correo>
+        <cuota>50.0</cuota>
+        <Estado>false</Estado>
+        <pass>965971</pass>
+        <tipoCuota>ANUAL</tipoCuota>
+    </socios>
+</Socios>
