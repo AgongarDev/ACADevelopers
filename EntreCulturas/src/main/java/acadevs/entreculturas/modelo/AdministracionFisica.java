@@ -16,7 +16,7 @@ public class AdministracionFisica {
 	public AdministracionFisica () {
 	}
 	
-	public AdministracionFisica (String direccion, int empleados, String correo, int telefono) {
+	public AdministracionFisica (String nombre, String direccion, int telefono, String correo, int empleados) {
 	
 		this.direccion = direccion;
 		
@@ -28,6 +28,14 @@ public class AdministracionFisica {
 	}
 	
 	//getters y setters
+		public Long getIdAdmin() {
+		return idAdmin;
+	}
+
+	public void setIdAdmin(Long idAdmin) {
+		this.idAdmin = idAdmin;	
+	}
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -36,14 +44,6 @@ public class AdministracionFisica {
 		return nombre;
 	}
 	
-	public Long getIdAdmin() {
-		return idAdmin;
-	}
-
-	public void setIdAdmin(Long idAdmin) {
-		this.idAdmin = idAdmin;
-	}
-
 	public String getDireccion() {
 		return direccion;
 	}

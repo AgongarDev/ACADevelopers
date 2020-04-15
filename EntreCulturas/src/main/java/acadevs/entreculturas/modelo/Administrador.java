@@ -56,7 +56,6 @@ public class Administrador extends Persona implements Usuario {
 		super();
 	}
 
-
 	/**
 	 * Constructor que crea un nuevo objeto Administrador inicializando sus campos.
 	 * 
@@ -80,6 +79,7 @@ public class Administrador extends Persona implements Usuario {
 		
 		this.rootPass = pass;
 		}
+	
 	// METODOS
 	
 	/**
@@ -109,6 +109,7 @@ public class Administrador extends Persona implements Usuario {
 	 * @throws XPathExpressionException 
 	 */
 	@Override
+	
 	public void abrirSesion() throws IOException, JAXBException, XPathExpressionException, ParserConfigurationException, SAXException, TransformerException {
 		    	
 		int respuestaOpcion = 0;
@@ -175,7 +176,6 @@ public class Administrador extends Persona implements Usuario {
         }
     
 	}
-	
 	
 	/**
 	 * Metodo que permite al administrador consultar el listado
@@ -448,6 +448,7 @@ public class Administrador extends Persona implements Usuario {
 				break;
 		}
 	}
+	
 	/**
 	 * Metodo que permite al administrador consultar el listado
 	 * de trabajadores de la ONG.
@@ -457,6 +458,7 @@ public class Administrador extends Persona implements Usuario {
 	public void imprimirListadoTrabajadores() throws JAXBException {
 		trabajadorDAO.obtenerTodos();
 	}
+	
 	/**
 	 * Metodo que valida si el numero de telefono introducido es correcto.
 	 * 
@@ -521,7 +523,6 @@ public class Administrador extends Persona implements Usuario {
 	public void consultarProyectos(ArrayList<Proyecto> lp) {
 		
 	}
-
 
 	@Override
 	public void consultarSocios(ArrayList<Socio> ls) {

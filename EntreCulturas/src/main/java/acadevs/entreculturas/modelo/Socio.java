@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -41,11 +42,6 @@ public class Socio extends Persona implements Usuario {
 	
 	private TipoCuota tipoCuota;
 	
-	private ArrayList<Socio> ListadoSocios;
-	
-	private DAOFactory xmlDAOFactory = DAOFactory.getDAOFactory(DAOFactory.XML);
-	
-	private DAO<Socio, Long> socioDAO = (DAO<Socio, Long>) xmlDAOFactory.getSocioDAO();
 	
 	// CONSTRUCTORES
 	
@@ -64,25 +60,33 @@ public class Socio extends Persona implements Usuario {
 	 * @param nombre Atributo que guarda el nombre del socio. 
 	 * @param apellidos Atributo que guarda los apellidos del socio.
 	 * @param telefono Atributo que guarda el número de teléfono del socio.
-	 * @param domicilio Atributo que guarda la dirección donde reside el socio.
-	 * @param fechaInicio Atributo que guarda la fecha de inscripción del socio.
+	 * @param telefono2 Atributo que guarda la dirección donde reside el socio.
+	 * @param fechaIni Atributo que guarda la fecha de inscripción del socio.
 	 * @param fechaFin Atributo que guarda la fecha de baja del socio. 
 	 * @param sedeAsignada Atributo que guarda la sede donde está asignado el socio. 
 	 * @param cargo Atributo que guarda el cargo del socio. 
 	 * @param correo Atributo que guarda la dirección e-mail del socio.
 	 * @param cuotaAportación Atributo que guarda la cuota de aportación del socio.
 	 * @param estadoAportación Atributo que guarda el estado de aportación del socio. 
-	 * @param tipoCuota Atributo que guarda el tipo de cuota del socio.     
-	 * @param pass  Atributo que guarda la contraseña del socio.  
+	 * @param pass2 Atributo que guarda el tipo de cuota del socio.     
+	 * @param tipoCuota2  Atributo que guarda la contraseña del socio.  
 	 */
-	public Socio(String dni, String nombre, String apellidos, String telefono, String domicilio, String fechaInicio,
-			String fechaFin, AdministracionFisica sedeAsignada, String cargo, String correo, float cuotaAportacion, boolean estadoAportacion, TipoCuota tipoCuota, String pass) 
+	public Socio(String dni, String nombre, String apellidos, String direccion, Integer telefono, Date fechaIni,
+			Date fechaFin, String cargo, String correo, float cuotaAportacion, boolean estadoAportacion, String pass, TipoCuota tipoCuota, Long sede) 
 	{
-		super(dni, nombre, apellidos, telefono, domicilio, fechaInicio, fechaFin, sedeAsignada, cargo, correo);
+		super(dni, nombre, apellidos, direccion, telefono, fechaIni, fechaFin, sede, cargo, correo);
 		this.cuotaAportacion = cuotaAportacion;
 		this.estadoAportacion = estadoAportacion;
 		this.tipoCuota = tipoCuota;
 		this.pass = pass;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	/**
@@ -159,12 +163,6 @@ public class Socio extends Persona implements Usuario {
 		this.tipoCuota = tipodecuota;
 	}
 	
-	/**
-	 * Metodo accesor de lectura que nos añade un socio.
-	 */
-	public void addSocio(Socio socio) {
-		ListadoSocios.add(socio);
-	}
 	
 		/**
 		 * Metodo que genera el menu de acciones que puede realizar el trabajador
@@ -244,15 +242,6 @@ public class Socio extends Persona implements Usuario {
 			return this.nombre + " " + this.apellidos + " (ID empleado - " + this.dni + ")";
 		}
 
-		/**
-		 * Metodo que permite al empleado consultar el listado de socios.
-		 * 
-		 * @throws JAXBException si se produce una excepción de tipo JAXB.
-		 */
-		
-		public void imprimirListadoSocios() throws JAXBException {
-			socioDAO.obtenerTodos();
-		}
 
 		/**
 		 * Metodo que permite al empleado introducir por consola los

@@ -1,5 +1,7 @@
 package acadevs.entreculturas.modelo;
 
+import java.time.LocalDate;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -7,6 +9,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
+
+import java.util.Date;
 
 /**
  * 
@@ -26,11 +30,11 @@ public abstract class Persona {
 	    protected String dni;
 		protected String nombre;
 		protected String apellidos;
-		protected String telefono;
+		protected int telefono;
 		protected String domicilio;
-		protected String fechaInicio;
-		protected String fechaFin;
-		protected AdministracionFisica sedeAsignada;
+		protected Date fechaInicio;
+		protected Date fechaFin;
+		protected Long sedeAsignada;
 		protected String cargo;
 		protected String correo;
 		
@@ -60,20 +64,22 @@ public abstract class Persona {
 		 * @param correo Atributo que guarda el correo electronico de la persona.
 		 * 
 		 */
-		public Persona(String dni, String nombre, String apellidos, String telefono,
-			       String domicilio, String fechaInicio, String fechaFin, AdministracionFisica sedeAsignada, 
-			       String cargo, String correo) {
-		this.dni = dni;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.telefono = telefono;
-		this.domicilio = domicilio;
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
-		this.sedeAsignada = sedeAsignada;
-		this.cargo = cargo;
-		this.correo = correo;
-	}
+		public Persona(String dni, String nombre, String apellidos, String direccion, Integer telefono,
+				Date fechaIni, Date fechaFin, Long sede, String cargo, String correo) {
+			
+			this.dni = dni;
+			this.nombre = nombre;
+			this.apellidos = apellidos;
+			this.telefono = telefono;
+			this.domicilio = domicilio;
+			this.fechaInicio = fechaInicio;
+			this.fechaFin = fechaFin;
+			this.sedeAsignada = sedeAsignada;
+			this.cargo = cargo;
+			this.correo = correo;
+		}
+
+	
 		// METODOS
 		/**
 		 * Metodo de lectura que da el dni de la persona
@@ -138,7 +144,7 @@ public abstract class Persona {
 		 * @return devuelve el telefono de la persona
 		 */
 		@XmlElement(name = "telefono")
-		public String getTelefono() {
+		public int getTelefono() {
 			return telefono;
 		}
 
@@ -147,7 +153,7 @@ public abstract class Persona {
 		 * 
 		 * @param telefono
 		 */
-		public void setTelefono(String telefono) {
+		public void setTelefono(int telefono) {
 			this.telefono = telefono;
 		}
 
@@ -176,7 +182,7 @@ public abstract class Persona {
 		 * @return devuelve la fecha de inicio
 		 */
 		@XmlElement(name = "fechaInicio")
-		public String getFechaInicio() {
+		public Date getFechaInicio() {
 			return fechaInicio;
 		}
 
@@ -185,7 +191,7 @@ public abstract class Persona {
 		 * 
 		 * @param fechaInicio
 		 */
-		public void setFechaInicio(String fechaInicio) {
+		public void setFechaInicio(Date fechaInicio) {
 			this.fechaInicio = fechaInicio;
 		}
 		
@@ -195,7 +201,7 @@ public abstract class Persona {
 		 * @return devuelve la fecha fin
 		 */
 		@XmlElement(name = "fechaFin")
-		public String getFechaFin() {
+		public Date getFechaFin() {
 			return fechaFin;
 		}
 
@@ -204,7 +210,7 @@ public abstract class Persona {
 		 * 
 		 * @param fechaFin
 		 */
-		public void setFechaFin(String fechaFin) {
+		public void setFechaFin(Date fechaFin) {
 			this.fechaFin = fechaFin;
 		}
 		
@@ -214,7 +220,7 @@ public abstract class Persona {
 		 * @return devuelve la sede asignada
 		 */
 		@XmlElement(name = "sedeAsignada")
-		public AdministracionFisica getSedeAsignada() {
+		public Long getSedeAsignada() {
 			return sedeAsignada;
 		}
 
@@ -223,7 +229,7 @@ public abstract class Persona {
 		 * 
 		 * @param sedeAsignada
 		 */
-		public void setSedeAsignada(AdministracionFisica sede) {
+		public void setSedeAsignada(Long sede) {
 			this.sedeAsignada = sede;
 		}
 		

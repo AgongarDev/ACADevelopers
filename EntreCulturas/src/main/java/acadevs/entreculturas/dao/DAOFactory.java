@@ -1,10 +1,9 @@
 package acadevs.entreculturas.dao;
 
-import acadevs.entreculturas.dao.mysql.SQLDAOFactory;
+import java.sql.SQLException;
+
+import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
 import acadevs.entreculturas.dao.xml.XMLDAOFactory;
-import acadevs.entreculturas.modelo.Proyecto;
-import acadevs.entreculturas.modelo.Socio;
-import acadevs.entreculturas.modelo.Trabajador;
 
 /**
  * Clase abstracta que permite seleccionar la factoria con la que queremos
@@ -16,23 +15,29 @@ import acadevs.entreculturas.modelo.Trabajador;
  */
 public abstract class DAOFactory {
 	
-	// Lista de tipos DAO soportado por la factoria.
-	public static final int XML = 1;
-	public static final int SQL = 2;
+	/* Lista de tipos DAO soportado por la factoria.
+	 * 1 XML
+	 * 2 SQL
+	 * Hay un metodo para cada DAO que puede ser creado.
+	 */
+	public abstract SocioDAO getSocioDAO();
+	
+	public abstract AdministracionFisicaDAO getAdministracionFisicaDAO();
 
-	// Hay un metodo para cada DAO que puede ser creado.
-	// Las factorias tendran que implementar estos metodos.
-	public abstract DAO<Trabajador, Long> getTrabajadorDAO();
-	public abstract DAO<Socio, Long> getSocioDAO();
-	public abstract DAO<Proyecto, String> getProyectoDAO();
-
-	public static DAOFactory getDAOFactory(int whichFactory) {
+	public static DAOFactory getDAOFactory(int whichFactory) throws DAOException {
 		
 		switch (whichFactory) {
+			
 			case 1: 
 				return new XMLDAOFactory();
+				
 	        case 2: 
-	            return new SQLDAOFactory();
+	        	try {
+	        		  return new MySQLDAOFactory("localhost", "3306", "entreculturasdB_v1", "root", "321998");	
+	        	} catch (SQLException e ) {
+	        		throw new DAOException("Error al crear el acceso DAO de MySQL", e);
+	        	}
+	         
 	        default: 
 	            return null;
 	    }
