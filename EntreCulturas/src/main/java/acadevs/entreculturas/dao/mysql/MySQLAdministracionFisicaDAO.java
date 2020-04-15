@@ -18,7 +18,7 @@ public class MySQLAdministracionFisicaDAO implements AdministracionFisicaDAO {
 	final String UPDATE = "update administraciones set nombre = ?, direccion = ?, telefono = ?, correo = ?, num_empleados = ? where id_sede = ?";
 	final String DELETE = "delete from administraciones where id_sede = ?";
 	final String GETALL = "select * from administraciones";
-	final String GETADMIN = "select * from administraciones where id_sede = ?";
+	final String GETUNO = "select * from administraciones where id_sede = ?";
 
 //CONEXIÓN
 	private Connection conexion;
@@ -171,7 +171,7 @@ public class MySQLAdministracionFisicaDAO implements AdministracionFisicaDAO {
 		AdministracionFisica sede = null;
 		
 		try {
-			stat = conexion.prepareStatement(GETADMIN);
+			stat = conexion.prepareStatement(GETUNO);
 			stat.setLong(1, id);
 			rs = stat.executeQuery();
 			if (rs.next()) {

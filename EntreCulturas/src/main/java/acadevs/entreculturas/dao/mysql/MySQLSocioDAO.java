@@ -20,10 +20,11 @@ public class MySQLSocioDAO implements SocioDAO {
 //SENTENCIAS MYSQL
 	final String INSERT = "insert into socios (dni, nombre, apellido, direccion, telefono, fecha_inicio, fecha_fin, cargo, correo, cuota, estado, pass, tipo_cuota, sede) "
 			+ "values (?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?, ?, ?, ?)";
-	final String UPDATE = "update socios set ? = ? where id_socio = ?";
+	final String UPDATE = "update socios set dni = ?, nombre = ?, apellido = ?, direccion = ?, telefono = ?, fecha_inicio = ?, fecha_fin = ?, cargo = ?, correo = ?, "
+			+ "cuota = ?, estado = ?, pass = ?, tipo_cuota = ?, sede = ? where id_socio = ?";
 	final String DELETE = "delete from socios where id_socio = ?";
 	final String GETALL = "select * from socios";
-	final String GETADMIN = "select * from socios where id_socio = ?";
+	final String GETUNO = "select * from socios where id_socio = ?";
 
 //CONEXIÓN
 		private Connection conexion;
@@ -103,22 +104,25 @@ public class MySQLSocioDAO implements SocioDAO {
 			stat.setDate(7, (java.sql.Date) t.getFechaFin());
 			stat.setString(8,  t.getCargo());
 			stat.setString(9, t.getCorreo());
-			
-			
+			stat.setFloat(10,  t.getCuotaAportacion());
+			stat.setBoolean(11, t.getEstadoAportacion());
+			stat.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
+			stat.setString(13, t.getTipoCuota().getTexto());
+			stat.setLong(14, t.getSedeAsignada());
 			
 			if (stat.executeUpdate() == 0) {
-				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Administraciones");
+				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Socios");
 			}
 			
 			rs = stat.getGeneratedKeys();
 			
 			if (rs.next()) {
-				t.setIdAdmin(rs.getLong(1));
+				t.setId(rs.getLong(1));
 			} else {
-				throw new DAOException("Hubo algún problema para recuperar el ID de la administración");
+				throw new DAOException("Hubo algún problema para recuperar el ID del socio");
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error al intentar guardar datos en la tabla Administraciones", e);
+			throw new DAOException("Error al intentar guardar datos en la tabla Socios", e);
 		} finally {
 			cierraRs(rs);
 			cierraStat(stat);
@@ -127,19 +131,99 @@ public class MySQLSocioDAO implements SocioDAO {
 
 	@Override
 	public Socio obtener(Long id) throws DAOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void actualizar(Socio t) throws DAOException {
-		// TODO Auto-generated method stub
 		
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		Socio socio = null;
+		
+		try {
+			stat = conexion.prepareStatement(GETUNO);
+			stat.setLong(1, id);
+			rs = stat.executeQuery();
+			if (rs.next()) {
+				socio = convertir(rs);
+			} else {
+				throw new DAOException("No se ha encontrado este registro");
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error al acceder al registro de Socios", e);
+		} finally {
+			cierraRs(rs);
+			cierraStat(stat);
+		}
+		return socio;
 	}
 
+	
+	@Override	
+	public void actualizar(Socio t) throws DAOException {
+		
+		/*La actualización se hará en otra clase para mantener ésta únicamente como enlace de accesoa la base de datos.*/
+		PreparedStatement stat = null;
+		
+		try {
+			stat = conexion.prepareStatement(UPDATE);
+			stat.setString(1,  t.getDni());
+			stat.setString(2, t.getNombre());
+			stat.setString(3, t.getApellidos());
+			stat.setString(4, t.getDomicilio());
+			stat.setInt(5, t.getTelefono());
+			stat.setDate(6, (java.sql.Date) t.getFechaInicio());
+			stat.setDate(7, (java.sql.Date) t.getFechaFin());
+			stat.setString(8,  t.getCargo());
+			stat.setString(9, t.getCorreo());
+			stat.setFloat(10,  t.getCuotaAportacion());
+			stat.setBoolean(11, t.getEstadoAportacion());
+			stat.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
+			stat.setString(13, t.getTipoCuota().getTexto());
+			stat.setLong(14, t.getSedeAsignada());
+			
+		} catch (SQLException e) {
+			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
+		} finally {
+			cierraStat(stat);
+		}
+	}
+
+	
 	@Override
 	public void borrar(Socio t) throws DAOException {
-		// TODO Auto-generated method stub
+		PreparedStatement stat = null;
 		
+		try {
+			stat = conexion.prepareStatement(DELETE);
+			stat.setLong(1, t.getId());
+			
+			if (stat.executeUpdate() == 0) {
+				throw new DAOException("No se ha encontrado este registro");
+			};
+		} catch (SQLException e) {
+			throw new DAOException("Error al acceder al registro de Socios", e);
+		} finally {
+			cierraStat(stat);
+		}
+	}
+
+	
+	@Override
+	public List<Socio> obtenerTodos() throws DAOException {
+		
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		List<Socio> socios = new ArrayList<>();
+		
+		try {
+			stat = conexion.prepareStatement(GETALL);
+			rs = stat.executeQuery();
+			while (rs.next()) {
+				socios.add(convertir(rs));
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error al acceder al registro de Socios", e);
+		} finally {
+			cierraRs(rs);
+			cierraStat(stat);
+		}
+		return socios;
 	}
 }
