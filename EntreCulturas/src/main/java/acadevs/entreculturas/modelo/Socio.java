@@ -30,7 +30,7 @@ import acadevs.entreculturas.soporte.TipoCuota;
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 public class Socio extends Persona implements Usuario {
     
-	// ATRIBUTOS DEL MODELO
+// ATRIBUTOS DEL MODELO
 	
 	private Long id = null;
 	
@@ -42,13 +42,11 @@ public class Socio extends Persona implements Usuario {
 	
 	private TipoCuota tipoCuota;
 	
-	
 	// CONSTRUCTORES
 	
-		/**
-		 * Constructor que crea un nuevo objeto Socio sin iniciar sus campos.
-		 */
-	
+	/**
+	* Constructor que crea un nuevo objeto Socio sin iniciar sus campos.
+	*/
 	public Socio() {
 		super();
 	}
@@ -163,16 +161,15 @@ public class Socio extends Persona implements Usuario {
 		this.tipoCuota = tipodecuota;
 	}
 	
-	
-		/**
-		 * Metodo que genera el menu de acciones que puede realizar el trabajador
-		 * en la aplicacion cuando inicia sesion.
-		 */
-		@Override
-		public void abrirSesion() throws IOException, JAXBException {
+	/**
+	 * Metodo que genera el menu de acciones que puede realizar el trabajador
+	 * en la aplicacion cuando inicia sesion.
+	 */
+	@Override
+	public void abrirSesion() throws IOException, JAXBException {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 			int respuestaOpcion = 0;
-			Integer[] opcionesValidas = {1, 2, 3};
+			Integer[] opcionesValidas = {0, 1, 2};
 			String respuestaNuevaAccion;
 
 			System.out.println("\n**********************");
@@ -182,9 +179,9 @@ public class Socio extends Persona implements Usuario {
 			do {
 
 				System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
-				System.out.println("1 - Dar de alta un socio");
-				System.out.println("2 - Imprimir listado de socios");
-				System.out.println("3 - Salir");
+				System.out.println("1 - Modificar los datos de socio");
+				System.out.println("3 - Ver proyectos de la ONG");
+				System.out.println("0 - Salir");
 
 				try {
 					respuestaOpcion = Integer.parseInt(br.readLine());
@@ -217,7 +214,6 @@ public class Socio extends Persona implements Usuario {
 				break;
 
 			case 2:
-				imprimirListadoSocios();
 				abrirSesion();
 
 				break;
@@ -231,80 +227,74 @@ public class Socio extends Persona implements Usuario {
 			}
 
 		}
+	/**
+	 * Crea una cadena de caracteres con los datos del trabajador.
+	 * 
+	 * @return Cadena con los datos del trabajador.
+	 */
+	public String toString() {
+		return this.nombre + " " + this.apellidos + " (ID empleado - " + this.dni + ")";
+	}
+	/**
+	* Metodo que permite al empleado introducir por consola los
+	* datos de alta de un nuevo socio.
+	* 
+	* @throws IOException si se produce un error de entrada/salida.
+	* @throws JAXBException si se produce una excepción de tipo JAXB.
+	*/
+	private void darAltaSocio() throws IOException, JAXBException {
+		Socio nuevoSocio = new Socio();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("\nIntroduce el nombre del socio: ");
+		nuevoSocio.setNombre(br.readLine());
+		System.out.println("\nIntroduce los apellidos del socio: ");
+		nuevoSocio.setApellidos(br.readLine());
+		System.out.println("\nIntroduce el dni del socio: ");
+		try {
+	       	String dni = br.readLine();
+	       	validarDni(dni);
+	    	nuevoSocio.setDni(dni);
+		} catch (TelefonoNoValidoException e) {
+	        System.out.println("Dni no válido, podrá modificarlo más adelante"); 
+	    	nuevoSocio.setDni("000000000");
+	      }
+		System.out.println("\nIntroduce el email del socio: ");
+		nuevoSocio.setCorreo(br.readLine());
+		System.out.println("\nIntroduce el teléfono del socio: ");
+	    try {
+	        String numero = br.readLine();
+	        validarNumeroTelefono(numero);
+	        nuevoSocio.setTelefono(numero);
+	    } catch (TelefonoNoValidoException e) {
+	        System.out.println("Número no válido, podrá modificarlo más adelante"); 
+	        nuevoSocio.setTelefono("000000000");
+	      }
+	    System.out.println("\nIntroduce fecha de inscripción del socio: ");
+		nuevoSocio.setFechaInicio(br.readLine());
+		System.out.println("\nIntroduce fecha de fin de inscrpción del socio: ");
+		nuevoSocio.setFechaInicio(br.readLine());
 
-		/**
-		 * Crea una cadena de caracteres con los datos del trabajador.
-		 * 
-		 * @return Cadena con los datos del trabajador.
-		 */
-		@Override
-		public String toString() {
-			return this.nombre + " " + this.apellidos + " (ID empleado - " + this.dni + ")";
-		}
-
-
-		/**
-		 * Metodo que permite al empleado introducir por consola los
-		 * datos de alta de un nuevo socio.
-		 * 
-		 * @throws IOException si se produce un error de entrada/salida.
-		 * @throws JAXBException si se produce una excepción de tipo JAXB.
-		 */
-		
-		private void darAltaSocio() throws IOException, JAXBException {
-			Socio nuevoSocio = new Socio();
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("\nIntroduce el nombre del socio: ");
-			nuevoSocio.setNombre(br.readLine());
-			System.out.println("\nIntroduce los apellidos del socio: ");
-			nuevoSocio.setApellidos(br.readLine());
-			System.out.println("\nIntroduce el dni del socio: ");
-			try {
-	        	String dni = br.readLine();
-	        	validarDni(dni);
-	    		nuevoSocio.setDni(dni);
-	        } catch (TelefonoNoValidoException e) {
-	        	System.out.println("Dni no válido, podrá modificarlo más adelante"); 
-	    		nuevoSocio.setDni("000000000");
-	        }
-			System.out.println("\nIntroduce el email del socio: ");
-			nuevoSocio.setCorreo(br.readLine());
-			System.out.println("\nIntroduce el teléfono del socio: ");
-	        try {
-	        	String numero = br.readLine();
-	        	validarNumeroTelefono(numero);
-	        	nuevoSocio.setTelefono(numero);
-	        } catch (TelefonoNoValidoException e) {
-	        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
-	        	nuevoSocio.setTelefono("000000000");
-	        }
-	        System.out.println("\nIntroduce fecha de inscripción del socio: ");
-			nuevoSocio.setFechaInicio(br.readLine());
-			System.out.println("\nIntroduce fecha de fin de inscrpción del socio: ");
-			nuevoSocio.setFechaInicio(br.readLine());
-			/*
-			 * Bloque sede asignada
-			 */
-			System.out.println("\nIntroduce el id de la sede asignada: ");
-			nuevoSocio.sedeAsignada.setIdAdmin(br.readLine());
-			System.out.println("\nIntroduce la dirección de la sede asignada: ");
-			nuevoSocio.sedeAsignada.setDireccion(br.readLine());
+	//Bloque para sede Asignada
+		System.out.println("\nIntroduce el id de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setIdAdmin(br.readLine());
+		System.out.println("\nIntroduce la dirección de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setDireccion(br.readLine());
 			
-			System.out.println("\nIntroduce la numero empleados de la sede asignada: ");
-			nuevoSocio.sedeAsignada.setNumEmpleados(br.read());
+		System.out.println("\nIntroduce la numero empleados de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setNumEmpleados(br.read());
 			
-			System.out.println("\nIntroduce e-mail de la sede asignada: ");
-			nuevoSocio.sedeAsignada.setCorreo(br.readLine());
+		System.out.println("\nIntroduce e-mail de la sede asignada: ");
+		nuevoSocio.sedeAsignada.setCorreo(br.readLine());
 			
-			System.out.println("\nIntroduce el teléfono de la sede asignada: ");
-	        try {
-	        	String numero = br.readLine();
-	        	validarNumeroTelefono(numero);
-	    		nuevoSocio.sedeAsignada.setTelefono(numero);
-	        } catch (TelefonoNoValidoException e) {
-	        	System.out.println("Número no válido, podrá modificarlo más adelante"); 
-	    		nuevoSocio.sedeAsignada.setTelefono("000000000");
-	        }
+		System.out.println("\nIntroduce el teléfono de la sede asignada: ");
+	    try {
+	      	String numero = br.readLine();
+	       	validarNumeroTelefono(numero);
+	   		nuevoSocio.sedeAsignada.setTelefono(numero);
+	    } catch (TelefonoNoValidoException e) {
+	       	System.out.println("Número no válido, podrá modificarlo más adelante"); 
+	   		nuevoSocio.sedeAsignada.setTelefono("000000000");
+	      }
 	        /*
 			 * Fin Bloque sede asignada
 			 */
