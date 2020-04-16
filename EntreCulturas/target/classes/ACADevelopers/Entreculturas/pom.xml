@@ -4,11 +4,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ana</groupId>
-  <artifactId>EntreCulturas</artifactId>
+  <groupId>ACADevelopers</groupId>
+  <artifactId>Entreculturas</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
-  <name>EntreCulturas</name>
+  <name>Entreculturas</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -25,29 +25,20 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
-   <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx</artifactId>
-    <version>11</version>
-    <type>pom</type>
-   </dependency>
-    <dependency> 
-    <groupId>javax.xml.bind</groupId> <artifactId>jaxb-api</artifactId> 
-    <version>2.4.0-b180830.0359</version> 
-    </dependency> 
-    <dependency>
-    <groupId>com.sun.xml.bind</groupId>
-    <artifactId>jaxb-impl</artifactId>
-    <version>2.4.0-b180830.0438</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.mysql.jdbc/org.motechproject.com.mysql.jdbc -->
+    	<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
 	<dependency>
-    <groupId>com.mysql.jdbc</groupId>
-    <artifactId>org.motechproject.com.mysql.jdbc</artifactId>
-    <version>5.1.32-r028</version>
+    	<groupId>javax.xml.bind</groupId>
+    	<artifactId>jaxb-api</artifactId>
+    	<version>2.4.0-b180830.0359</version>
 	</dependency>
-    
+
+	
+	<!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+	<dependency>
+   		<groupId>org.glassfish.jaxb</groupId>
+    	<artifactId>jaxb-runtime</artifactId>
+    	<version>2.4.0-b180830.0438</version>
+	</dependency>
   </dependencies>
 
   <build>
