@@ -2,7 +2,7 @@ package acadevs.entreculturas.modelo;
 
 import java.util.Date;
 
-import acadevs.entreculturas.soporte.TipoSubvencion;
+import acadevs.entreculturas.enums.TipoSubvencion;
 
 public class Subvencion {
 

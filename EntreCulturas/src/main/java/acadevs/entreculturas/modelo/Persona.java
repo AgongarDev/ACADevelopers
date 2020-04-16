@@ -1,12 +1,9 @@
 package acadevs.entreculturas.modelo;
 
-import java.time.LocalDate;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
@@ -34,7 +31,7 @@ public abstract class Persona {
 		protected String domicilio;
 		protected Date fechaInicio;
 		protected Date fechaFin;
-		protected Long sedeAsignada;
+		private AdministracionFisica sedeAsignada;
 		protected String cargo;
 		protected String correo;
 		
@@ -64,17 +61,17 @@ public abstract class Persona {
 		 * @param correo Atributo que guarda el correo electronico de la persona.
 		 * 
 		 */
-		public Persona(String dni, String nombre, String apellidos, String direccion, Integer telefono,
-				Date fechaIni, Date fechaFin, Long sede, String cargo, String correo) {
+		public Persona(String dni, String nombre, String apellidos, String direccion, int telefono,
+				Date fechaIni, Date fechaFin, AdministracionFisica sede, String cargo, String correo) {
 			
 			this.dni = dni;
 			this.nombre = nombre;
 			this.apellidos = apellidos;
 			this.telefono = telefono;
-			this.domicilio = domicilio;
-			this.fechaInicio = fechaInicio;
+			this.domicilio = direccion;
+			this.fechaInicio = fechaIni;
 			this.fechaFin = fechaFin;
-			this.sedeAsignada = sedeAsignada;
+			this.setSedeAsignada(sede);
 			this.cargo = cargo;
 			this.correo = correo;
 		}
@@ -220,17 +217,8 @@ public abstract class Persona {
 		 * @return devuelve la sede asignada
 		 */
 		@XmlElement(name = "sedeAsignada")
-		public Long getSedeAsignada() {
+		public AdministracionFisica getSedeAsignada() {
 			return sedeAsignada;
-		}
-
-		/**
-		 * Metodo de escritura que guarda la sede en la que se encuentra una persona
-		 * 
-		 * @param sedeAsignada
-		 */
-		public void setSedeAsignada(Long sede) {
-			this.sedeAsignada = sede;
 		}
 		
 		/**
@@ -269,6 +257,15 @@ public abstract class Persona {
 		 */
 		public void setCorreo(String correo) {
 			this.correo = correo;
+		}
+		
+		/**
+		 * Metodo de escritura que guarda la sede en la que se encuentra una persona
+		 * 
+		 * @param sedeAsignada
+		 */
+		public void setSedeAsignada(AdministracionFisica sedeAsignada) {
+			this.sedeAsignada = sedeAsignada;
 		}
 								
 }

@@ -8,7 +8,7 @@ package acadevs.entreculturas.modelo;
  * @version 1.0
  *
  */
-public class TelefonoNoValidoException extends RuntimeException {
+public class ViewException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -17,8 +17,12 @@ public class TelefonoNoValidoException extends RuntimeException {
 	 * 
 	 * @param msj Mensaje de error.
 	 */
-	public TelefonoNoValidoException(String msj) {
+	public ViewException (String msj) {
         super(msj);
     }
+
+	public ViewException(String arg0, Throwable arg1) {
+		super(arg0, arg1);
+	}
 
 }

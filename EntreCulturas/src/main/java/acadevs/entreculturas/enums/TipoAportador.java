@@ -1,4 +1,4 @@
-package acadevs.entreculturas.soporte;
+package acadevs.entreculturas.enums;
 
 public enum TipoAportador {
 	INST("Instituci�n"), 

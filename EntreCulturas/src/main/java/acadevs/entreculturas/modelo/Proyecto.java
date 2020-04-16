@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import acadevs.entreculturas.soporte.LineaDeAccion;
+import acadevs.entreculturas.enums.LineaDeAccion;
 
 /**
  * Clase que representa cada uno de los proyectos que forman la ONG

@@ -4,18 +4,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import acadevs.entreculturas.dao.DAOException;
-import acadevs.entreculturas.dao.SocioDAO;
+import acadevs.entreculturas.dao.DAOFactory;
+import acadevs.entreculturas.dao.ISocioDAO;
+import acadevs.entreculturas.enums.TipoCuota;
 import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.Socio;
-import acadevs.entreculturas.soporte.TipoCuota;
 
-public class MySQLSocioDAO implements SocioDAO {
+public class MySQLSocioDAO implements ISocioDAO {
 
 //SENTENCIAS MYSQL
 	final String INSERT = "insert into socios (dni, nombre, apellido, direccion, telefono, fecha_inicio, fecha_fin, cargo, correo, cuota, estado, pass, tipo_cuota, sede) "
@@ -59,7 +59,7 @@ public class MySQLSocioDAO implements SocioDAO {
 		}
 
 //MÉTODOS DE UTILIDAD
-		private Socio convertir(ResultSet rs) throws SQLException {
+		private Socio convertir(ResultSet rs) throws SQLException, DAOException {
 			
 			String dni = rs.getString("dni");
 			String nombre = rs.getString("nombre");
@@ -74,12 +74,17 @@ public class MySQLSocioDAO implements SocioDAO {
 			boolean estado = rs.getBoolean("estado");
 			String pass = rs.getString("pass");
 			TipoCuota tipoCuota = TipoCuota.valueOf(rs.getString("tipo_cuota"));
-			Long sede = rs.getLong("sede");
 			
+			MySQLDAOFactory mysqlF = (MySQLDAOFactory) DAOFactory.getDAOFactory("MySQL");
+ 	   		MySQLAdministracionFisicaDAO administraciones = mysqlF.getAdministracionFisicaDAO();
+			
+			AdministracionFisica sede = administraciones.obtener(rs.getLong("sede")); 
+			
+			mysqlF.cerrar();
 			
 			Socio socio = new Socio (dni, nombre, apellido, direccion, telefono, fechaIni, fechaFin, cargo, correo, cuota, estado, pass, tipoCuota, sede);
 			
-			socio.setId(rs.getLong("id_sede"));
+			socio.setId(rs.getLong("id_socio"));
 			
 		return socio;
 		
@@ -108,7 +113,7 @@ public class MySQLSocioDAO implements SocioDAO {
 			stat.setBoolean(11, t.getEstadoAportacion());
 			stat.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
 			stat.setString(13, t.getTipoCuota().getTexto());
-			stat.setLong(14, t.getSedeAsignada());
+			stat.setLong(14, t.getSedeAsignada().getIdAdmin());
 			
 			if (stat.executeUpdate() == 0) {
 				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Socios");
@@ -126,11 +131,12 @@ public class MySQLSocioDAO implements SocioDAO {
 		} finally {
 			cierraRs(rs);
 			cierraStat(stat);
+			System.out.println("Se ha insertado el socio "+t.getNombre()+" "+t.getApellidos()+" a la base de datos.");
 		}
 	}
 
 	@Override
-	public Socio obtener(Long id) throws DAOException {
+	public Socio obtener(String id) throws DAOException {
 		
 		PreparedStatement stat = null;
 		ResultSet rs = null;
@@ -138,7 +144,7 @@ public class MySQLSocioDAO implements SocioDAO {
 		
 		try {
 			stat = conexion.prepareStatement(GETUNO);
-			stat.setLong(1, id);
+			stat.setString(1, id);
 			rs = stat.executeQuery();
 			if (rs.next()) {
 				socio = convertir(rs);
@@ -176,12 +182,13 @@ public class MySQLSocioDAO implements SocioDAO {
 			stat.setBoolean(11, t.getEstadoAportacion());
 			stat.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
 			stat.setString(13, t.getTipoCuota().getTexto());
-			stat.setLong(14, t.getSedeAsignada());
+			stat.setLong(14, t.getSedeAsignada().getIdAdmin());
 			
 		} catch (SQLException e) {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
 		} finally {
 			cierraStat(stat);
+			System.out.println("Datos del socio "+t.getNombre()+" "+t.getApellidos()+" actualizados.");
 		}
 	}
 
@@ -201,6 +208,7 @@ public class MySQLSocioDAO implements SocioDAO {
 			throw new DAOException("Error al acceder al registro de Socios", e);
 		} finally {
 			cierraStat(stat);
+			System.out.println("El socio "+t.getNombre()+" "+t.getApellidos()+" ha sido eliminado de la base de datos.");
 		}
 	}
 

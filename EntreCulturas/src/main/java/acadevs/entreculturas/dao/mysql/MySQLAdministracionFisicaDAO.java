@@ -7,18 +7,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import acadevs.entreculturas.dao.AdministracionFisicaDAO;
 import acadevs.entreculturas.modelo.AdministracionFisica;
-import acadevs.entreculturas.dao.DAOException;
 
-public class MySQLAdministracionFisicaDAO implements AdministracionFisicaDAO {
+import acadevs.entreculturas.dao.DAOException;
+import acadevs.entreculturas.dao.IAdministracionFisicaDAO;
+
+public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 
 //SENTENCIAS MYSQL
 	final String INSERT = "insert into administraciones (nombre, direccion, telefono, correo, num_empleados) values (?, ?, ?, ?, ?)";
 	final String UPDATE = "update administraciones set nombre = ?, direccion = ?, telefono = ?, correo = ?, num_empleados = ? where id_sede = ?";
 	final String DELETE = "delete from administraciones where id_sede = ?";
 	final String GETALL = "select * from administraciones";
-	final String GETUNO = "select * from administraciones where id_sede = ?";
+	final String GETUNO = "select * from administraciones where nombre = ?";
 
 //CONEXIÓN
 	private Connection conexion;
@@ -164,6 +165,30 @@ public class MySQLAdministracionFisicaDAO implements AdministracionFisicaDAO {
 	}
 	
 	@Override
+	public AdministracionFisica obtener(String id) throws DAOException {
+		
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		AdministracionFisica sede = null;
+		
+		try {
+			stat = conexion.prepareStatement(GETUNO);
+			stat.setString(1, id);
+			rs = stat.executeQuery();
+			if (rs.next()) {
+				sede = convertir(rs);
+			} else {
+				throw new DAOException("No se ha encontrado este registro");
+			}
+		} catch (SQLException e) {
+			throw new DAOException("Error al acceder al registro de Administraciones", e);
+		} finally {
+			cierraRs(rs);
+			cierraStat(stat);
+		}
+		return sede;
+	}
+	
 	public AdministracionFisica obtener(Long id) throws DAOException {
 		
 		PreparedStatement stat = null;

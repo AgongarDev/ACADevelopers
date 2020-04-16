@@ -17,11 +17,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import acadevs.entreculturas.dao.DAO;
+import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.ListadoProyectos;
 import acadevs.entreculturas.modelo.Proyecto;
 
-public class XMLProyectoDAO implements DAO<Proyecto>{
+public class XMLProyectoDAO {// implements IDAO<Proyecto>{
+	
+	//DAO NO IMPLEMENTADO 
 	
 	// CAMPOS
 	
@@ -74,7 +76,7 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * 
 	 * @param d Objeto delegacion a persistir.
 	 */
-	@Override
+
 	public void crearNuevo(Proyecto p) {
 		listadoProyectos.add(p);
 		JAXBContext context = null;
@@ -120,7 +122,7 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * @param id Identificador unico del objeto proyecto.
 	 * @return Objeto proyecto persistido.
 	 */
-	@Override
+	
 	public Optional<Proyecto> obtener(String id) {
 		System.out.println("Se ha obtenido un proyecto");
         //return encontrarProyectoPorId(id); 
@@ -133,7 +135,7 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * @param p Objeto Proyecto a actualizar.
 	 * @param params Parametros del objeto proyecto a modificar.
 	 */
-	@Override
+
 	public void actualizar(String id) {
 		encontrarProyectoPorId(id);
         System.out.println("El proyecto con ID " + id + " ha sido actualizada"); 
@@ -144,7 +146,7 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * 
 	 * @param d Objeto proyecto a borrar.
 	 */
-	@Override
+
 	public void borrar(Proyecto p) {
         System.out.println("El proyecto con ID " + p.getIdProyecto() + "ha sido eliminado"); 
 	}
@@ -154,7 +156,7 @@ public class XMLProyectoDAO implements DAO<Proyecto>{
 	 * 
 	 * @return Listado con los objetos proyecto persistidos.
 	 */
-	@Override
+
 	public List<Proyecto> obtenerTodos() {
 		if (listadoProyectos.getListadoProyectos() != null) {
 			System.out.println("La ONG cuenta con " + listadoProyectos.getListadoProyectos().size() + " sedes:");

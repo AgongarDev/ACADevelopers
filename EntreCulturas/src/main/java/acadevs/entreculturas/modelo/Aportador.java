@@ -3,7 +3,7 @@ package acadevs.entreculturas.modelo;
 import java.util.ArrayList;
 import java.util.Date;
 
-import acadevs.entreculturas.soporte.TipoAportador;
+import acadevs.entreculturas.enums.TipoAportador;
 
 public class Aportador {
 	private String idAportador;

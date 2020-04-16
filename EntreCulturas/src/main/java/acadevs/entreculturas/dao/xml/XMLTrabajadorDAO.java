@@ -9,7 +9,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import acadevs.entreculturas.dao.DAO;
+import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.ListadoTrabajadores;
 import acadevs.entreculturas.modelo.Trabajador;
 
@@ -21,8 +21,9 @@ import acadevs.entreculturas.modelo.Trabajador;
  * @version 1.0
  *
  */
-public class XMLTrabajadorDAO implements DAO<Trabajador>{
+public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	
+	//DAO NO IMPLEMENTADO
 	// CAMPOS
 	
 	private ListadoTrabajadores listadoTrabajadores = new ListadoTrabajadores();
@@ -74,7 +75,6 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * 
 	 * @param t Objeto trabajador a persistir.
 	 */
-	@Override
 	public void crearNuevo(Trabajador t) {
 		listadoTrabajadores.add(t);
 		JAXBContext context = null;
@@ -119,7 +119,7 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * @param id Identificador unico del objeto trabajador.
 	 * @return Objeto trabajador persistido.
 	 */
-	@Override
+
 	public Optional<Trabajador> obtener(String id) {
 		System.out.println("Se ha obtenido un trabajador");
         //return encontrarTrabajadorPorId(id); 
@@ -132,7 +132,7 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * @param t Objeto trabajador a actualizar.
 	 * @param params Parametros del objeto trabajador a modificar.
 	 */
-	@Override
+
 	public void actualizar(String id) {
     	encontrarTrabajadorPorId(id); 
         System.out.println("El trabajador con ID " + id  + " ha sido actualizado"); 
@@ -144,7 +144,7 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * 
 	 * @param t Objeto trabajador a borrar.
 	 */
-	@Override
+
 	public void borrar(Trabajador t) {
         System.out.println("El trabajador con ID " + t.getDni() + "ha sido eliminado"); 
 	}
@@ -154,7 +154,7 @@ public class XMLTrabajadorDAO implements DAO<Trabajador>{
 	 * 
 	 * @return Listado con los objetos trabajador persistidos.
 	 */
-	@Override
+
 	public List<Trabajador> obtenerTodos() {
 		if (listadoTrabajadores.getListadoTrabajadores() != null) {
 			System.out.println("La ONG cuenta con " + listadoTrabajadores.getListadoTrabajadores().size() + " trabajadores:");

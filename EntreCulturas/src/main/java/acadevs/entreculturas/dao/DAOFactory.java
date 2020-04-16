@@ -13,25 +13,22 @@ import acadevs.entreculturas.dao.xml.XMLDAOFactory;
  * @version 1.0
  *
  */
-public abstract class DAOFactory {
+public class DAOFactory {
 	
 	/* Lista de tipos DAO soportado por la factoria.
-	 * 1 XML
-	 * 2 SQL
 	 * Hay un metodo para cada DAO que puede ser creado.
 	 */
-	public abstract SocioDAO getSocioDAO();
+	protected ISocioDAO sociosDAO;
+	protected IAdministracionFisicaDAO administracionesDAO;
 	
-	public abstract AdministracionFisicaDAO getAdministracionFisicaDAO();
-
-	public static DAOFactory getDAOFactory(int whichFactory) throws DAOException {
+	public static DAOFactory getDAOFactory(String whichFactory) throws DAOException {
 		
 		switch (whichFactory) {
 			
-			case 1: 
+			case "XML": 
 				return new XMLDAOFactory();
 				
-	        case 2: 
+	        case "MySQL": 
 	        	try {
 	        		  return new MySQLDAOFactory("localhost", "3306", "entreculturasdB_v1", "root", "321998");	
 	        	} catch (SQLException e ) {

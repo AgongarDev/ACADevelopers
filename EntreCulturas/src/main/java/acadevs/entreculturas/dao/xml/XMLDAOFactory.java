@@ -1,6 +1,9 @@
 package acadevs.entreculturas.dao.xml;
 
 import acadevs.entreculturas.dao.DAOFactory;
+import acadevs.entreculturas.dao.IAdministracionFisicaDAO;
+import acadevs.entreculturas.dao.IDAOListaFactories;
+import acadevs.entreculturas.dao.ISocioDAO;
 
 /**
  * Esta clase factoria se usa para crear DAOs que usan
@@ -10,36 +13,29 @@ import acadevs.entreculturas.dao.DAOFactory;
  * @version 1.0
  *
  */
-public class XMLDAOFactory extends DAOFactory {
+public class XMLDAOFactory extends DAOFactory implements IDAOListaFactories<XMLSocioDAO, XMLAdministracionFisicaDAO>{
 
+public XMLDAOFactory () {
+	
+	this.sociosDAO = null;
+	this.administracionesDAO = null;
+	
+}
 
-	/**
-	 * Metodo que permite acceder a un socio XML data object.
-	 * 
-	 * @return Nos devuelve un socio XML data object
-	 */
-	@Override
-	public XMLSocioDAO getSocioDAO() {
-		return new XMLSocioDAO();
+@Override
+public XMLSocioDAO getSocioDAO() {
+	if (sociosDAO == null) {
+		this.sociosDAO = (ISocioDAO) new XMLSocioDAO();
 	}
+	return (XMLSocioDAO) sociosDAO;
+}
 
-	/**
-	 * Metodo que permite acceder a un proyecto XML data object.
-	 * 
-	 * @return Nos devuelve un proyecto XML data object
-	 */
-	@Override
-	public XMLProyectoDAO getProyectoDAO() {
-		return new XMLProyectoDAO();
+@Override
+public XMLAdministracionFisicaDAO getAdministracionFisicaDAO() {
+	if (administracionesDAO == null) {
+		this.administracionesDAO = (IAdministracionFisicaDAO) new XMLAdministracionFisicaDAO();
 	}
-	/**
-	 * Metodo que permite acceder a un trabajador XML data object.
-	 * 
-	 * @return Nos devuelve un trabajador XML data object
-	 */
-	@Override
-	public XMLTrabajadorDAO getTrabajadorDAO() {
-		return new XMLTrabajadorDAO();
-	}
+	return (XMLAdministracionFisicaDAO) administracionesDAO;
+}
 
 }

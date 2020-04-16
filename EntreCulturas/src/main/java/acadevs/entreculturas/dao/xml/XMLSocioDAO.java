@@ -38,7 +38,8 @@ import javax.xml.xpath.XPathFactory;
 
 import org.xml.sax.SAXException;
 
-import acadevs.entreculturas.dao.DAO;
+import acadevs.entreculturas.dao.DAOException;
+import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
 
@@ -50,18 +51,18 @@ import acadevs.entreculturas.modelo.Socio;
  * @version 1.0
  *
  */
-public class XMLSocioDAO implements DAO<Socio> {
+public class XMLSocioDAO implements IDAO<Socio, String> {
 	
-	//CONSTANTES
+//CONSTANTES
 	public static final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
 	private static String NL = System.getProperty("line.separator"); // separador de línea multiplataforma
 	private static String RUTAXML = "xml/socios.xml"; // ruta del archivo de persistencia xml
 	
-	// VARIABLES
+// VARIABLES
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // buffer de recogida de entrada teclado
 	private ListadoSocios socios = new ListadoSocios();
 	
-	// CONSTRUCTORES
+// CONSTRUCTORES
 	/**
 	 * Constructor que crea un nuevo objeto XMLSocioDAO sin inicializar sus campos.
 	 */
@@ -80,8 +81,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	}
 
 	
-	// METODOS ACCESORES
-	
+// METODOS ACCESORES
 	/**
 	 * Metodo accesor de lectura que nos da el lista de socios de la ONG.
 	 * 
@@ -90,6 +90,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	public ArrayList<Socio> getSocios() {
 		return (ArrayList<Socio>) socios.getSocios();
 	}
+	
 	/**
 	 * Metodo accesor de escritura que asigna el listado de socios de la ONG.
 	 * 
@@ -99,8 +100,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 		this.socios = listadoSocios;
 	}
 	
-	// MÉTODOS DE CONTEXTO XML
-
+// MÉTODOS DE CONTEXTO XML
 	/**
 	 * comprueba si el archivo o si tiene información para evitar excepciones de acceso por valores null.
 	 * @param archivo
@@ -126,6 +126,27 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * 
 	 * @param s Objeto socio a persistir.
 	 */
+	
+	public void imprimirTodos(String rutaImp) {
+		
+		File archivoXML = new File(rutaImp); 
+		
+		try{
+			JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
+		
+			//creamos un marshaller para imprimir los datos de socio
+			Marshaller marshaller = jaxbContext.createMarshaller(); 
+		
+			//configuramos que imprima los datos en un fichero con el formato estructurado en las clases Persona, Socio y ListadoSocios.
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true); 
+			//imprimimos
+			marshaller.marshal(socios, archivoXML); 
+			
+			//arroja excepción si no encuentra datos que imprimir
+		} catch (JAXBException ex) { 
+			ex.printStackTrace();
+			}
+	}
 	@Override
 	public void crearNuevo(Socio socio) {
 		
@@ -166,8 +187,8 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 */
 	//método sin programar
 	@Override
-	public Optional<Socio> obtener(String id) {
-		System.out.println("...Se ha obtenido un socio"+COMENTARIO);
+	public Socio obtener(String id) {
+		System.out.println("-- NO IMPLEMENTADO -- \n Se ha obtenido un socio");
         //return encontrarTrabajadorPorId(id); 
 		return null;
 	}
@@ -200,23 +221,17 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * @throws XPathExpressionException
 	 * @throws TransformerException
      */
-	@Override
-	public void actualizar (String id) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
-		
-        System.out.println("Introduzca el campo a modificar");
- 	   	String nodoACambiar = br.readLine(); //guardamos el string del nodo a modificar. Tiene que tener el mismo formato que en el xml (no espacios, minúsculas, acentos,...)
- 	   
- 	   	System.out.println("Introduzca el nuevo valor");
- 	   	String valorACambiar = br.readLine(); // guardamos el nuevo valor (Strings independientemente del tipo (float,int..) ya que eso se programará en la lectura de datos.
- 	   	
+
+	public void actualizar(String dni) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
+			
  	   	File archivoXML = new File(RUTAXML); //creamos el archivo
  	   	if (archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
 	 	   	
  	   		Document doc = creaDOM(RUTAXML); // creamos el DOM para poder navegar entre los nodos
 	 		XPath xpath = XPathFactory.newInstance().newXPath(); //creamos el path con el API XPath
-			XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar); // compilamos la ruta del nodo
-			Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE); // apuntamos al nodo objetivo
-			nodo.setTextContent(valorACambiar); // cambiamos el valor del nodo 
+			//XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar); // compilamos la ruta del nodo
+			//Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE); // apuntamos al nodo objetivo
+			//nodo.setTextContent(valorACambiar); // cambiamos el valor del nodo 
 			
 			Transformer tf = TransformerFactory.newInstance().newTransformer(); //transformador para la sobreimpresión
 			tf.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -237,6 +252,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * 
 	 * @param s Objeto socio a borrar.
 	 */
+	
 	@Override
 	//método no programado
 	public void borrar(Socio s) {
@@ -249,6 +265,7 @@ public class XMLSocioDAO implements DAO<Socio> {
 	 * 
 	 * @return Listado con los objetos socio persistidos.
 	 */
+	
 	@Override
 	public List<Socio> obtenerTodos() {
 	
@@ -276,6 +293,12 @@ public class XMLSocioDAO implements DAO<Socio> {
 			return new ArrayList<Socio>();
 		  }
 		return socios.getSocios();
+	}
+
+	@Override
+	public void actualizar(Socio t) throws DAOException {
+		
+		
 	}
 	
  }

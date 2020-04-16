@@ -7,10 +7,10 @@ import javax.xml.bind.Marshaller;
 import org.junit.Before;
 import org.junit.Test;
 
+import acadevs.entreculturas.enums.TipoCuota;
 import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
-import acadevs.entreculturas.soporte.TipoCuota;
 
 import org.junit.After;
 

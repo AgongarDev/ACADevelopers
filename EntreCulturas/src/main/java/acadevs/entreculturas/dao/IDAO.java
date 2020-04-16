@@ -11,7 +11,7 @@ import org.xml.sax.SAXException;
  * @version 1.0
  *
  */
-public interface DAO<T, K> {
+public interface IDAO<T, K> {
 	
 	/**
 	 * Metodo para crear un nuevo objeto a persistir.

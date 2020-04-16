@@ -1,4 +1,4 @@
-package acadevs.entreculturas.soporte;
+package acadevs.entreculturas.enums;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
