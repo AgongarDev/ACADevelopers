@@ -4,15 +4,16 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import acadevs.entreculturas.enums.TipoCuota;
 import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
 
 import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,8 +62,10 @@ public class XMLSocioDAOTest {
 	        JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class); // jaxbcontext nos ayudará a imprimir los datos si la estructura es correcta.
 	        Marshaller marshaller = jaxbContext.createMarshaller();
 	        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT,true);
-	        marshaller.marshal(lsocios, new File("sociosPrueba.xml")); // imprime los datos en un xml: si no se puede, lanza excepcion.
+	        marshaller.marshal(lsocios, new File("xml/socios.xml")); // imprime los datos en un xml: si no se puede, lanza excepcion.
 	        marshaller.marshal(lsocios, System.out); // imprime los datos en pantalla.
+	        
+	        assertFalse(lsocios.getSocios().size() == 0);
 	    }
 	    
 	}

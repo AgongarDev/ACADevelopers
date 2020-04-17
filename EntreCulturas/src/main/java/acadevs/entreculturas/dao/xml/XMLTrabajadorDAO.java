@@ -9,7 +9,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.ListadoTrabajadores;
 import acadevs.entreculturas.modelo.Trabajador;
 

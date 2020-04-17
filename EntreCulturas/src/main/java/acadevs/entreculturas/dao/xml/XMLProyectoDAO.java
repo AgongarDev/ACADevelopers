@@ -17,7 +17,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.ListadoProyectos;
 import acadevs.entreculturas.modelo.Proyecto;
 

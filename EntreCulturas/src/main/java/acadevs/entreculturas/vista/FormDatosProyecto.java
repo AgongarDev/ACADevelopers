@@ -4,16 +4,18 @@ import acadevs.entreculturas.modelo.ViewException;
 
 public class FormDatosProyecto  {
 	
-	private String id;
+//	private String id;
 	
 	public FormDatosProyecto (String id) throws ViewException {
 	
 		// -- NO IMPLEMENTADO --
-		this.id = id;
+	//	this.id = id;
 		//imprimeForm();
 	}
 
 /*public imprimeMenu() {
+		
+		Application.limpiapantalla();
 		
 		Proyecto nuevoProyecto = new Proyecto();
 		

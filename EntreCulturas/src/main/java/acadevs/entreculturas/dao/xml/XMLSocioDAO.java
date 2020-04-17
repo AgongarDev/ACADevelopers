@@ -1,41 +1,26 @@
 package acadevs.entreculturas.dao.xml;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import org.w3c.dom.Document;
-// imports necesarios para realizar todo el trabajo de actualización e impresión de datos a XML
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import javax.xml.soap.Node;
-
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import acadevs.entreculturas.dao.DAOException;
@@ -59,7 +44,6 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	private static String RUTAXML = "xml/socios.xml"; // ruta del archivo de persistencia xml
 	
 // VARIABLES
-	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); // buffer de recogida de entrada teclado
 	private ListadoSocios socios = new ListadoSocios();
 	
 // CONSTRUCTORES
@@ -228,7 +212,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
  	   	if (archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
 	 	   	
  	   		Document doc = creaDOM(RUTAXML); // creamos el DOM para poder navegar entre los nodos
-	 		XPath xpath = XPathFactory.newInstance().newXPath(); //creamos el path con el API XPath
+	 		//XPath xpath = XPathFactory.newInstance().newXPath(); //creamos el path con el API XPath
 			//XPathExpression expr = xpath.compile("/socio[@dni='"+id+"']/"+nodoACambiar); // compilamos la ruta del nodo
 			//Node nodo = (Node) expr.evaluate(doc, XPathConstants.NODE); // apuntamos al nodo objetivo
 			//nodo.setTextContent(valorACambiar); // cambiamos el valor del nodo 

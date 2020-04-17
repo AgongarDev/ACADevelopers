@@ -18,8 +18,6 @@ import javax.xml.bind.JAXBException;
 public class Administrador extends Persona {
 	
 	// CAMPOS
-	public static final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
-	private static final String NL = System.getProperty("line.separator"); // separador de línea multiplataforma
 
 	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	

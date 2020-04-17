@@ -2,11 +2,10 @@ package acadevs.entreculturas.dao.xml;
 
 import java.io.File;
 import java.util.List;
-import java.util.Optional;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
 
 import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.Administrador;

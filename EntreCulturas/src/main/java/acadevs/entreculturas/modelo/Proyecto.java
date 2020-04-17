@@ -112,7 +112,7 @@ public class Proyecto {
 	 * @param lAccion línea de Acción del proyecto.
 	 */
 	public void setlAccion(LineaDeAccion lineadeaccion) {
-		this.lAccion.setEnumValue(lineadeaccion);
+		this.lAccion = lineadeaccion;
 	}
 	/**
 	 * Metodo accesor de lectura que nos da el nombre del Proyecto.

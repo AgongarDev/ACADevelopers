@@ -28,8 +28,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 
 //CONEXIÓN
 		private Connection conexion;
-		private PreparedStatement stat = null;
-		private ResultSet rs = null;
 
 		public MySQLSocioDAO (Connection conexion) {
 			this.conexion = conexion;
@@ -131,7 +129,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} finally {
 			cierraRs(rs);
 			cierraStat(stat);
-			System.out.println("Se ha insertado el socio "+t.getNombre()+" "+t.getApellidos()+" a la base de datos.");
 		}
 	}
 
@@ -148,18 +145,15 @@ public class MySQLSocioDAO implements ISocioDAO {
 			rs = stat.executeQuery();
 			if (rs.next()) {
 				socio = convertir(rs);
-			} else {
-				throw new DAOException("No se ha encontrado este registro");
 			}
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Socios", e);
-		} finally {
-			cierraRs(rs);
-			cierraStat(stat);
-		}
+			} finally {
+				cierraRs(rs);
+				cierraStat(stat);
+				}
 		return socio;
 	}
-
 	
 	@Override	
 	public void actualizar(Socio t) throws DAOException {
@@ -188,10 +182,8 @@ public class MySQLSocioDAO implements ISocioDAO {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
 		} finally {
 			cierraStat(stat);
-			System.out.println("Datos del socio "+t.getNombre()+" "+t.getApellidos()+" actualizados.");
 		}
 	}
-
 	
 	@Override
 	public void borrar(Socio t) throws DAOException {
@@ -202,7 +194,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 			stat.setLong(1, t.getId());
 			
 			if (stat.executeUpdate() == 0) {
-				throw new DAOException("No se ha encontrado este registro");
+				System.out.println("No se ha encontrado al socio con el dni "+t.getDni());	
 			};
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Socios", e);
@@ -211,7 +203,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 			System.out.println("El socio "+t.getNombre()+" "+t.getApellidos()+" ha sido eliminado de la base de datos.");
 		}
 	}
-
 	
 	@Override
 	public List<Socio> obtenerTodos() throws DAOException {
@@ -231,9 +222,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} finally {
 			cierraRs(rs);
 			cierraStat(stat);
-		}
-		if (socios.size() == 0) {
-			System.out.println("No se han encontrado registros de socios en la base de datos");
 		}
 		return socios;
 	}

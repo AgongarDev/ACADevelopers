@@ -20,10 +20,7 @@ import acadevs.entreculturas.dao.ISocioDAO;
  */
 public class MySQLDAOFactory extends DAOFactory implements IDAOListaFactories<MySQLSocioDAO, MySQLAdministracionFisicaDAO> {
 	
-	public static final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
 	private String jdbc = "jdbc:mysql://";
-	
-	private ISocioDAO socio = null;
 	
 	private Connection conexion = null;
 	
