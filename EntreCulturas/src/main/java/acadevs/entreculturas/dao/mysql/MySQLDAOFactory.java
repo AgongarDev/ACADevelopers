@@ -31,8 +31,8 @@ public class MySQLDAOFactory extends DAOFactory implements IDAOListaFactories<My
 		
 		this.sociosDAO = null;
 		this.administracionesDAO = null;
-		conexion = DriverManager.getConnection(jdbc+host+":"+port+"/"+dB, usuario, pass); 
-		System.out.println("...Conexión establecida con éxito"+COMENTARIO);
+		conexion = DriverManager.getConnection(jdbc+host+":"+port+"/"+dB+"?useLegacyDatetimeCode=false&serverTimezone=UTC", usuario, pass); 
+		//System.out.println("...Conexión establecida con éxito"+COMENTARIO);
 	}
 	
 	public void cerrar() throws SQLException {

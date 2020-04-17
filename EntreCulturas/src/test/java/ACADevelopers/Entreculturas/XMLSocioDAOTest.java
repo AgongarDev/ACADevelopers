@@ -16,6 +16,7 @@ import org.junit.After;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Date;
 
 /*Clase preparada para hacer tests de las impresiones en xml*/
 public class XMLSocioDAOTest {
@@ -30,10 +31,13 @@ public class XMLSocioDAOTest {
 	    @Before
 	    public void creaDatosPrueba() {
 	    	
-	    	sedePrueba = new AdministracionFisica( "AFP1", "Direccion", 100, "correo", "971971971" );
+	    	sedePrueba = new AdministracionFisica( "AFP1", "Direccion",971971971, "correo", 100);
 	    	
-	    	socioPrueba1 = new Socio("87654321Q", "socioPrueba1", "Uno", "971179179", "calle socioPrueba 1" , "07/04/2020",
-	    				"08/05/2020", sedePrueba, "cargo1", "correo1", 123, true, TipoCuota.TRIM, "**");
+	    	Date fechaIni = new Date(20200407);
+	    	Date fechaFin = new Date(20210407);
+	    	
+	    	socioPrueba1 = new Socio("87654321Q", "socioPrueba1", "Uno", "calle socioPrueba 1", 971179179, fechaIni,
+	    				fechaFin, "cargo1", "correo1", 123, true, "**", TipoCuota.TRIM,sedePrueba );
 	    }
 	    
 	    /* el método borrarDatosPrueba se ejecuta al final de la prueba, después de cualquier otro.

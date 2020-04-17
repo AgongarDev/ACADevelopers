@@ -12,10 +12,10 @@ import acadevs.entreculturas.modelo.ViewException;
  */
 public class Application {
 	
-	public Ong ong = new Ong("EntreC", "Entre Culturas", 100000);
-
-	public static void main() throws ViewException {
+	public static void main(String [] args) throws ViewException {
 	
+		Ong ong = new Ong("EntreC", "Entre Culturas", 100000);
+		
 		System.out.println("\n**************************************************************************");
 		System.out.println("                     Aplicación de gestión de una ONG");
 		System.out.println("****************************************************************************");
@@ -31,7 +31,7 @@ public class Application {
 		 *-Pendiente implementar un método que tome el texto de un archivo .txt en el que expliquemos el proyecto y lo muestre en consola.
 		 */
 		tiempoDeCreditos(40);
-		MenuInvitado menu = new MenuInvitado ();
+		new MenuInvitado ();
 	}
 	
 	public static void tiempoDeCreditos(int seg) throws ViewException {
@@ -39,7 +39,8 @@ public class Application {
 		for (int i = 1 ; i < seg ; i++) {
 			try {
 				 System.out.print("*");
-			     Thread.currentThread().sleep(250);
+			     Thread.currentThread();
+				Thread.sleep(100);
 			       }
 			     catch (InterruptedException e) {
 			       e.printStackTrace();
@@ -49,13 +50,11 @@ public class Application {
 	}
 	
 	public static void limpiaPantalla() {
-	
 		try {
-			Runtime.getRuntime().exec("cls");
-		} catch (IOException e) {
+			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
-			throw new ViewException("Error al intentar limpiar la pantalla en el menú start", e);
-		}	
+		} 
 	}
 	
 	public static void salirDelPrograma() {
@@ -66,5 +65,6 @@ public class Application {
 		System.out.println("                                                                @ Abril 2020");
 		tiempoDeCreditos(40);
 	}
+
 }
 

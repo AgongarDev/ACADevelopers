@@ -30,7 +30,7 @@ public class DAOFactory {
 				
 	        case "MySQL": 
 	        	try {
-	        		  return new MySQLDAOFactory("localhost", "3306", "entreculturasdB_v1", "root", "321998");	
+	        		  return new MySQLDAOFactory("localhost", "3306", "EntreculturasDB_v1", "ACADevelopers", "321998");	
 	        	} catch (SQLException e ) {
 	        		throw new DAOException("Error al crear el acceso DAO de MySQL", e);
 	        	}

@@ -232,6 +232,9 @@ public class MySQLSocioDAO implements ISocioDAO {
 			cierraRs(rs);
 			cierraStat(stat);
 		}
+		if (socios.size() == 0) {
+			System.out.println("No se han encontrado registros de socios en la base de datos");
+		}
 		return socios;
 	}
 }

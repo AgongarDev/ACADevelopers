@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Arrays;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import acadevs.entreculturas.dao.DAOException;
@@ -23,9 +24,12 @@ public class MenuAdministrador {
 	
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private List<Socio> listaSocios;
+	private ListadoSocios Lsocios;
 	
 	public MenuAdministrador() {
-   
+		
+		this.Lsocios = new ListadoSocios();
+		
 		try {
 			imprimeMenu();
 		} catch (DAOException | ViewException | IOException | ParseException e) {
@@ -64,13 +68,13 @@ public class MenuAdministrador {
         
            case 1:
         	   altaSocio();      	  
-           
+        	   imprimeMenu();
            case 2:
         	   actualizarSocio();
-
+        	   imprimeMenu();
            case 3:   		  
         	   altaProyecto();
-               
+        	   imprimeMenu();
            case 4:
         	   System.out.println("-- NO IMPLEMENTADO -- \n Ha obtenido la lista de trabajadores");
         	   imprimeMenu();
@@ -78,7 +82,7 @@ public class MenuAdministrador {
            
            case 5:
         	   seleccionarSalida();
-              
+        	   imprimeMenu();
            case 0:
         	   System.out.println("La sesión se ha cerrado con éxito.");
         	   Application.salirDelPrograma();
@@ -89,7 +93,7 @@ public class MenuAdministrador {
 	
 	public void seleccionarSalida() throws DAOException, ViewException, IOException, ParseException {
 		
-		Integer opcion = null;
+		int opcion = 0;
 		
 		do {
 			System.out.println("Seleccione la salida del listado");
@@ -107,9 +111,9 @@ public class MenuAdministrador {
 			imprimeSociosPantalla();
 		} else if (opcion == 2) {
 			imprimirSociosXML();
-		} else {
-			imprimeMenu();
 		}
+		
+
 	}
 	
 	public List<Socio> obtenerSociosMySQL() throws DAOException {
@@ -127,11 +131,11 @@ public class MenuAdministrador {
 	public void imprimirSociosXML() throws DAOException, IOException, ViewException, ParseException {
 		
 		List<Socio> listado = obtenerSociosMySQL();
-		ListadoSocios Lsocios = new ListadoSocios();
-		Lsocios.setSocios(listado);
+		this.Lsocios.setSocios(listado);
 		
 		XMLDAOFactory xmlF = (XMLDAOFactory) DAOFactory.getDAOFactory("XML"); 
 		XMLSocioDAO sociosXML = xmlF.getSocioDAO();
+		sociosXML.setListadoSocios(Lsocios);
 		
 		System.out.print("Escriba la ruta en la que quiere guardar el archivo xml o Marque 0 para cancelar");
 		String ruta = br.readLine(); 
@@ -139,8 +143,7 @@ public class MenuAdministrador {
 		if (ruta != "0") {
 			sociosXML.imprimirTodos(ruta);
 		}
-		
-		imprimeMenu();
+
 	}
 	
 	public void importarSociosXML() throws DAOException {
@@ -178,8 +181,11 @@ public class MenuAdministrador {
 	
 	public void imprimeSociosPantalla() throws DAOException {
 		
-		for (Socio elem : listaSocios) {
-			elem.toString();
+		List<Socio> listado = obtenerSociosMySQL();
+		if (listado.size() != 0) {
+			for (Socio elem : listado) {
+				elem.toString();
+			}
 		}
 	}
 	
@@ -229,26 +235,22 @@ public class MenuAdministrador {
  	   	do {
  	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
 			id = br.readLine();
- 	   	} while ((!validarDNI(id)) || (id != "0"));
+ 	   	} while ((!Application.validarNIF(id)) || (id != "0"));
  	   
- 	    if (id == "0") {
- 		   imprimeMenu();
- 	    }
+ 	    if (id != "0") {
+ 		    Socio socio;
+ 		    socio = socios.obtener(id);
  	   
- 	    Socio socio;
- 	    socio = socios.obtener(id);
- 	   
- 	    if (socio == null) {
- 		   System.out.println("No existe un socio con el dni: "+id);
- 	    } else {
- 	    	socio = new FormDatosSocio(id).imprimeFormulario();
- 	    	socios.actualizar(socio);
- 	    }
+ 		    if (socio == null) {
+ 		    	System.out.println("No existe un socio con el dni: "+id);
+ 		    } else {
+ 		    	socio = new FormDatosSocio(id).imprimeFormulario();
+ 		    	socios.actualizar(socio);
+ 		    	}
 
- 	    cierraConexionMySQL(mysqlF);
- 	    imprimeMenu();
+ 		    cierraConexionMySQL(mysqlF);
+ 	    }
 	}
-	
 	public void altaSocio () throws DAOException, ViewException, IOException, ParseException {
 
 		String id;
@@ -258,28 +260,25 @@ public class MenuAdministrador {
  	   	do {
  	   		System.out.println("Introduzca el DNI del socio o marque 0 para volver al menú de administrador");
 			id = br.readLine();
- 	   	} while ((!validarDNI(id)) || (id != "0"));
+ 	   	} while ((!Application.validarNIF(id)) || (id != "0"));
  	   
- 	    if (id == "0") {
- 		   imprimeMenu();
+ 	    if (id != "0") {
+	 	    Socio socio = socios.obtener(id);
+	 	   
+	 	    if (socio == null) {
+	 	    	socio = new FormDatosSocio(id).imprimeFormulario();// Hay que ver cómo funciona
+	 			socios.crearNuevo(socio);
+	 			cierraConexionMySQL(mysqlF);
+	 	    } else {
+	 	    	cierraConexionMySQL(mysqlF);
+				System.out.println("El DNI "+id+" ya está registrado en la base de datos.");
+				altaSocio();
+	 	    	}       		
+	 	   
+	 	    if (mysqlF != null) {
+	 	    	cierraConexionMySQL(mysqlF);
+	 	    }
  	    }
- 	   
- 	    Socio socio = socios.obtener(id);
- 	   
- 	    if (socio == null) {
- 	    	socio = new FormDatosSocio(id).imprimeFormulario();// Hay que ver cómo funciona
- 			socios.crearNuevo(socio);
- 			cierraConexionMySQL(mysqlF);
- 	    } else {
- 	    	cierraConexionMySQL(mysqlF);
-			System.out.println("El DNI "+id+" ya está registrado en la base de datos.");
-			altaSocio();
- 	    	}       		
- 	   
- 	    if (mysqlF != null) {
- 	    	cierraConexionMySQL(mysqlF);
- 	    }
-
 	}
 	
 	private static void cierraConexionMySQL(MySQLDAOFactory mysqlf) throws DAOException {
@@ -290,9 +289,4 @@ public class MenuAdministrador {
 			}
 	}
 	
-	private static boolean validarDNI(String dni) {
-		final String dniRegexp = "\\d{8}[A-HJ-NP-TV-Z]";
-		System.out.println("El DNI introducido no cumple con los requisitos de formato.");
-		return (!Pattern.matches(dniRegexp, dni));
-	}	
 }

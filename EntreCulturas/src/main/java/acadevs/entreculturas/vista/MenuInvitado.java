@@ -21,6 +21,7 @@ public class MenuInvitado {
 	private final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
 	private final String NL = System.getProperty("line.separator"); // separador de línea multiplataforma
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
+	private String pw = "111";
 	
 	public MenuInvitado() throws ViewException {
 
@@ -48,7 +49,7 @@ public class MenuInvitado {
     	System.out.println("****************************");
     	
         do {
-        	System.out.println(NL+"¿Qué desea hacer?: "+COMENTARIO);
+        	System.out.println(NL+"¿Qué desea hacer?: ");
         	System.out.println("1 - Iniciar sesión como administrador");
         	System.out.println("2 - Iniciar sesión como socio");
         	System.out.println("3 - Ver los proyectos publicados");
@@ -67,15 +68,15 @@ public class MenuInvitado {
 //***********************************
         switch(opcion) {
            case 1:
-        	   do {
-        		  System.out.println("Introduzca la contraseña de administrador (PW = ACADevelopers) o marque 0 para volver al menú de invitado:");
+        	   do {  
+        			System.out.println("Introduzca la contraseña de administrador (PW = 111) o marque 0 para volver al menú de invitado:");
 					id = br.readLine();
-        	   } while ((id != "ACADevelopers") || (id !="0")); // lo correcto sería disponer de una tabla usuarios en la BD donde se guardara el nombre, el id y la contraseña encriptada.
-        	   if (id == "0") {
+        		} while ((id.compareTo(pw) != 0) ||(id.compareTo("0") == 0));
+					if (id.compareTo("0") == 0) {
         		   imprimeMenu();
         	   } else {
         		   new MenuAdministrador();
-        	   }
+        	   	}
            	   break;
            
            case 2:
