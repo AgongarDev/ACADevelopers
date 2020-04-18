@@ -16,6 +16,7 @@ import acadevs.entreculturas.enums.TipoCuota;
 import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.modelo.ViewException;
+import acadevs.entreculturas.util.Utilidad;
 
 public class FormDatosSocio {
 	
@@ -35,7 +36,7 @@ public class FormDatosSocio {
 	
 	public Socio imprimeFormulario() throws DAOException, IOException, ParseException {
 		
-		Application.limpiaPantalla();
+		Utilidad.limpiaPantalla();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		
@@ -60,7 +61,7 @@ public class FormDatosSocio {
 			do {
 				System.out.println("\nTelefono: ");
 			    tlf = br.readLine();
-	        } while ((!Application.validarNumeroTelefono(tlf)) && (!tlf.isEmpty()));
+	        } while ((!Utilidad.validarNumeroTelefono(tlf)) && (!tlf.isEmpty()));
 			if (tlf.isEmpty()) { 
 				tlf = "0"; 
 			}
@@ -77,7 +78,7 @@ public class FormDatosSocio {
 
 		System.out.println("\nImporte por Aportación: ");
 			String linea = br.readLine();
-			while ((!Application.validarFloat(linea)) && (!linea.isEmpty())) {
+			while ((!Utilidad.validarFloat(linea)) && (!linea.isEmpty())) {
 				System.out.println("\nIntroduzca el importe de la cuota: ");
 				linea = br.readLine();
 			}
@@ -142,8 +143,6 @@ public class FormDatosSocio {
 				}
 	 	   		
 			} while (sede == null);
-			
-			Application.cierraConexionMySQL(mysqlF);
 			
 			nuevoSocio.setSedeAsignada(sede);
   		// Fin Bloque sede asignada

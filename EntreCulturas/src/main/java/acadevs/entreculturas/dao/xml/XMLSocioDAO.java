@@ -28,7 +28,7 @@ import acadevs.entreculturas.dao.IDAO;
 import acadevs.entreculturas.modelo.Config;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
-import acadevs.entreculturas.vista.Application;
+import acadevs.entreculturas.util.Utilidad;
 
 /**
  * Esta clase instancia objetos XML DAO para interaccionar con
@@ -189,7 +189,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	public void actualizar(String dni) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
 			
  	   	File archivoXML = new File(RUTAXML); //creamos el archivo
- 	   	if (Application.archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
+ 	   	if (Utilidad.archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
 	 	   	
  	   		Document doc = creaDOM(RUTAXML); // creamos el DOM para poder navegar entre los nodos
 	 		//XPath xpath = XPathFactory.newInstance().newXPath(); //creamos el path con el API XPath
@@ -235,7 +235,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	
 		File archivoXML = new File(RUTAXML);
 		
-		if (Application.archivoLegible(archivoXML)) { //si el archivo existe y tiene datos
+		if (Utilidad.archivoLegible(archivoXML)) { //si el archivo existe y tiene datos
 			
 			try {
 					JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);

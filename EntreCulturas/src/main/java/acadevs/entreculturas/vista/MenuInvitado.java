@@ -13,6 +13,7 @@ import acadevs.entreculturas.dao.mysql.MySQLSocioDAO;
 import acadevs.entreculturas.modelo.ListadoProyectos;
 import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.modelo.ViewException;
+import acadevs.entreculturas.util.Utilidad;
 
 public class MenuInvitado {
 	
@@ -34,7 +35,7 @@ public class MenuInvitado {
 	
 	public void imprimeMenu() throws IOException, DAOException, ViewException, ParseException{
 		
-		Application.limpiaPantalla();
+		Utilidad.limpiaPantalla();
 		
 		String id = "";
 		
@@ -86,9 +87,8 @@ public class MenuInvitado {
         	  break;   
            case 0:
         	  System.out.println("...La sesión se ha cerrado con �xito.");
-        	  Application.cierraConexionMySQL(mysqlF);
         	  Application.salirDelPrograma();
-        	  Application.limpiaPantalla();
+        	  Utilidad.limpiaPantalla();
               break;
         }
 	}
@@ -100,7 +100,7 @@ public class MenuInvitado {
  	   	do {
  	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
 			id = br.readLine();
- 	   	} while ((!Application.validarNIF(id)) && (id.compareTo("0") != 0));
+ 	   	} while ((!Utilidad.validarNIF(id)) && (id.compareTo("0") != 0));
  	   
  	    if (id.compareTo("0") == 0) {
  		   imprimeMenu();

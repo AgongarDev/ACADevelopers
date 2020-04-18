@@ -78,8 +78,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 			
 			AdministracionFisica sede = administraciones.obtener(rs.getLong("sede")); 
 			
-			mysqlF.cerrar();
-			
 			Socio socio = new Socio (dni, nombre, apellido, direccion, telefono, fechaIni, fechaFin, cargo, correo, cuota, estado, pass, tipoCuota, sede);
 			
 			socio.setId(rs.getLong("id_socio"));

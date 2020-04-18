@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.ViewException;
+import acadevs.entreculturas.util.Utilidad;
 
 public class FormDatosAdministracion {
 
@@ -15,7 +16,7 @@ public class FormDatosAdministracion {
 	
 	public AdministracionFisica imprimeMenu(String nombre) throws ViewException {
 		
-		Application.limpiaPantalla();
+		Utilidad.limpiaPantalla();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 		
@@ -54,7 +55,7 @@ public class FormDatosAdministracion {
 				} catch (IOException e) {
 					throw new ViewException ("Hubo un problema en la asignación del teléfono", e);
 				}
-	        } while ((!Application.validarNumeroTelefono(tlf)) && (tlf.isEmpty()));
+	        } while ((!Utilidad.validarNumeroTelefono(tlf)) && (tlf.isEmpty()));
 			if (tlf.isEmpty()) { 
 				tlf = "0"; 
 			}

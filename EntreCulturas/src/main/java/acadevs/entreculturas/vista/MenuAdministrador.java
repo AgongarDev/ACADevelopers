@@ -16,6 +16,7 @@ import acadevs.entreculturas.dao.xml.XMLSocioDAO;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.modelo.ViewException;
+import acadevs.entreculturas.util.Utilidad;
 
 public class MenuAdministrador {
 	
@@ -42,7 +43,7 @@ public class MenuAdministrador {
 	
 	public void imprimeMenu () throws DAOException, ViewException, IOException, ParseException {
 	
-		Application.limpiaPantalla();
+		Utilidad.limpiaPantalla();
 		int respuestaOpcion = 0;
 		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 0};
 		System.out.println("\n**************************************************************************");
@@ -90,7 +91,6 @@ public class MenuAdministrador {
         	   break;
            case 0:
         	   System.out.println("La sesión se ha cerrado con éxito.");
-        	   Application.cierraConexionMySQL(mysqlF);
         	   Application.salirDelPrograma();
                break;
         }
@@ -179,8 +179,6 @@ public class MenuAdministrador {
 				updates = updates++;
 			};
 		}
-		
-		Application.cierraConexionMySQL(mysqlF);
 	}
 	
 	public boolean subirSocio(Socio s, MySQLSocioDAO socios) throws DAOException {
@@ -243,7 +241,7 @@ public class MenuAdministrador {
  	   	do {
  	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
 			id = br.readLine();
- 	   	} while ((!Application.validarNIF(id)) && (id != "0"));
+ 	   	} while ((!Utilidad.validarNIF(id)) && (id != "0"));
  	   
  	    if (id.compareTo("0") != 0) {
  		    Socio socio;
@@ -267,7 +265,7 @@ public class MenuAdministrador {
  	   	do {
  	   		System.out.println("Introduzca el DNI del socio o marque 0 para volver al menú de administrador");
 			id = br.readLine();
- 	   	} while ((!Application.validarNIF(id)) && (id != "0"));
+ 	   	} while ((!Utilidad.validarNIF(id)) && (id != "0"));
  	   
  	    if (id.compareTo("0") != 0)  {
 	 	    Socio socio = socios.obtener(id);

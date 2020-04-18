@@ -1,14 +1,10 @@
 package acadevs.entreculturas.dao.mysql;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import acadevs.entreculturas.dao.DAOFactory;
 import acadevs.entreculturas.dao.IAdministracionFisicaDAO;
 import acadevs.entreculturas.dao.IDAOListaFactories;
 import acadevs.entreculturas.dao.ISocioDAO;
-import acadevs.entreculturas.modelo.Config;
+import acadevs.entreculturas.util.Utilidad;
 
 /**
  * Esta clase factoria se usa para crear DAOs que usan MySQL para el almacenaje de los modelos.
@@ -21,30 +17,17 @@ import acadevs.entreculturas.modelo.Config;
  */
 public class MySQLDAOFactory extends DAOFactory implements IDAOListaFactories<MySQLSocioDAO, MySQLAdministracionFisicaDAO> {
 	
-	private String jdbc = "jdbc:mysql://";
-	
-	private Connection conexion = null;
-	
-	public  MySQLDAOFactory () throws SQLException {	
+	public  MySQLDAOFactory () {	
 		
 		this.sociosDAO = null;
 		this.administracionesDAO = null;
-		conexion = DriverManager.getConnection(jdbc+Config.MySQLHost+":"+Config.MySQLPuerto+"/"+Config.MySQLDataBase+
-				"?useLegacyDatetimeCode=false&serverTimezone=UTC", Config.MySQLUsuario, Config.MySQLPass); 
-	}
-	
-	public void cerrar() throws SQLException {
-		
-		if (conexion != null) { 
-			conexion.close();
 		}
-	}
-	
+		
 	@Override
 	public MySQLSocioDAO getSocioDAO() {
 			
 if (sociosDAO == null) {
-			this.sociosDAO = (ISocioDAO) new MySQLSocioDAO(conexion);
+			this.sociosDAO = (ISocioDAO) new MySQLSocioDAO(Utilidad.conexion);
 		}
 		return (MySQLSocioDAO) sociosDAO;
 	}
@@ -53,7 +36,7 @@ if (sociosDAO == null) {
 	public MySQLAdministracionFisicaDAO getAdministracionFisicaDAO() {
 		
 		if (administracionesDAO == null) {
-			this.administracionesDAO = (IAdministracionFisicaDAO) new MySQLAdministracionFisicaDAO(conexion);
+			this.administracionesDAO = (IAdministracionFisicaDAO) new MySQLAdministracionFisicaDAO(Utilidad.conexion);
 		}
 		return (MySQLAdministracionFisicaDAO) administracionesDAO;
 	}

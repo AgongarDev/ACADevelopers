@@ -1,7 +1,5 @@
 package acadevs.entreculturas.dao;
 
-import java.sql.SQLException;
-
 import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
 import acadevs.entreculturas.dao.xml.XMLDAOFactory;
 
@@ -29,11 +27,7 @@ public class DAOFactory {
 				return new XMLDAOFactory();
 				
 	        case "MySQL": 
-	        	try {
-	        		  return new MySQLDAOFactory();	
-	        	} catch (SQLException e ) {
-	        		throw new DAOException("Error al crear el acceso DAO de MySQL", e);
-	        	}
+			return new MySQLDAOFactory();
 	         
 	        default: 
 	            return null;

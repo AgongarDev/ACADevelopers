@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import acadevs.entreculturas.soporte.DateTimeAdapter;
+import acadevs.entreculturas.util.DateTimeAdapter;
 
 /**
  * Esta clase representa a cada uno de los individuos que forman parte del personal de la ONG.

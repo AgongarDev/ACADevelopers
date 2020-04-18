@@ -1,4 +1,4 @@
-package acadevs.entreculturas.soporte;
+package acadevs.entreculturas.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

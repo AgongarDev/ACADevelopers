@@ -72,7 +72,6 @@ public class MenuSocio {
 				break;
 			case 0:
 				System.out.println("La sesión se ha cerrado con éxito.");
-				Application.cierraConexionMySQL(mysqlF);
 				salirAMenu.imprimeMenu();
 				break;
 		}
