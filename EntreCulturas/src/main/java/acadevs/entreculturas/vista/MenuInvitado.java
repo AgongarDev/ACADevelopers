@@ -16,7 +16,6 @@ import acadevs.entreculturas.modelo.ViewException;
 
 public class MenuInvitado {
 	
-	private final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
 	private final String NL = System.getProperty("line.separator"); // separador de línea multiplataforma
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
 	private String pw = "111";
@@ -86,7 +85,7 @@ public class MenuInvitado {
         	  ListaProyectos.getListadoProyectos();
         	  break;   
            case 0:
-        	  System.out.println("...La sesión se ha cerrado con �xito."+COMENTARIO);
+        	  System.out.println("...La sesión se ha cerrado con �xito.");
         	  Application.cierraConexionMySQL(mysqlF);
         	  Application.salirDelPrograma();
         	  Application.limpiaPantalla();

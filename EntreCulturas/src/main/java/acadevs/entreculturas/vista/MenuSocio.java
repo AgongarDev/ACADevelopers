@@ -70,11 +70,11 @@ public class MenuSocio {
 				System.out.println("Ahora se listarían los proyectos de la ONG");
 				imprimeMenu();
 				break;
-			case 3:
+			case 0:
 				System.out.println("La sesión se ha cerrado con éxito.");
 				Application.cierraConexionMySQL(mysqlF);
 				salirAMenu.imprimeMenu();
-			break;
+				break;
 		}
 
 	}

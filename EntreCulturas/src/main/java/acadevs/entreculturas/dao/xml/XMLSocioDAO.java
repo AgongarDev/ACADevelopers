@@ -25,8 +25,10 @@ import org.xml.sax.SAXException;
 
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.IDAO;
+import acadevs.entreculturas.modelo.Config;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
+import acadevs.entreculturas.vista.Application;
 
 /**
  * Esta clase instancia objetos XML DAO para interaccionar con
@@ -38,11 +40,7 @@ import acadevs.entreculturas.modelo.Socio;
  */
 public class XMLSocioDAO implements IDAO<Socio, String> {
 	
-//CONSTANTES
-	public static final String COMENTARIO = "\u001B[34m"; // Pinta de azúl el texto por consola
-	private static String NL = System.getProperty("line.separator"); // separador de línea multiplataforma
-	private static String RUTAXML = "xml/socios.xml"; // ruta del archivo de persistencia xml
-	
+	private String RUTAXML = Config.rutaXML;	
 // VARIABLES
 	private ListadoSocios socios = new ListadoSocios();
 	
@@ -85,25 +83,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	}
 	
 // MÉTODOS DE CONTEXTO XML
-	/**
-	 * comprueba si el archivo o si tiene información para evitar excepciones de acceso por valores null.
-	 * @param archivo
-	 */
-	public boolean archivoLegible (File archivo) {
-			
-		try {
-			if ((!archivo.createNewFile()) && (archivo.length() != 0)) {
-					return true;
-				} else {
-					System.out.println("...El archivo de socios no existe o no tiene datos"+COMENTARIO);
-					System.out.println("...Se va a crear un nuevo archivo"+COMENTARIO);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				}
-		return false;
-	}
-	
+
 	/**
 	 * Método para crear un nuevo objeto socio a persistir
 	 * en formato XML.
@@ -141,7 +121,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 			try {
 				// añadimos los datos del nuevo socio a la lista contenedor
 		    	this.getSocios().add(socio); 		    
-		    	System.out.println("...Añadido un nuevo socio al listado"+COMENTARIO);
+		    	//System.out.println("...Añadido un nuevo socio al listado"+COMENTARIO);
 				
 		    	// creamos el contexto de ListadoSocios
 				JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
@@ -158,8 +138,8 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 				} catch (JAXBException ex) { 
 					ex.printStackTrace();
 					
-		System.out.println(NL+"¡Enhorabuena! se ha creado un nuevo socio"); //literalmente, necesitaba leer algo así cuando consiguiera que se imprimiera un socio tras otro.
-		System.out.println(NL+socio.toString());
+	/*	System.out.println("¡Enhorabuena! se ha creado un nuevo socio"); //literalmente, necesitaba leer algo así cuando consiguiera que se imprimiera un socio tras otro.
+		System.out.println(socio.toString());*/
 		}
 	}
 
@@ -209,7 +189,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	public void actualizar(String dni) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException, TransformerException {
 			
  	   	File archivoXML = new File(RUTAXML); //creamos el archivo
- 	   	if (archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
+ 	   	if (Application.archivoLegible(archivoXML)) { // si el archivo creado existe y tiene datos...
 	 	   	
  	   		Document doc = creaDOM(RUTAXML); // creamos el DOM para poder navegar entre los nodos
 	 		//XPath xpath = XPathFactory.newInstance().newXPath(); //creamos el path con el API XPath
@@ -227,7 +207,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 			tf.transform(domSource, sr);// imprimimos los datos en el archivo
 			
  	   	} else { // si el archivo no tiene datos o no existe, sale con mensaje.
- 	   		System.out.println(NL+"No existen datos a actualizar");
+ 	   		System.out.println("No existen datos a actualizar");
  	   	}
 	}
 
@@ -240,7 +220,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	@Override
 	//método no programado
 	public void borrar(Socio s) {
-        System.out.println(NL+"El socio con DNI " + s.getDni() + "ha sido eliminado"); 
+        System.out.println("El socio con DNI " + s.getDni() + "ha sido eliminado -- NO IMPLEMENTADO--"); 
 	}
 
 	/**
@@ -255,7 +235,7 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 	
 		File archivoXML = new File(RUTAXML);
 		
-		if (archivoLegible(archivoXML)) { //si el archivo existe y tiene datos
+		if (Application.archivoLegible(archivoXML)) { //si el archivo existe y tiene datos
 			
 			try {
 					JAXBContext jaxbContext = JAXBContext.newInstance(ListadoSocios.class);
@@ -265,17 +245,15 @@ public class XMLSocioDAO implements IDAO<Socio, String> {
 				} catch (JAXBException e) {
 					e.printStackTrace();
 				}			
-								
-			if (socios.getSocios() != null) { // si el listado tiene datos imprimimos una línea con el número de socios
-				System.out.println(NL+"La ONG cuenta con " + socios.getSocios().size() + " socios:");
+		}						
+			/*if (socios.getSocios() == null) { // si el listado tiene datos imprimimos una línea con el número de socios
+				System.out.println("La ONG cuenta con " + socios.getSocios().size() + " socios:");
 		    	for (Socio socio : socios.getSocios()) { //imprimimos todos los datos de los socios en pantalla
 		    		System.out.println(socio.toString());
 		    		}
 			}
 		} else { // si no existe el archivo o no tiene datos, devuelve un array vacío para evitar problemas de acceso del tipo null.
-			System.out.println("...La lista de socios está vacía."+COMENTARIO);
-			return new ArrayList<Socio>();
-		  }
+			System.out.println("...La lista de socios está vacía."+COMENTARIO);*/
 		return socios.getSocios();
 	}
 

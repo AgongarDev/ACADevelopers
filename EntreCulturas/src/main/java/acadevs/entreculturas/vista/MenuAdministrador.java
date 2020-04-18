@@ -71,18 +71,23 @@ public class MenuAdministrador {
            case 1:
         	   altaSocio();      	  
         	   imprimeMenu();
+        	   break;
            case 2:
         	   actualizarSocio();
         	   imprimeMenu();
+        	   break;
            case 3:   		  
         	   altaProyecto();
         	   imprimeMenu();
+        	   break;
            case 4:
         	   System.out.println("-- NO IMPLEMENTADO -- \n Ha obtenido la lista de trabajadores");
         	   imprimeMenu();
+        	   break;
            case 5:
         	   seleccionarSalida();
         	   imprimeMenu();
+        	   break;
            case 0:
         	   System.out.println("La sesión se ha cerrado con éxito.");
         	   Application.cierraConexionMySQL(mysqlF);
@@ -95,7 +100,7 @@ public class MenuAdministrador {
 		
 		List<Socio> listado = obtenerSociosMySQL();
 		
-		if (listado == null) {
+		if (listado.size() == 0) {
 			System.out.println("No existen socios en la base de datos");
 		} else {
 			int opcion = 0;

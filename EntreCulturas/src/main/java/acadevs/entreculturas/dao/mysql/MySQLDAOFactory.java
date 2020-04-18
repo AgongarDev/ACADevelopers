@@ -8,6 +8,7 @@ import acadevs.entreculturas.dao.DAOFactory;
 import acadevs.entreculturas.dao.IAdministracionFisicaDAO;
 import acadevs.entreculturas.dao.IDAOListaFactories;
 import acadevs.entreculturas.dao.ISocioDAO;
+import acadevs.entreculturas.modelo.Config;
 
 /**
  * Esta clase factoria se usa para crear DAOs que usan MySQL para el almacenaje de los modelos.
@@ -24,12 +25,12 @@ public class MySQLDAOFactory extends DAOFactory implements IDAOListaFactories<My
 	
 	private Connection conexion = null;
 	
-	public  MySQLDAOFactory (String host, String port, String dB, String usuario, String pass) throws SQLException {	
+	public  MySQLDAOFactory () throws SQLException {	
 		
 		this.sociosDAO = null;
 		this.administracionesDAO = null;
-		conexion = DriverManager.getConnection(jdbc+host+":"+port+"/"+dB+"?useLegacyDatetimeCode=false&serverTimezone=UTC", usuario, pass); 
-		//System.out.println("...Conexión establecida con éxito"+COMENTARIO);
+		conexion = DriverManager.getConnection(jdbc+Config.MySQLHost+":"+Config.MySQLPuerto+"/"+Config.MySQLDataBase+
+				"?useLegacyDatetimeCode=false&serverTimezone=UTC", Config.MySQLUsuario, Config.MySQLPass); 
 	}
 	
 	public void cerrar() throws SQLException {
@@ -42,7 +43,7 @@ public class MySQLDAOFactory extends DAOFactory implements IDAOListaFactories<My
 	@Override
 	public MySQLSocioDAO getSocioDAO() {
 			
-		if (sociosDAO == null) {
+if (sociosDAO == null) {
 			this.sociosDAO = (ISocioDAO) new MySQLSocioDAO(conexion);
 		}
 		return (MySQLSocioDAO) sociosDAO;
