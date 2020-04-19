@@ -61,7 +61,7 @@ public class MenuSocio {
 		
 		switch(respuestaOpcion) {
 			case 1:
-				socio = new FormDatosSocio(socio.getDni()).imprimeFormulario();
+				socio = new FormDatosSocio(socio, false).especificosSocio();
 				socios.actualizar(socio);
 				imprimeMenu();
 				break;

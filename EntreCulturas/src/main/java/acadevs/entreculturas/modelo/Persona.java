@@ -27,7 +27,7 @@ public abstract class Persona {
 	    protected String dni;
 		protected String nombre;
 		protected String apellidos;
-		protected int telefono;
+		protected int telefono = 0;
 		protected String domicilio;
 		protected Date fechaInicio;
 		protected Date fechaFin;

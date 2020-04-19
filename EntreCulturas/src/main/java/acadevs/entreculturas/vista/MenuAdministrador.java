@@ -237,6 +237,7 @@ public class MenuAdministrador {
 		
 		String id;
 		MySQLSocioDAO socios = mysqlF.getSocioDAO();
+		Socio socioActualizado = null;
  	   
  	   	do {
  	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
@@ -250,8 +251,8 @@ public class MenuAdministrador {
  		    if (socio == null) {
  		    	System.out.println("No existe un socio con el dni: "+id);
  		    } else {
- 		    	socio = new FormDatosSocio(id).imprimeFormulario();
- 		    	socios.actualizar(socio);
+ 		    	socioActualizado = new FormDatosSocio(socio, false).imprimeFormulario(); // false : actualizar - pasamos datos socio existente
+ 		    	socios.actualizar(socioActualizado);
  		    	System.out.println("Datos del socio "+socio.getNombre()+" "+socio.getApellidos()+" actualizados.");
  		    	}
  	    }
@@ -269,9 +270,8 @@ public class MenuAdministrador {
  	   
  	    if (id.compareTo("0") != 0)  {
 	 	    Socio socio = socios.obtener(id);
-	 	   
-	 	    if (socio == null) {
-	 	    	socio = new FormDatosSocio(id).imprimeFormulario();// Hay que ver cómo funciona
+	 	    if (socio == null) {   	
+	 	    	socio = new FormDatosSocio(socio, true).imprimeFormulario();// true : alta - pasamos datos socio vacio 
 	 			socios.crearNuevo(socio);
 	 			System.out.println("Se ha insertado el socio "+socio.getNombre()+" "+socio.getApellidos()+" a la base de datos.");
 	 	    } else {
