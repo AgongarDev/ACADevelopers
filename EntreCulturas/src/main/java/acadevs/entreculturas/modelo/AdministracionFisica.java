@@ -4,7 +4,7 @@ public class AdministracionFisica {
 
 	//ATRIBUTOS DEL MODELO
 	
-	private Long idAdmin = null;
+	private Integer idAdmin = null;
 	private String nombre;
 	private String direccion;
 	private int numEmpleados;
@@ -28,11 +28,11 @@ public class AdministracionFisica {
 	}
 	
 	//getters y setters
-		public Long getIdAdmin() {
+		public Integer getIdAdmin() {
 		return idAdmin;
 	}
 
-	public void setIdAdmin(Long idAdmin) {
+	public void setIdAdmin(int idAdmin) {
 		this.idAdmin = idAdmin;	
 	}
 	
