@@ -48,8 +48,9 @@ public class MenuSocio {
 		System.out.println("\n**************************************************************************");	
 		do {
 			System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
-			System.out.println("1 - Modificar los datos de socio");
-			System.out.println("2 - Ver proyectos de la ONG ( -- No implementado -- )");
+			System.out.println("1 - MODIFICAR los DATOS ESPECÍFICOS de socio");
+			System.out.println("2 - MODIFICAR TODOS LOS DATOS del socio");
+			System.out.println("3 - Ver proyectos de la ONG ( -- No implementado -- )");
 			System.out.println("0 - Cerrar Sesión");
 			try {
 				respuestaOpcion = Integer.parseInt(br.readLine());
@@ -61,7 +62,7 @@ public class MenuSocio {
 		
 		switch(respuestaOpcion) {
 			case 1:
-				socio = new FormDatosSocio(socio, false).especificosSocio();
+				socio = new FormDatosSocio(socio, false).especificosSocio(); // false : actualización - se abre el formulario de socio sólo con las opciones específicas.
 				socios.actualizar(socio);
 				imprimeMenu();
 				break;

@@ -114,13 +114,13 @@ public class MenuInvitado {
  		    String respuesta = br.readLine();
 			   
  		    if (respuesta.equalsIgnoreCase("s")) {
-//comprobar si TODO OK
- 			   socio = new FormDatosSocio(id).imprimeFormulario();// Hay que ver cómo funciona
- 			   socios.crearNuevo(socio);
- 			   new MenuSocio(socio, this);
-				} else {
-					imprimeMenu();
-					}       		
+ 		    	socio = new Socio();
+ 		    	socio = new FormDatosSocio(socio, true).imprimeFormulario();// true : alta - se abre el formulario de datos de socio completo
+ 		    	socios.crearNuevo(socio);
+ 		    	new MenuSocio(socio, this);
+			} else {
+				imprimeMenu();
+				}       		
  	    } else { 
  	    	new MenuSocio(socio, this);
  	    }
