@@ -22,14 +22,17 @@ public class MenuAdministrador {
 	
 	private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	private ListadoSocios Lsocios;
+	private String dniSocio;
 	
 	XMLDAOFactory xmlF; 
 	MySQLDAOFactory mysqlF; 
+	MySQLSocioDAO socios;
 	
 	public MenuAdministrador() throws DAOException {
 		
 		this.xmlF = (XMLDAOFactory) DAOFactory.getDAOFactory("XML"); 
 		this.mysqlF = (MySQLDAOFactory) DAOFactory.getDAOFactory("MySQL"); 
+		this.socios = mysqlF.getSocioDAO();
 		
 		this.Lsocios = new ListadoSocios();
 		
@@ -54,9 +57,10 @@ public class MenuAdministrador {
         	System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
         	System.out.println("1 - Dar de alta un socio");
         	System.out.println("2 - Actualizar datos de un socio");
-        	System.out.println("3 - Crear un proyecto");
-        	System.out.println("4 - Listar trabajadores");
-        	System.out.println("5 - Listar socios");
+        	System.out.println("3 - Actualizar datos de la CUOTA de un socio");
+        	System.out.println("4 - Crear un proyecto");
+        	System.out.println("5 - Listar trabajadores");
+        	System.out.println("6 - Listar socios");
         	System.out.println("0 - Salir de la aplicación");
         	
         	try {
@@ -73,22 +77,30 @@ public class MenuAdministrador {
         	   altaSocio();      	  
         	   imprimeMenu();
         	   break;
+        	   
            case 2:
         	   actualizarSocio();
         	   imprimeMenu();
         	   break;
-           case 3:   		  
+        	   
+           case 3:
+        	   
+        	   break;
+           case 4:   		  
         	   altaProyecto();
         	   imprimeMenu();
         	   break;
-           case 4:
+        	   
+           case 5:
         	   System.out.println("-- NO IMPLEMENTADO -- \n Ha obtenido la lista de trabajadores");
         	   imprimeMenu();
         	   break;
-           case 5:
+        	   
+           case 6:
         	   seleccionarSalida();
         	   imprimeMenu();
         	   break;
+        	   
            case 0:
         	   System.out.println("La sesión se ha cerrado con éxito.");
         	   Application.salirDelPrograma();
@@ -128,8 +140,6 @@ public class MenuAdministrador {
 	
 	public List<Socio> obtenerSociosMySQL() throws DAOException {
 		
-		MySQLSocioDAO socios = mysqlF.getSocioDAO();
-
 		List<Socio> listado = socios.obtenerTodos();
 		
 		return listado;
@@ -194,8 +204,6 @@ public class MenuAdministrador {
 		return false;
 	}
 	
-
-	
 	public void altaProyecto () throws DAOException, ViewException, IOException, ParseException {
 
 		//NO IMPLEMENTADO
@@ -233,29 +241,34 @@ public class MenuAdministrador {
 		 */
 	}
 
+	public Socio buscaSocioMySQL() throws IOException, DAOException {
+		
+		Socio socio = null;
+		
+		do {
+ 	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
+			this.dniSocio = br.readLine();
+ 	   	} while ((!Utilidad.validarNIF(dniSocio)) && (dniSocio != "0"));
+ 	   
+ 	    if (dniSocio.compareTo("0") != 0) {
+ 		    socio = socios.obtener(dniSocio);
+ 	    }
+ 	    return socio;
+	}
+	
 	public void actualizarSocio() throws IOException, DAOException, ViewException, ParseException {
 		
-		String id;
-		MySQLSocioDAO socios = mysqlF.getSocioDAO();
 		Socio socioActualizado = null;
  	   
- 	   	do {
- 	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
-			id = br.readLine();
- 	   	} while ((!Utilidad.validarNIF(id)) && (id != "0"));
- 	   
- 	    if (id.compareTo("0") != 0) {
- 		    Socio socio;
- 		    socio = socios.obtener(id);
- 	   
- 		    if (socio == null) {
- 		    	System.out.println("No existe un socio con el dni: "+id);
- 		    } else {
- 		    	socioActualizado = new FormDatosSocio(socio, false).imprimeFormulario(); // false : actualizar - pasamos datos socio existente
- 		    	socios.actualizar(socioActualizado);
- 		    	System.out.println("Datos del socio "+socio.getNombre()+" "+socio.getApellidos()+" actualizados.");
- 		    	}
- 	    }
+		Socio socio = buscaSocioMySQL();
+		
+		 if (socio == null) {
+ 		    	System.out.println("No existe un socio con el dni: "+dniSocio);
+ 		  }
+		
+ 	   	socioActualizado = new FormDatosSocio(socio, false).imprimeFormulario(); // false : actualizar - pasamos datos socio existente
+ 	   	socios.actualizar(socioActualizado);
+ 	   	System.out.println("Datos del socio "+socio.getNombre()+" "+socio.getApellidos()+" actualizados.");
 	}
 	
 	public void altaSocio () throws DAOException, ViewException, IOException, ParseException {
@@ -280,5 +293,4 @@ public class MenuAdministrador {
 	 	    	}       		
  	    }
 	}
-		
 }

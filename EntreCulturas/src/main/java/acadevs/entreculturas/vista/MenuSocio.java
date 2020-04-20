@@ -63,14 +63,21 @@ public class MenuSocio {
 		switch(respuestaOpcion) {
 			case 1:
 				socio = new FormDatosSocio(socio, false).especificosSocio(); // false : actualización - se abre el formulario de socio sólo con las opciones específicas.
+				socios.actualizarEspecificosSocio(socio);
+				imprimeMenu();
+				break;
+				
+			case 2:
+				socio = new FormDatosSocio(socio, false).imprimeFormulario(); // false : actualización - se abre el formulario de socio completo. Igual que en un alta de socio.
 				socios.actualizar(socio);
 				imprimeMenu();
 				break;
-			
-			case 2:
+				
+			case 3:
 				System.out.println("Ahora se listarían los proyectos de la ONG");
 				imprimeMenu();
 				break;
+				
 			case 0:
 				System.out.println("La sesión se ha cerrado con éxito.");
 				salirAMenu.imprimeMenu();

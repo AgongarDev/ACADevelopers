@@ -22,7 +22,7 @@ public class Socio extends Persona {
     
 // ATRIBUTOS DEL MODELO
 	
-	private Long id = null;
+	private Integer id = null;
 	
 	private String pass;
 	
@@ -70,11 +70,11 @@ public class Socio extends Persona {
 		
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

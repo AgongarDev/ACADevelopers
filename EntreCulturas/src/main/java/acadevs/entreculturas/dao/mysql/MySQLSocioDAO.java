@@ -18,13 +18,64 @@ import acadevs.entreculturas.modelo.Socio;
 public class MySQLSocioDAO implements ISocioDAO {
 
 //SENTENCIAS MYSQL
-	final String INSERT = "insert into socios (dni, nombre, apellido, direccion, telefono, fecha_inicio, fecha_fin, cargo, correo, cuota, estado, pass, tipo_cuota, sede) "
-			+ "values (?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?, ?, ?, ?)";
-	final String UPDATE = "update socios set dni = ?, nombre = ?, apellido = ?, direccion = ?, telefono = ?, fecha_inicio = ?, fecha_fin = ?, cargo = ?, correo = ?, "
-			+ "cuota = ?, estado = ?, pass = ?, tipo_cuota = ?, sede = ? where id_socio = ?";
-	final String DELETE = "delete from socios where id_socio = ?";
-	final String GETALL = "select * from socios";
-	final String GETUNO = "select * from socios where id_socio = ?";
+	final String INSERT_CONTACTO = "insert into contactos "
+			+ "(dni,"
+			+ " nombre,"
+			+ " apellido,"
+			+ " direccion,"
+			+ " telefono,"
+			+ " fecha_inicio,"
+			+ " fecha_fin,"
+			+ " cargo,"
+			+ " correo,"
+			+ " pass,"
+			+ " sede)"
+			+ "values (?, ?, ?, ?, ?, ? ,? ,? ,?, ?, ?)";
+	
+	final String INSERT_SOCIO = "insert into socios "
+			+ "(id_contacto,"
+			+ " cuota,"
+			+ " estado,"
+			+ " tipo_cuota)"
+			+ " values (?, ?, ?, ?)";
+	
+	final String UPDATE = "update contactos, socios "
+			+ "inner join socios on contactos.id_contacto = socios.id_socio"
+			+ "set "
+			+ "dni = ?, "
+			+ "nombre = ?, "
+			+ "apellido = ?, "
+			+ "direccion = ?, "
+			+ "telefono = ?, "
+			+ "fecha_inicio = ?,"
+			+ " fecha_fin = ?, "
+			+ "cargo = ?,"
+			+ " correo = ?,"
+			+ " pass = ?,"
+			+ " sede = ?,"
+			+ "cuota = ?,"
+			+ "estado = ?,"
+			+ "tipo_cuota = ?"
+			+ " where contactos.id_contacto = ?";
+	
+	final String UPDATE_SOCIO = "update socios "
+			+ "inner join contactos on socios.id_socio = contactos.id_contacto"
+			+ " set "
+			+ "cuota = ?, "
+			+ "estado = ?, "
+			+ "tipo_cuota = ?"
+			+ " where socios.id_socio = ?";
+	
+	final String DELETE = "delete from contactos, socios "
+			+ "inner join socios on contactos.id_contacto = socios.id_socio"
+			+ " where id_contacto = ?";
+	
+	final String GETALL = "select * from contactos, socios "
+	    	+ "inner join socios on contactos.id_contacto = socios.id_socio";
+	
+	final String GETUNO = "select * from contactos "
+			+ "inner join socios on contactos.id_contacto = socios.id_socio"
+			+ " where contactos.id_contacto = ?";
 
 //CONEXIÓN
 		private Connection conexion;
@@ -80,7 +131,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 			
 			Socio socio = new Socio (dni, nombre, apellido, direccion, telefono, fechaIni, fechaFin, cargo, correo, cuota, estado, pass, tipoCuota, sede);
 			
-			socio.setId(rs.getLong("id_socio"));
+			socio.setId(rs.getInt("id_socio"));
 			
 		return socio;
 		
@@ -91,42 +142,60 @@ public class MySQLSocioDAO implements ISocioDAO {
 	public void crearNuevo(Socio t) throws DAOException {
 		
 		//se crea un PreparedStatement en cada método porque la intención es que se cierre al finalizarlo.
-		PreparedStatement stat = null; 
+		PreparedStatement statContacto = null, statSocio = null;
 		ResultSet rs = null;
 		
 		try {
-			stat = conexion.prepareStatement(INSERT);
-			stat.setString(1,  t.getDni());
-			stat.setString(2, t.getNombre());
-			stat.setString(3, t.getApellidos());
-			stat.setString(4, t.getDomicilio());
-			stat.setInt(5, t.getTelefono());
-			stat.setDate(6, (java.sql.Date) t.getFechaInicio());
-			stat.setDate(7, (java.sql.Date) t.getFechaFin());
-			stat.setString(8,  t.getCargo());
-			stat.setString(9, t.getCorreo());
-			stat.setFloat(10,  t.getCuotaAportacion());
-			stat.setBoolean(11, t.getEstadoAportacion());
-			stat.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
-			stat.setString(13, t.getTipoCuota().getTexto());
-			stat.setLong(14, t.getSedeAsignada().getIdAdmin());
+			if (conexion.getAutoCommit() == true) {
+			conexion.setAutoCommit(false);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al desactivar autocommit en creación de socios", e1);
+		}
+		
+		try {
+			statContacto = conexion.prepareStatement(INSERT_CONTACTO);
+			statContacto.setString(1,  t.getDni());
+			statContacto.setString(2, t.getNombre());
+			statContacto.setString(3, t.getApellidos());
+			statContacto.setString(4, t.getDomicilio());
+			statContacto.setInt(5, t.getTelefono());
+			statContacto.setDate(6, (java.sql.Date) t.getFechaInicio());
+			statContacto.setDate(7, (java.sql.Date) t.getFechaFin());
+			statContacto.setString(8,  t.getCargo());
+			statContacto.setString(9, t.getCorreo());
+			statContacto.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
+			statContacto.setLong(14, t.getSedeAsignada().getIdAdmin());
 			
-			if (stat.executeUpdate() == 0) {
-				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Socios");
+			if (statContacto.executeUpdate() == 0) {
+				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Contactos");
 			}
 			
-			rs = stat.getGeneratedKeys();
+			rs = statContacto.getGeneratedKeys();
 			
 			if (rs.next()) {
-				t.setId(rs.getLong(1));
+				t.setId(rs.getInt(1));
 			} else {
-				throw new DAOException("Hubo algún problema para recuperar el ID del socio");
+				throw new DAOException("Hubo un problema al recuperar el ID del contacto en la inserción de socios");
+				}
+			
+			statSocio = conexion.prepareStatement(INSERT_SOCIO);
+			statSocio.setInt(1, t.getId());
+			statSocio.setFloat(2,  t.getCuotaAportacion());
+			statSocio.setBoolean(3, t.getEstadoAportacion());
+			statSocio.setString(4, t.getTipoCuota().getTexto());
+			
+			if (statSocio.executeUpdate() == 0) {
+				throw new DAOException("Hubo un problema al insertar la llamada insert a la tabla Socios");
 			}
+			
+			conexion.commit();
 		} catch (SQLException e) {
-			throw new DAOException("Error al intentar guardar datos en la tabla Socios", e);
+			throw new DAOException("Error al intentar guardar datos en las tablas Contactos y/o Socios", e);
 		} finally {
 			cierraRs(rs);
-			cierraStat(stat);
+			cierraStat(statSocio);
+			cierraStat(statContacto);
 		}
 	}
 
@@ -136,6 +205,12 @@ public class MySQLSocioDAO implements ISocioDAO {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		Socio socio = null;
+		
+		try {
+			conexion.setAutoCommit(true);
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al desactivar autocommit en creación de socios", e1);
+		}
 		
 		try {
 			stat = conexion.prepareStatement(GETUNO);
@@ -153,11 +228,23 @@ public class MySQLSocioDAO implements ISocioDAO {
 		return socio;
 	}
 	
+	/**
+	 * Actualiza todos los datos de socio en las tablas de contactos y en la de socios de manera que todos los datos del socio existentes en nuestra BD pasarán a ser subsistuidos por 
+	 * los nuevos valores
+	 */
 	@Override	
 	public void actualizar(Socio t) throws DAOException {
 		
 		/*La actualización se hará en otra clase para mantener ésta únicamente como enlace de accesoa la base de datos.*/
 		PreparedStatement stat = null;
+		
+		try {
+			if (conexion.getAutoCommit() == false) {
+			conexion.setAutoCommit(true);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al activar autocommit en acutalización completa de socios", e1);
+		}
 		
 		try {
 			stat = conexion.prepareStatement(UPDATE);
@@ -170,11 +257,13 @@ public class MySQLSocioDAO implements ISocioDAO {
 			stat.setDate(7, (java.sql.Date) t.getFechaFin());
 			stat.setString(8,  t.getCargo());
 			stat.setString(9, t.getCorreo());
-			stat.setFloat(10,  t.getCuotaAportacion());
-			stat.setBoolean(11, t.getEstadoAportacion());
-			stat.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
-			stat.setString(13, t.getTipoCuota().getTexto());
-			stat.setLong(14, t.getSedeAsignada().getIdAdmin());
+			stat.setString(10, t.getPass()); // la contraseña debería subirse encriptada.
+			stat.setLong(11, t.getSedeAsignada().getIdAdmin());
+			stat.setFloat(12,  t.getCuotaAportacion());
+			stat.setBoolean(13, t.getEstadoAportacion());
+			stat.setString(14, t.getTipoCuota().getTexto());
+			stat.setInt(15, t.getId());
+			stat.executeUpdate();
 			
 		} catch (SQLException e) {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
@@ -182,10 +271,47 @@ public class MySQLSocioDAO implements ISocioDAO {
 			cierraStat(stat);
 		}
 	}
+
+	public void actualizarEspecificosSocio(Socio t) throws DAOException {
+		
+		/*La actualización se hará en otra clase para mantener ésta únicamente como enlace de accesoa la base de datos.*/
+		PreparedStatement stat = null;
+		
+		try {
+			if (conexion.getAutoCommit() == false) {
+			conexion.setAutoCommit(true);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al activar autocommit en acutalización específica de socios", e1);
+		}
+		
+		try {
+			stat = conexion.prepareStatement(UPDATE_SOCIO);
+			stat.setFloat(1,  t.getCuotaAportacion());
+			stat.setBoolean(2, t.getEstadoAportacion());
+			stat.setString(3, t.getTipoCuota().getTexto());
+			stat.setInt(4, t.getId());
+			stat.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
+		} finally {
+			cierraStat(stat);
+		}
+	}
+
 	
 	@Override
 	public void borrar(Socio t) throws DAOException {
 		PreparedStatement stat = null;
+		
+		try {
+			if (conexion.getAutoCommit() == false) {
+			conexion.setAutoCommit(true);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al activar autocommit en borrado de socios", e1);
+		}
 		
 		try {
 			stat = conexion.prepareStatement(DELETE);
@@ -208,6 +334,14 @@ public class MySQLSocioDAO implements ISocioDAO {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		List<Socio> socios = new ArrayList<>();
+		
+		try {
+			if (conexion.getAutoCommit() == false) {
+			conexion.setAutoCommit(true);
+			}
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al activar autocommit en acutalización completa de socios", e1);
+		}
 		
 		try {
 			stat = conexion.prepareStatement(GETALL);
