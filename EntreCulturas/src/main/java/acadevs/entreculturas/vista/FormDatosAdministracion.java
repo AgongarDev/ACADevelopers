@@ -9,12 +9,15 @@ import acadevs.entreculturas.modelo.ViewException;
 import acadevs.entreculturas.util.Utilidad;
 
 public class FormDatosAdministracion {
+	
+	private String nombre;
 
 	public FormDatosAdministracion(String nombre) throws ViewException {
-		imprimeMenu(nombre);
+		
+		this.nombre = nombre;
 	}
 	
-	public AdministracionFisica imprimeMenu(String nombre) throws ViewException {
+	public AdministracionFisica imprimeFormulario() throws ViewException {
 		
 		Utilidad.limpiaPantalla();
 		
@@ -32,14 +35,26 @@ public class FormDatosAdministracion {
 		} catch (IOException e) {
 			throw new ViewException ("Hubo un problema en la asignación de la dirección", e);
 		}
-	
-		System.out.println("\nNúmero de Empleados: ");
-		try {
-			sede.setNumEmpleados(br.read());
-		} catch (IOException e) {
-			throw new ViewException ("Hubo un problema en la asignación del número de empleados", e);
-		}
-	
+		
+// cast empleados
+		@SuppressWarnings("unused")
+		boolean valido = false;
+		
+		do {
+			System.out.println("\nNúmero de Empleados: ");
+			try {
+				String numero = br.readLine();
+			
+				if (Utilidad.validarFloat(numero)) {
+					sede.setNumEmpleados(Short.parseShort(numero));
+					valido = true;
+				}
+			} catch (IOException e) {
+				throw new ViewException ("Hubo un problema en la asignación del número de empleados", e);
+			}
+		} while (valido = false);
+		
+// email		
 		System.out.println("\nEmail Contacto Sede: ");
 		try {
 			sede.setCorreo(br.readLine());
@@ -47,6 +62,7 @@ public class FormDatosAdministracion {
 			throw new ViewException ("Hubo un problema en la asignación del email", e);
 		}
 		
+// telefono		
 		String tlf;
 			do {
 				System.out.println("\nTeléfono: ");
@@ -55,10 +71,14 @@ public class FormDatosAdministracion {
 				} catch (IOException e) {
 					throw new ViewException ("Hubo un problema en la asignación del teléfono", e);
 				}
-	        } while ((!Utilidad.validarNumeroTelefono(tlf)) && (tlf.isEmpty()));
+	        } while ((!Utilidad.validarNumeroTelefono(tlf)) && (!tlf.isEmpty()));
 			if (tlf.isEmpty()) { 
 				tlf = "0"; 
 			}
+			sede.setTelefono(Integer.parseInt(tlf));
+			
+		sede.setNombre(nombre);
+		
 		return sede;
 	}		
 			

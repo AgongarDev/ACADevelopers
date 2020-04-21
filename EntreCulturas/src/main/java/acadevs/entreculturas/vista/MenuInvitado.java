@@ -70,8 +70,8 @@ public class MenuInvitado {
         	   do {  
         			System.out.println("Introduzca la contraseña de administrador (PW = 111) o marque 0 para volver al menú de invitado:");
 					id = br.readLine();
-        		} while ((id.compareTo(pw) != 0) && (id.compareTo("0") == 0));
-					if (id.compareTo("0") == 0) {
+        		} while ((!id.equals(pw)) && (!id.equals("0")));
+					if (id.equals("0")) {
         		   imprimeMenu();
         	   } else {
         		   new MenuAdministrador();
@@ -102,7 +102,7 @@ public class MenuInvitado {
 			id = br.readLine();
  	   	} while ((!Utilidad.validarNIF(id)) && (id.compareTo("0") != 0));
  	   
- 	    if (id.compareTo("0") == 0) {
+ 	    if (id.equals(0)) {
  		   imprimeMenu();
  	    }
  	   

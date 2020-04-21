@@ -9,10 +9,12 @@ import java.util.Arrays;
 
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.DAOFactory;
+import acadevs.entreculturas.dao.mysql.MySQLAdministracionFisicaDAO;
 import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
 import acadevs.entreculturas.dao.mysql.MySQLSocioDAO;
 import acadevs.entreculturas.dao.xml.XMLDAOFactory;
 import acadevs.entreculturas.dao.xml.XMLSocioDAO;
+import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.modelo.ViewException;
@@ -48,20 +50,21 @@ public class MenuAdministrador {
 	
 		Utilidad.limpiaPantalla();
 		int respuestaOpcion = 0;
-		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 0};
+		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 6, 7, 0};
 		System.out.println("\n**************************************************************************");
 		System.out.println("                       Opciones de administrador");
 		System.out.println("\n**************************************************************************");		
     	
         do {
         	System.out.println("\nPor favor, introduce el número de la acción que deseas realizar: ");
-        	System.out.println("1 - Dar de alta un socio");
+        	System.out.println("\n1 - Dar de alta un socio");
         	System.out.println("2 - Actualizar datos de un socio");
         	System.out.println("3 - Actualizar datos de la CUOTA de un socio");
-        	System.out.println("4 - Crear un proyecto");
-        	System.out.println("5 - Listar trabajadores");
+        	System.out.println("\n4 - Crear un proyecto");
+        	System.out.println("\n5 - Listar trabajadores");
         	System.out.println("6 - Listar socios");
-        	System.out.println("0 - Salir de la aplicación");
+        	System.out.println("\n7 - Crear alta de NUEVA SEDE");
+        	System.out.println("\n0 - Salir de la aplicación");
         	
         	try {
         		respuestaOpcion = Integer.parseInt(br.readLine());
@@ -86,6 +89,7 @@ public class MenuAdministrador {
            case 3:
         	   
         	   break;
+        	   
            case 4:   		  
         	   altaProyecto();
         	   imprimeMenu();
@@ -98,6 +102,11 @@ public class MenuAdministrador {
         	   
            case 6:
         	   seleccionarSalida();
+        	   imprimeMenu();
+        	   break;
+          
+           case 7:
+        	   altaAdministracion();
         	   imprimeMenu();
         	   break;
         	   
@@ -135,7 +144,6 @@ public class MenuAdministrador {
 				imprimeSociosXML(listado);
 			}
 		}
-
 	}
 	
 	public List<Socio> obtenerSociosMySQL() throws DAOException {
@@ -149,7 +157,7 @@ public class MenuAdministrador {
 		
 		if (listado.size() != 0) {
 			for (Socio elem : listado) {
-				elem.toString();
+				System.out.println(elem.toString());
 			}
 		} else {
 			System.out.println("No existen socios en la base de datos");
@@ -167,7 +175,7 @@ public class MenuAdministrador {
 			System.out.print("Escriba la ruta en la que quiere guardar el archivo xml o Marque 0 para cancelar");
 			String ruta = br.readLine(); 
 		
-			if (ruta.compareTo("0") == 0)  {
+			if (!ruta.equals("0"))  {
 				sociosXML.imprimirTodos(ruta);
 			}
 		} else {
@@ -250,7 +258,7 @@ public class MenuAdministrador {
 			this.dniSocio = br.readLine();
  	   	} while ((!Utilidad.validarNIF(dniSocio)) && (dniSocio != "0"));
  	   
- 	    if (dniSocio.compareTo("0") != 0) {
+ 	    if (!dniSocio.equals("0")) {
  		    socio = socios.obtener(dniSocio);
  	    }
  	    return socio;
@@ -279,18 +287,46 @@ public class MenuAdministrador {
  	   	do {
  	   		System.out.println("Introduzca el DNI del socio o marque 0 para volver al menú de administrador");
 			id = br.readLine();
- 	   	} while ((!Utilidad.validarNIF(id)) && (id != "0"));
+ 	   	} while ((!Utilidad.validarNIF(id)) && (!id.equals("0")));
  	   
- 	    if (id.compareTo("0") != 0)  {
+ 	    if (!id.equals("0")) {
 	 	    Socio socio = socios.obtener(id);
 	 	    if (socio == null) {   	
 	 	    	socio = new FormDatosSocio(socio, true).imprimeFormulario();// true : alta - pasamos datos socio vacio 
-	 			socios.crearNuevo(socio);
+	 			socio.setDni(id);
+	 	    	socios.crearNuevo(socio);
 	 			System.out.println("Se ha insertado el socio "+socio.getNombre()+" "+socio.getApellidos()+" a la base de datos.");
 	 	    } else {
 				System.out.println("El DNI "+id+" ya está registrado en la base de datos.");
 				altaSocio();
 	 	    	}       		
  	    }
+	}
+	
+	public void altaAdministracion () throws DAOException, ViewException, IOException, ParseException {
+
+		String nombreSede;
+		AdministracionFisica sede = null;
+		
+		MySQLAdministracionFisicaDAO administraciones = mysqlF.getAdministracionFisicaDAO();
+ 	   
+ 	   	do {
+ 	   		System.out.println("Introduzca el nombre de la nueva Sede o marque 0 para volver al menú de administrador");
+			nombreSede = br.readLine();
+			
+			if ((!nombreSede.equals("0")) && (nombreSede.isEmpty() == false)) { 
+				sede = administraciones.obtener(nombreSede);
+	 	   
+		 	    if (sede == null) {   	
+		 	    	sede = new FormDatosAdministracion(nombreSede).imprimeFormulario();// true : alta - pasamos datos socio vacio 
+		 			administraciones.crearNuevo(sede);
+		 			System.out.println("Se ha insertado una nueva sede con nombre \""+sede.getNombre()+"\" a la base de datos.");
+		 			nombreSede = "";
+		 	    } else {
+					System.out.println("Ya existe una sede con el nombre "+nombreSede+" en la base de datos.\n");
+					altaAdministracion();
+		 	    	}
+			}
+ 	   	} while ((!nombreSede.equals("0")) && (nombreSede.isEmpty() == false));
 	}
 }

@@ -7,7 +7,7 @@ public class AdministracionFisica {
 	private Integer idAdmin = null;
 	private String nombre;
 	private String direccion;
-	private int numEmpleados;
+	private short numEmpleados;
 	private String correo;
 	private int telefono;
 	
@@ -16,8 +16,10 @@ public class AdministracionFisica {
 	public AdministracionFisica () {
 	}
 	
-	public AdministracionFisica (String nombre, String direccion, int telefono, String correo, int empleados) {
+	public AdministracionFisica (String nombre, String direccion, int telefono, String correo, short empleados) {
 	
+		this.nombre = nombre;
+		
 		this.direccion = direccion;
 		
 		this.numEmpleados = empleados;
@@ -56,7 +58,7 @@ public class AdministracionFisica {
 		return numEmpleados;
 	}
 
-	public void setNumEmpleados(int numEmpleados) {
+	public void setNumEmpleados(short numEmpleados) {
 		this.numEmpleados = numEmpleados;
 	}
 
@@ -78,7 +80,7 @@ public class AdministracionFisica {
 
 	@Override
 	public String toString() {
-		return "AdministracionFisica [idAdmin=" + idAdmin + ", direccion=" + direccion + ", numEmpleados="
+		return "AdministracionFisica [idAdmin=" + idAdmin + ", nombre = " + nombre + ", direccion =" + direccion + ", numEmpleados="
 				+ numEmpleados + ", correo=" + correo + ", telefono=" + telefono + "]";
 	}
 	

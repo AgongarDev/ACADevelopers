@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,7 +41,8 @@ public class MySQLSocioDAO implements ISocioDAO {
 			+ " values (?, ?, ?, ?)";
 	
 	final String UPDATE = "update contactos, socios "
-			+ "inner join socios on contactos.id_contacto = socios.id_socio"
+			+ "inner join socios"
+			+ " on contactos.id_contacto = socios.id_socio"
 			+ "set "
 			+ "dni = ?, "
 			+ "nombre = ?, "
@@ -59,22 +61,27 @@ public class MySQLSocioDAO implements ISocioDAO {
 			+ " where contactos.id_contacto = ?";
 	
 	final String UPDATE_SOCIO = "update socios "
-			+ "inner join contactos on socios.id_socio = contactos.id_contacto"
+			+ "inner join contactos"
+			+ " on socios.id_socio = contactos.id_contacto"
 			+ " set "
 			+ "cuota = ?, "
 			+ "estado = ?, "
 			+ "tipo_cuota = ?"
 			+ " where socios.id_socio = ?";
 	
-	final String DELETE = "delete from contactos, socios "
-			+ "inner join socios on contactos.id_contacto = socios.id_socio"
+	final String DELETE = "delete contactos, socios "
+			+ "from contactos "
+			+ "inner join socios"
+			+ " on contactos.id_contacto = socios.id_socio"
 			+ " where id_contacto = ?";
 	
-	final String GETALL = "select * from contactos, socios "
-	    	+ "inner join socios on contactos.id_contacto = socios.id_socio";
+	final String GETALL = "select * from contactos "
+	    	+ "inner join socios"
+	    	+ " on contactos.id_contacto = socios.id_socio";
 	
 	final String GETUNO = "select * from contactos "
-			+ "inner join socios on contactos.id_contacto = socios.id_socio"
+			+ "inner join socios"
+			+ " on contactos.id_contacto = socios.id_socio"
 			+ " where contactos.id_contacto = ?";
 
 //CONEXIÓN
@@ -127,7 +134,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 			MySQLDAOFactory mysqlF = (MySQLDAOFactory) DAOFactory.getDAOFactory("MySQL");
  	   		MySQLAdministracionFisicaDAO administraciones = mysqlF.getAdministracionFisicaDAO();
 			
-			AdministracionFisica sede = administraciones.obtener(rs.getLong("sede")); 
+			AdministracionFisica sede = administraciones.obtener(rs.getInt("sede")); 
 			
 			Socio socio = new Socio (dni, nombre, apellido, direccion, telefono, fechaIni, fechaFin, cargo, correo, cuota, estado, pass, tipoCuota, sede);
 			
@@ -154,7 +161,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 		}
 		
 		try {
-			statContacto = conexion.prepareStatement(INSERT_CONTACTO);
+			statContacto = conexion.prepareStatement(INSERT_CONTACTO, Statement.RETURN_GENERATED_KEYS);
 			statContacto.setString(1,  t.getDni());
 			statContacto.setString(2, t.getNombre());
 			statContacto.setString(3, t.getApellidos());
@@ -165,7 +172,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 			statContacto.setString(8,  t.getCargo());
 			statContacto.setString(9, t.getCorreo());
 			statContacto.setString(12, t.getPass()); // la contraseña debería subirse encriptada.
-			statContacto.setLong(14, t.getSedeAsignada().getIdAdmin());
+			statContacto.setInt(14, t.getSedeAsignada().getIdAdmin());
 			
 			if (statContacto.executeUpdate() == 0) {
 				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Contactos");
@@ -197,6 +204,12 @@ public class MySQLSocioDAO implements ISocioDAO {
 			cierraStat(statSocio);
 			cierraStat(statContacto);
 		}
+	
+		try {
+			conexion.setAutoCommit(true);
+		} catch (SQLException e1) {
+			throw new DAOException ("Error al desactivar autocommit en creación de socios", e1);
+		}
 	}
 
 	@Override
@@ -205,12 +218,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		Socio socio = null;
-		
-		try {
-			conexion.setAutoCommit(true);
-		} catch (SQLException e1) {
-			throw new DAOException ("Error al desactivar autocommit en creación de socios", e1);
-		}
 		
 		try {
 			stat = conexion.prepareStatement(GETUNO);
@@ -237,14 +244,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 		
 		/*La actualización se hará en otra clase para mantener ésta únicamente como enlace de accesoa la base de datos.*/
 		PreparedStatement stat = null;
-		
-		try {
-			if (conexion.getAutoCommit() == false) {
-			conexion.setAutoCommit(true);
-			}
-		} catch (SQLException e1) {
-			throw new DAOException ("Error al activar autocommit en acutalización completa de socios", e1);
-		}
 		
 		try {
 			stat = conexion.prepareStatement(UPDATE);
@@ -278,14 +277,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 		PreparedStatement stat = null;
 		
 		try {
-			if (conexion.getAutoCommit() == false) {
-			conexion.setAutoCommit(true);
-			}
-		} catch (SQLException e1) {
-			throw new DAOException ("Error al activar autocommit en acutalización específica de socios", e1);
-		}
-		
-		try {
 			stat = conexion.prepareStatement(UPDATE_SOCIO);
 			stat.setFloat(1,  t.getCuotaAportacion());
 			stat.setBoolean(2, t.getEstadoAportacion());
@@ -304,14 +295,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 	@Override
 	public void borrar(Socio t) throws DAOException {
 		PreparedStatement stat = null;
-		
-		try {
-			if (conexion.getAutoCommit() == false) {
-			conexion.setAutoCommit(true);
-			}
-		} catch (SQLException e1) {
-			throw new DAOException ("Error al activar autocommit en borrado de socios", e1);
-		}
 		
 		try {
 			stat = conexion.prepareStatement(DELETE);
@@ -334,14 +317,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 		PreparedStatement stat = null;
 		ResultSet rs = null;
 		List<Socio> socios = new ArrayList<>();
-		
-		try {
-			if (conexion.getAutoCommit() == false) {
-			conexion.setAutoCommit(true);
-			}
-		} catch (SQLException e1) {
-			throw new DAOException ("Error al activar autocommit en acutalización completa de socios", e1);
-		}
 		
 		try {
 			stat = conexion.prepareStatement(GETALL);

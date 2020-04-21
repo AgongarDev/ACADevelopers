@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		String direccion = rs.getString("direccion");
 		int telefono = rs.getInt("telefono");
 		String correo = rs.getString("correo");
-		int numEmpleados = rs.getInt("num_empleados");
+		short numEmpleados = rs.getShort("num_empleados");
 		
 		AdministracionFisica sede = new AdministracionFisica (nombre, direccion, telefono, correo, numEmpleados);
 		
@@ -77,12 +78,12 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		ResultSet rs = null;
 		
 		try {
-			stat = conexion.prepareStatement(INSERT);
+			stat = conexion.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 			stat.setString(1, t.getNombre());
 			stat.setString(2, t.getDireccion());
 			stat.setInt(3, t.getTelefono());
 			stat.setString(4, t.getCorreo());
-			stat.setInt(5, t.getNumEmpleados());
+			stat.setShort(5, (short) t.getNumEmpleados());
 			
 			if (stat.executeUpdate() == 0) {
 				throw new DAOException("Hubo algún problema al intentar la llamada insert a la tabla Administraciones");
@@ -115,7 +116,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 			stat.setString(2, t.getDireccion());
 			stat.setInt(3, t.getTelefono());
 			stat.setString(4, t.getCorreo());
-			stat.setInt(5, t.getNumEmpleados());
+			stat.setShort(5, (short) t.getNumEmpleados());
 			
 		} catch (SQLException e) {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Administraciones", e);
@@ -165,7 +166,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 	}
 	
 	@Override
-	public AdministracionFisica obtener(String id) throws DAOException {
+	public AdministracionFisica obtener(String nombre) throws DAOException {
 		
 		PreparedStatement stat = null;
 		ResultSet rs = null;
@@ -173,12 +174,11 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		
 		try {
 			stat = conexion.prepareStatement(GETUNO);
-			stat.setString(1, id);
+			stat.setString(1, nombre);
 			rs = stat.executeQuery();
+			
 			if (rs.next()) {
 				sede = convertir(rs);
-			} else {
-				throw new DAOException("No se ha encontrado este registro");
 			}
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Administraciones", e);
@@ -189,7 +189,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		return sede;
 	}
 	
-	public AdministracionFisica obtener(Long id) throws DAOException {
+	public AdministracionFisica obtener(Integer id) throws DAOException {
 		
 		PreparedStatement stat = null;
 		ResultSet rs = null;

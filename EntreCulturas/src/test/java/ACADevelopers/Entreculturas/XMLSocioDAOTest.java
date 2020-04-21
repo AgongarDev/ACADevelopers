@@ -32,7 +32,7 @@ public class XMLSocioDAOTest {
 	    @Before
 	    public void creaDatosPrueba() {
 	    	
-	    	sedePrueba = new AdministracionFisica( "AFP1", "Direccion",971971971, "correo", 100);
+	    	sedePrueba = new AdministracionFisica( "AFP1", "Direccion",971971971, "correo", (short)100);
 	    	
 	    	Date fechaIni = new Date(20200407);
 	    	Date fechaFin = new Date(20210407);

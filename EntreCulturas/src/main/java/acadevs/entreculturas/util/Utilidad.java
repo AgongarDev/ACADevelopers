@@ -54,15 +54,29 @@ public class Utilidad {
 	}
 	
 	public static boolean validarNumeroTelefono(String numero) {
-		final String regexStr = "^[6789]+d{8}$";
-		System.out.println("Formato de telefono incorrecto");
-		return (!Pattern.matches(regexStr, numero));
+		final String regexStr = "\\d{9}";
+		 CharSequence inputStr = numero;
+	       Pattern pattern = Pattern.compile(regexStr);
+	       Matcher matcher = pattern.matcher(inputStr);
+	       
+	       return (matcher.matches());
 	}
 	
 	public static boolean validarFloat(String numero) {
-		final String regexStr = "^[0-9]*\\.?[0-9]+$";
-		System.out.println("Formato de importe incorrecto");
-		return (!Pattern.matches(regexStr, numero));
+			try {
+				Integer.parseInt(numero);
+				return true;
+			} catch (NumberFormatException nfe){
+				return false;
+			}
+		}
+	
+	public static boolean validarMail(String mail) {
+		
+			Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+			 
+	        Matcher mather = pattern.matcher(mail);
+	        return mather.find();
 	}
 	
 	public static void cierraConexionMySQL() throws DAOException {
@@ -100,7 +114,6 @@ public class Utilidad {
 				}
 		}
 	}
-	
 	
 	public static void cargaConfiguracion() {
 		

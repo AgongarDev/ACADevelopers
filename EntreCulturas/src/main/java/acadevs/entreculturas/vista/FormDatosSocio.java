@@ -52,8 +52,9 @@ public class FormDatosSocio {
 		System.out.println("                  Formulario de datos de CONTACTO DE SOCIO");
 		System.out.println("\n**************************************************************************");
 		
-		if (esNuevo) {
-			socioAnterior.toString();
+		if (!esNuevo) {
+			System.out.println("Los datos del socio anterior son:");
+			System.out.println(socioAnterior.toString());
 		}
 //nombre		
 		System.out.println("\nNombre: ");
@@ -69,10 +70,8 @@ public class FormDatosSocio {
 			if (entrada.isEmpty()) {
 				nuevoSocio.setApellidos(socioAnterior.getApellidos());
 			} else {
-				nuevoSocio.setNombre(entrada);
+				nuevoSocio.setApellidos(entrada);
 				}
-			
-			nuevoSocio.setApellidos(br.readLine());
 //email		
 		System.out.println("\nEmail: ");
 			this.entrada = br.readLine();
@@ -97,7 +96,7 @@ public class FormDatosSocio {
         	if (entrada.isEmpty()) {
         		nuevoSocio.setFechaInicio(socioAnterior.getFechaInicio());
         	} else {
-        		nuevoSocio.setFechaInicio(new SimpleDateFormat("dd/MM/yyyy").parse(br.readLine()));
+        		nuevoSocio.setFechaInicio(new SimpleDateFormat("dd/MM/yyyy").parse(entrada));
         		}
 //fecha final        
 		System.out.println("\nFecha Finalización: ");
@@ -121,8 +120,17 @@ public class FormDatosSocio {
 		String pass = String.format("%06d", random.nextInt(1000000));
 		nuevoSocio.setPass(pass);	
 		
-		especificosSocio();
 		nuevoSocio.setSedeAsignada(especificosAdministracion());
+		
+		especificosSocio();
+		
+		System.out.println("Los datos del socio a guardar son:");
+		System.out.println(nuevoSocio.toString());
+		
+		System.out.println("Datos correctos para grabación? (S/N)");
+		if (br.readLine().equalsIgnoreCase("n")) {
+			imprimeFormulario();
+		}
 		
 		return nuevoSocio;
 	}
@@ -142,34 +150,30 @@ public class FormDatosSocio {
 					nuevoSocio.setSedeAsignada(socioAnterior.getSedeAsignada());
 				} else {
 					sede = administraciones.obtener(entrada);
-	
-		 	   		if (sede == null) {
+					if (sede == null) {
 						System.out.println("La sede "+entrada+" no existe. ¿Desea crear una nueva sede con este nombre?");
 						String respuesta = br.readLine();
-						
-						while (sede == null) {
-							if (respuesta.equalsIgnoreCase("s")) {
-								FormDatosAdministracion frmDatosSede = new FormDatosAdministracion(entrada);
-								sede = frmDatosSede.imprimeMenu(entrada);
-								administraciones.crearNuevo(sede);
-		  		  			} else {
-		  		  				System.out.println("Es obligatorio asignar una sede al socio");
-		  		  				
-		  		  				System.out.println("¿Mostrar Sedes disponibles?");
-		  		  				respuesta = br.readLine();
-		  		  				
-		  		  				if (respuesta.equalsIgnoreCase("s")) {
-		  		  					List<AdministracionFisica> listaSedes = administraciones.obtenerTodos();
-		  		  					for ( AdministracionFisica elem : listaSedes) {
-		  		  						elem.toString();
-		  		  					}
-		  		  				}
+			
+						if (respuesta.equalsIgnoreCase("s")) {
+							sede = new FormDatosAdministracion(entrada).imprimeFormulario();
+							administraciones.crearNuevo(sede);
+	  		  			} 	else {
+	  		  					System.out.println("Es obligatorio asignar una sede al socio");
+	  		  			
+	  		  					System.out.println("\n¿Mostrar Sedes disponibles?");
+	  		  					respuesta = br.readLine();
+	  		  				
+	  		  					if (respuesta.equalsIgnoreCase("s")) {
+	  		  						List<AdministracionFisica> listaSedes = administraciones.obtenerTodos();
+	  		  						for ( AdministracionFisica elem : listaSedes) {
+	  		  							System.out.println(elem.toString());
+	  		  						}
+	  		  					}
 		  		  			}
-		  		  		}
-					}
-				}
-		 	   		
+		  		  }
+				} 	   		
 		} while (sede == null);
+		
 		return sede;
 	}
 	

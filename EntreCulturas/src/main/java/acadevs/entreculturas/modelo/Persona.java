@@ -23,8 +23,7 @@ import java.util.Date;
 public abstract class Persona {
 
 	    // CAMPOS
-	
-	    protected String dni;
+		protected String dni;
 		protected String nombre;
 		protected String apellidos;
 		protected int telefono = 0;
@@ -266,6 +265,13 @@ public abstract class Persona {
 		 */
 		public void setSedeAsignada(AdministracionFisica sedeAsignada) {
 			this.sedeAsignada = sedeAsignada;
+		}
+		
+	    @Override
+		public String toString() {
+			return "Persona [dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
+					+ ", domicilio=" + domicilio + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
+					+ ", sedeAsignada=" + sedeAsignada + ", cargo=" + cargo + ", correo=" + correo + "]";
 		}
 								
 }
