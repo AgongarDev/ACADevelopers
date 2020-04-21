@@ -151,15 +151,19 @@ public class Socio extends Persona {
 	public void setTipoCuota(TipoCuota tipodecuota) {
 		this.tipoCuota = tipodecuota;
 	}
-	
-	/**
+
+		/**
 	 * Crea una cadena de caracteres con los datos del trabajador.
 	 * 
 	 * @return Cadena con los datos del trabajador.
 	 */
 	@Override
 	public String toString() {
-		return this.nombre + " " + this.apellidos + " (ID empleado - " + this.dni + ")";
+		return super.toString() + "Socio [pass=" + pass + ", cuotaAportacion=" + cuotaAportacion + ", estadoAportacion=" + estadoAportacion
+				+ ", tipoCuota=" + tipoCuota + "]";
 	}
+	
+
+
 	
 }
