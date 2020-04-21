@@ -36,12 +36,6 @@ public class FormDatosSocio {
 			this.socioAnterior = new Socio();
 		}else this.socioAnterior = anterior;
 		
-		try {
-			imprimeFormulario();
-		} catch (DAOException | IOException | ParseException e) {
-			e.printStackTrace();
-			throw new ViewException ("Hubo un problema en el formulario de socios", e);
-		}
 	}
 	
 	public Socio imprimeFormulario() throws DAOException, IOException, ParseException {
@@ -57,59 +51,66 @@ public class FormDatosSocio {
 			System.out.println(socioAnterior.toString());
 		}
 //nombre		
-		System.out.println("\nNombre: ");
+		System.out.print("\nNombre: ");
 			this.entrada = br.readLine();
 			if (entrada.isEmpty()) {
+				System.out.print(socioAnterior.getNombre());
 				nuevoSocio.setNombre(socioAnterior.getNombre());
 			} else {
 				nuevoSocio.setNombre(entrada);
 				}
 //apellidos		
-		System.out.println("\nApellidos: ");
+		System.out.print("\nApellidos: ");
 			this.entrada = br.readLine();
 			if (entrada.isEmpty()) {
+				System.out.print(socioAnterior.getApellidos());
 				nuevoSocio.setApellidos(socioAnterior.getApellidos());
 			} else {
 				nuevoSocio.setApellidos(entrada);
 				}
 //email		
-		System.out.println("\nEmail: ");
+		System.out.print("\nEmail: ");
 			this.entrada = br.readLine();
 			if (entrada.isEmpty()) {
+				System.out.print(socioAnterior.getCorreo());
 				nuevoSocio.setCorreo(socioAnterior.getCorreo());
 			} else {
 				nuevoSocio.setCorreo(entrada);
 				}
 //telefono
 			do {
-				System.out.println("\nTelefono: ");
+				System.out.print("\nTelefono: ");
 				this.entrada = br.readLine();
 	        } while ((!Utilidad.validarNumeroTelefono(entrada)) && (!entrada.isEmpty()));
 			if (entrada.isEmpty()) { 
+				System.out.print(socioAnterior.getTelefono());
 				nuevoSocio.setTelefono(socioAnterior.getTelefono()); 
 			}	else {
 				nuevoSocio.setTelefono(Integer.parseInt(entrada));
 				}
 //fecha inicial	
-        System.out.println("\nFecha Inscripción: ");
+        System.out.print("\nFecha Inscripción: ");
         	this.entrada = br.readLine();
         	if (entrada.isEmpty()) {
+        		System.out.print(socioAnterior.getFechaInicio());
         		nuevoSocio.setFechaInicio(socioAnterior.getFechaInicio());
         	} else {
         		nuevoSocio.setFechaInicio(new SimpleDateFormat("dd/MM/yyyy").parse(entrada));
         		}
 //fecha final        
-		System.out.println("\nFecha Finalización: ");
+		System.out.print("\nFecha Finalización: ");
 			this.entrada = br.readLine();
 			if (entrada.isEmpty()) {
+				System.out.print(socioAnterior.getFechaFin());
 				nuevoSocio.setFechaFin(socioAnterior.getFechaFin());
 			} else {
-				nuevoSocio.setFechaInicio(new SimpleDateFormat("dd/MM/yyyy").parse(entrada));
+				nuevoSocio.setFechaFin(new SimpleDateFormat("dd/MM/yyyy").parse(entrada));
 				}
 //cargo		        
-		System.out.println("\nCargo del Socio: ");
+		System.out.print("\nCargo del Socio: ");
 			this.entrada = br.readLine();
 			if (entrada.isEmpty()) {
+				System.out.print(socioAnterior.getCargo());
 				nuevoSocio.setCargo(socioAnterior.getCargo());
 			} else {
 				nuevoSocio.setCargo(entrada);
@@ -122,12 +123,15 @@ public class FormDatosSocio {
 		
 		nuevoSocio.setSedeAsignada(especificosAdministracion());
 		
-		especificosSocio();
+		nuevoSocio.setDni(socioAnterior.getDni());
+		nuevoSocio.setId(socioAnterior.getId());
 		
-		System.out.println("Los datos del socio a guardar son:");
+		especificosSocio(nuevoSocio);
+		
+		System.out.println("Los datos del socio a guardar son:\n");
 		System.out.println(nuevoSocio.toString());
 		
-		System.out.println("Datos correctos para grabación? (S/N)");
+		System.out.println("\nDatos correctos para grabación? (S/N)");
 		if (br.readLine().equalsIgnoreCase("n")) {
 			imprimeFormulario();
 		}
@@ -143,11 +147,12 @@ public class FormDatosSocio {
 	   	AdministracionFisica sede = null;
 	   	
 		do{
-			System.out.println("\nNombre Sede Asignada: ");
+			System.out.print("\nNombre Sede Asignada: ");
 				this.entrada = br.readLine();
 				
 				if (entrada.isEmpty()) {
 					nuevoSocio.setSedeAsignada(socioAnterior.getSedeAsignada());
+					sede = socioAnterior.getSedeAsignada();
 				} else {
 					sede = administraciones.obtener(entrada);
 					if (sede == null) {
@@ -177,18 +182,20 @@ public class FormDatosSocio {
 		return sede;
 	}
 	
-	public Socio especificosSocio() throws IOException {
+	public Socio especificosSocio(Socio socioAActualizar) throws IOException {
+		
+		nuevoSocio = socioAActualizar;
 		
 		System.out.println("\n**************************************************************************");
 		System.out.println("                 Formulario de datos ESPECÍFICOS DE SOCIO");
 		System.out.println("\n**************************************************************************");
 		
 		//importe
-				System.out.println("\nImporte por Aportación: ");
+				System.out.print("\nImporte por Aportación: ");
 					entrada = br.readLine();
 					
 					while ((!Utilidad.validarFloat(entrada)) && (!entrada.isEmpty())) {
-						System.out.println("\nIntroduzca el importe de la cuota: ");
+						System.out.print("\nIntroduzca el importe de la cuota: ");
 						entrada = br.readLine();
 					}
 					
@@ -199,7 +206,7 @@ public class FormDatosSocio {
 						}
 		//Socio activo S/N
 				do {
-					System.out.println("¿Aportación ACTIVA? (S/N): ");
+					System.out.print("¿Aportación ACTIVA? (S/N): ");
 					entrada = br.readLine();
 					
 					if (entrada.equalsIgnoreCase("s")) {
@@ -207,10 +214,13 @@ public class FormDatosSocio {
 					} else {
 						nuevoSocio.setEstadoAportacion(false);
 						}
-				} while (!entrada.equalsIgnoreCase("s") && (!entrada.equalsIgnoreCase("n")));
-
+				} while (!entrada.equalsIgnoreCase("s") && (!entrada.equalsIgnoreCase("n") && (!entrada.isEmpty())));
+				
+				if (entrada.isEmpty()) {
+					nuevoSocio.setSedeAsignada(socioAnterior.getSedeAsignada());
+				}
 		//Tipo cuota		
-				System.out.println("\nTipo Cuota -- Mensual (M) : Trimestral (T) : Anual(A): ");
+				System.out.print("\nTipo Cuota -- Mensual (M) : Trimestral (T) : Anual(A): ");
 					String tipoCuota = br.readLine();
 					if  (tipoCuota.equalsIgnoreCase("M")) {
 						nuevoSocio.setTipoCuota(TipoCuota.MES);

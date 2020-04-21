@@ -20,7 +20,8 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 	final String UPDATE = "update administraciones set nombre = ?, direccion = ?, telefono = ?, correo = ?, num_empleados = ? where id_sede = ?";
 	final String DELETE = "delete from administraciones where id_sede = ?";
 	final String GETALL = "select * from administraciones";
-	final String GETUNO = "select * from administraciones where nombre = ?";
+	final String GETBYID = "select * from administraciones where id_sede = ?";
+	final String GETBYNAME = "select * from administraciones where nombre = ?";
 
 //CONEXIÓN
 	private Connection conexion;
@@ -173,7 +174,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		AdministracionFisica sede = null;
 		
 		try {
-			stat = conexion.prepareStatement(GETUNO);
+			stat = conexion.prepareStatement(GETBYNAME);
 			stat.setString(1, nombre);
 			rs = stat.executeQuery();
 			
@@ -196,7 +197,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		AdministracionFisica sede = null;
 		
 		try {
-			stat = conexion.prepareStatement(GETUNO);
+			stat = conexion.prepareStatement(GETBYID);
 			stat.setLong(1, id);
 			rs = stat.executeQuery();
 			if (rs.next()) {

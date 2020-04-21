@@ -3,7 +3,6 @@ package acadevs.entreculturas.dao.xml;
 import acadevs.entreculturas.dao.DAOFactory;
 import acadevs.entreculturas.dao.IAdministracionFisicaDAO;
 import acadevs.entreculturas.dao.IDAOListaFactories;
-import acadevs.entreculturas.dao.ISocioDAO;
 
 /**
  * Esta clase factoria se usa para crear DAOs que usan
@@ -25,7 +24,7 @@ public XMLDAOFactory () {
 @Override
 public XMLSocioDAO getSocioDAO() {
 	if (sociosDAO == null) {
-		this.sociosDAO = (ISocioDAO) new XMLSocioDAO();
+		this.sociosDAO = new XMLSocioDAO();
 	}
 	return (XMLSocioDAO) sociosDAO;
 }

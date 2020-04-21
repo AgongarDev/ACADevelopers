@@ -14,7 +14,7 @@ create table if not exists ADMINISTRACIONES (
 create table if not exists CONTACTOS (
 	id_contacto int not null auto_increment,
     dni varchar(9) not null,
-	pass smallint,
+	pass varchar(100),
     nombre varchar(32) not null,
     apellido varchar(32) not null,
     direccion varchar(100),

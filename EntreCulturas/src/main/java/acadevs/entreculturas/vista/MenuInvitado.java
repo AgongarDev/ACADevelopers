@@ -100,16 +100,16 @@ public class MenuInvitado {
  	   	do {
  	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
 			id = br.readLine();
- 	   	} while ((!Utilidad.validarNIF(id)) && (id.compareTo("0") != 0));
+ 	   	} while ((!Utilidad.validarNIF(id)) && (!id.equals("0")));
  	   
- 	    if (id.equals(0)) {
+ 	    if (id.equals("0")) {
  		   imprimeMenu();
  	    }
  	   
  	    Socio socio = socios.obtener(id);
  	   
  	    if (socio == null) {
- 	    	System.out.println("El socio con DNI +"+id+" no existe en la base de datos.");
+ 	    	System.out.println("El socio con DNI "+id+" no existe en la base de datos.");
  		    System.out.println("¿Desea crear uno nuevo con este DNI?");
  		    String respuesta = br.readLine();
 			   

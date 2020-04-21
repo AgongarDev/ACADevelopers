@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import acadevs.entreculturas.dao.DAOException;
-import acadevs.entreculturas.dao.IDAO;
+import acadevs.entreculturas.dao.ISocioDAO;
 import acadevs.entreculturas.modelo.Config;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
@@ -38,7 +38,7 @@ import acadevs.entreculturas.util.Utilidad;
  * @version 1.0
  *
  */
-public class XMLSocioDAO implements IDAO<Socio, String> {
+public class XMLSocioDAO implements ISocioDAO {
 	
 	private String RUTAXML = Config.rutaXML;	
 // VARIABLES

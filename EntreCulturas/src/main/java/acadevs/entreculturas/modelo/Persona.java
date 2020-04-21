@@ -17,7 +17,7 @@ import java.util.Date;
  */
 
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-@XmlType(propOrder={"dni", "nombre", "apellidos", "telefono", "domicilio", "fechaInicio", 
+@XmlType(propOrder={"dni", "nombre", "apellidos", "domicilio", "telefono", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})
 @XmlSeeAlso ({Socio.class, Administrador.class})
 public abstract class Persona {

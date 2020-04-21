@@ -62,8 +62,8 @@ public class MenuSocio {
 		
 		switch(respuestaOpcion) {
 			case 1:
-				socio = new FormDatosSocio(socio, false).especificosSocio(); // false : actualización - se abre el formulario de socio sólo con las opciones específicas.
-				socios.actualizarEspecificosSocio(socio);
+				socio = new FormDatosSocio(socio, false).especificosSocio(socio); // false : actualización - se abre el formulario de socio sólo con las opciones específicas.
+				socios.datosEspecificosSocio(socio, "UPDATE_SOCIO");
 				imprimeMenu();
 				break;
 				

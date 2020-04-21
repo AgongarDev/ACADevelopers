@@ -50,7 +50,7 @@ public class MenuAdministrador {
 	
 		Utilidad.limpiaPantalla();
 		int respuestaOpcion = 0;
-		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 6, 7, 0};
+		Integer[] opcionesValidas = {1, 2, 3, 4, 5, 6, 7, 8, 0};
 		System.out.println("\n**************************************************************************");
 		System.out.println("                       Opciones de administrador");
 		System.out.println("\n**************************************************************************");		
@@ -64,6 +64,7 @@ public class MenuAdministrador {
         	System.out.println("\n5 - Listar trabajadores");
         	System.out.println("6 - Listar socios");
         	System.out.println("\n7 - Crear alta de NUEVA SEDE");
+        	System.out.println("\n8 - Importar Socios desde archivo XML");
         	System.out.println("\n0 - Salir de la aplicación");
         	
         	try {
@@ -82,12 +83,13 @@ public class MenuAdministrador {
         	   break;
         	   
            case 2:
-        	   actualizarSocio();
+        	   actualizarSocio(true); //actualizar todo
         	   imprimeMenu();
         	   break;
         	   
            case 3:
-        	   
+        	   actualizarSocio(false); //actualizar solo específicos
+        	   imprimeMenu();
         	   break;
         	   
            case 4:   		  
@@ -107,6 +109,11 @@ public class MenuAdministrador {
           
            case 7:
         	   altaAdministracion();
+        	   imprimeMenu();
+        	   break;
+        	   
+           case 8:
+        	   importarSociosXML();
         	   imprimeMenu();
         	   break;
         	   
@@ -157,7 +164,7 @@ public class MenuAdministrador {
 		
 		if (listado.size() != 0) {
 			for (Socio elem : listado) {
-				System.out.println(elem.toString());
+				System.out.println(elem.toString()+"\n");
 			}
 		} else {
 			System.out.println("No existen socios en la base de datos");
@@ -172,7 +179,7 @@ public class MenuAdministrador {
 			XMLSocioDAO sociosXML = xmlF.getSocioDAO();
 			sociosXML.setListadoSocios(Lsocios);
 		
-			System.out.print("Escriba la ruta en la que quiere guardar el archivo xml o Marque 0 para cancelar");
+			System.out.println("Escriba la ruta en la que quiere guardar el archivo xml o Marque 0 para cancelar");
 			String ruta = br.readLine(); 
 		
 			if (!ruta.equals("0"))  {
@@ -186,17 +193,31 @@ public class MenuAdministrador {
 	public void importarSociosXML() throws DAOException {
 		 
 		XMLSocioDAO sociosXML = xmlF.getSocioDAO();
+		AdministracionFisica sedeXml = null, sedeMySQL = null;
 		
 		List <Socio> listaSocios = sociosXML.obtenerTodos();
-		int updates = 0;
+		int leidos = 0;
+		int importados = 0;
 		
 		MySQLSocioDAO sociosMySQL = mysqlF.getSocioDAO();
+		MySQLAdministracionFisicaDAO administraciones = mysqlF.getAdministracionFisicaDAO();
 		
-		for (Socio s: listaSocios) {
-			if (subirSocio(s, sociosMySQL)) {
-				updates = updates++;
+		for (Socio socioXml: listaSocios) {
+			sedeXml = socioXml.getSedeAsignada();
+			sedeMySQL = administraciones.obtener(sedeXml.getNombre());
+			if (sedeMySQL == null) {
+				administraciones.crearNuevo(sedeXml);
+				sedeMySQL = administraciones.obtener(sedeXml.getNombre());
+			}
+				socioXml.setSedeAsignada(sedeMySQL);
+			
+			if (subirSocio(socioXml, sociosMySQL)) {
+				importados++;
 			};
+			leidos++;
 		}
+		
+		System.out.println("Socios leídos: "+leidos+"; Socios importados: "+importados);
 	}
 	
 	public boolean subirSocio(Socio s, MySQLSocioDAO socios) throws DAOException {
@@ -205,10 +226,9 @@ public class MenuAdministrador {
 		Socio socio = socios.obtener(id);
 		
 		if (socio == null) {
-			socios.crearNuevo(socio);
+			socios.crearNuevo(s);
 			return true;
 		} 
-		
 		return false;
 	}
 	
@@ -256,7 +276,7 @@ public class MenuAdministrador {
 		do {
  	   		System.out.println("Introduzca DNI para acceder al perfil de socio o marque 0 para volver al menú de invitado");
 			this.dniSocio = br.readLine();
- 	   	} while ((!Utilidad.validarNIF(dniSocio)) && (dniSocio != "0"));
+ 	   	} while ((!Utilidad.validarNIF(dniSocio)) && (!dniSocio.equals("0")));
  	   
  	    if (!dniSocio.equals("0")) {
  		    socio = socios.obtener(dniSocio);
@@ -264,7 +284,7 @@ public class MenuAdministrador {
  	    return socio;
 	}
 	
-	public void actualizarSocio() throws IOException, DAOException, ViewException, ParseException {
+	public void actualizarSocio(boolean todo) throws IOException, DAOException, ViewException, ParseException {
 		
 		Socio socioActualizado = null;
  	   
@@ -272,11 +292,18 @@ public class MenuAdministrador {
 		
 		 if (socio == null) {
  		    	System.out.println("No existe un socio con el dni: "+dniSocio);
- 		  }
-		
- 	   	socioActualizado = new FormDatosSocio(socio, false).imprimeFormulario(); // false : actualizar - pasamos datos socio existente
- 	   	socios.actualizar(socioActualizado);
- 	   	System.out.println("Datos del socio "+socio.getNombre()+" "+socio.getApellidos()+" actualizados.");
+ 		  } else {
+		 
+ 			  if (todo) {
+ 				  socioActualizado = new FormDatosSocio(socio, false).imprimeFormulario(); // false : actualizar - pasamos datos socio existente
+ 				  socios.actualizar(socioActualizado);
+ 			  } else {
+ 				  socioActualizado = socio;
+ 				  socioActualizado = new FormDatosSocio(socio, false).especificosSocio(socio);
+ 				  socios.datosEspecificosSocio(socioActualizado, "UPDATE_SOCIO");
+ 			  	}
+ 	   			System.out.println("Datos del socio "+socioActualizado.getNombre()+" "+socioActualizado.getApellidos()+" actualizados.");
+ 		  	}
 	}
 	
 	public void altaSocio () throws DAOException, ViewException, IOException, ParseException {

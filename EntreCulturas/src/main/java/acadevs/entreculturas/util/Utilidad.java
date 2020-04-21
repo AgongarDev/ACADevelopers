@@ -2,9 +2,12 @@ package acadevs.entreculturas.util;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +29,18 @@ public class Utilidad {
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	public static Date conversorFecha(java.util.Date uFecha) {
+		Date sqlDate = new Date (uFecha.getTime());
+		
+		return sqlDate;
+	}
+	
+	public static java.util.Date conversorFecha(Date sqlDate) {
+		java.util.Date uDate = new java.util.Date (sqlDate.getTime());
+		
+		return uDate;
 	}
 	
 	public static boolean validarNIF(String nif) {
@@ -112,6 +127,14 @@ public class Utilidad {
 			} catch (SQLException e) {
 				System.out.println("Imposible conectar con la base de datos");
 				}
+		}
+	}
+	
+	public static void activaAutoCommit (Connection con, boolean activar) {
+		try {
+			con.setAutoCommit(activar);
+		} catch (SQLException e) {
+			new DAOException ("Error al manejar autocommit en una transición", e);
 		}
 	}
 	
