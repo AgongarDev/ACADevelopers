@@ -18,6 +18,7 @@ import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.modelo.ViewException;
+import acadevs.entreculturas.util.Config;
 import acadevs.entreculturas.util.Utilidad;
 
 public class MenuAdministrador {
@@ -191,7 +192,21 @@ public class MenuAdministrador {
 	}
 	
 	public void importarSociosXML() throws DAOException {
-		 
+		
+		System.out.println("El directorio del archivo xml establecido es "+Config.rutaXML+". \n ¿Es correcto?");
+		try {
+			
+			if (br.readLine().equalsIgnoreCase("n")) {
+				System.out.print("Ruta del archivo de socios a importar: ");
+					Config config = new Config();
+					config.setRutaXML(br.readLine());	
+					Utilidad.grabaConfiguracion(config);
+			}
+		} catch (IOException e) {
+			System.out.println("Error :"+e);
+			e.printStackTrace();
+			}
+		
 		XMLSocioDAO sociosXML = xmlF.getSocioDAO();
 		AdministracionFisica sedeXml = null, sedeMySQL = null;
 		

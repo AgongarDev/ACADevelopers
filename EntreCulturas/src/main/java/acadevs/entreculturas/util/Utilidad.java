@@ -17,7 +17,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import acadevs.entreculturas.dao.DAOException;
-import acadevs.entreculturas.modelo.Config;
 
 public class Utilidad {
 
@@ -141,7 +140,9 @@ public class Utilidad {
 	public static void cargaConfiguracion() {
 		
 		File archivoConfig = new File("config.xml");
-		Config config = new Config();
+		
+		Config config = null;
+		
 		if (archivoLegible(archivoConfig)) {
 			try {
 				JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
@@ -151,16 +152,25 @@ public class Utilidad {
 				System.out.println("Error al cargar los datos de config.txt . Se aplicarán los valores por defecto \n"+e.toString());
 			}
 		} else { 
+			grabaConfiguracion(config);
+		}
+	}
+	
+	public static void grabaConfiguracion(Config config) {
+		
+		File archivoConfig = new File("config.xml");
+		if (config == null) {
+			config = new Config();
+		} else {
+			if (archivoLegible(archivoConfig)) {
 				try {
 					JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
 					Marshaller marshaller = jaxbContext.createMarshaller();
 					marshaller.marshal(config, archivoConfig);
 				} catch (JAXBException e) {
 					System.out.println("Error al crear el archivo config.xml"+e.toString());
-				}
-			System.out.println("No se ha encontrado el archivo de configuración. Se aplicarán los valores por defecto");	
+					}
 			}
+		}
 	}
-
-
 }

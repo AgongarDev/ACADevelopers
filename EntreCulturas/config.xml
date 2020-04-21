@@ -1,9 +1,1 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<config>
-  <rutaXML>xml/socios.xml</rutaXML>
-  <mySQLHost>localhost</mySQLHost>
-  <mySQLPuerto>3306</mySQLPuerto>
-  <mySQLDataBase>"entreculturasdb_v1</mySQLDataBase>
-  <mySQLUsuario>ACADevelopers</mySQLUsuario>
-  <mySQLPass>321998</mySQLPass>
-  </config>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><config><rutaXML>socios.xml</rutaXML><mySQLHost>localhost</mySQLHost><mySQLPuerto>3306</mySQLPuerto><mySQLUsuario>ACADevelopers</mySQLUsuario><mySQLPass>321998</mySQLPass></config>

@@ -25,9 +25,9 @@ import org.xml.sax.SAXException;
 
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.ISocioDAO;
-import acadevs.entreculturas.modelo.Config;
 import acadevs.entreculturas.modelo.ListadoSocios;
 import acadevs.entreculturas.modelo.Socio;
+import acadevs.entreculturas.util.Config;
 import acadevs.entreculturas.util.Utilidad;
 
 /**
