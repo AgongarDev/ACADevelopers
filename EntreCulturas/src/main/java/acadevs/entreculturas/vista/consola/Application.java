@@ -1,9 +1,10 @@
-package acadevs.entreculturas.vista;
+package acadevs.entreculturas.vista.consola;
 
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
 import acadevs.entreculturas.modelo.ViewException;
 import acadevs.entreculturas.util.Utilidad;
+import acadevs.entreculturas.vista.javafx.HelloFX;
 
 /**
  * 
@@ -38,7 +39,8 @@ public class Application {
 		 */
 		tiempoDeCreditos();
 		
-		new MenuInvitado ();
+		HelloFX.ver();
+		//new MenuInvitado ();
 	}
 	
 	public static void tiempoDeCreditos() throws ViewException {
