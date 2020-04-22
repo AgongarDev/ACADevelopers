@@ -2,7 +2,7 @@ package acadevs.entreculturas.modelo;
 
 public class AdministracionFisica {
 
-	//ATRIBUTOS DEL MODELO
+	//ATRIBUTOS DEL MODELO ADMINISTRACION FISICA
 	
 	private Integer idAdmin = null;
 	private String nombre;

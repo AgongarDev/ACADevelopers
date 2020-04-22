@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import acadevs.entreculturas.modelo.AdministracionFisica;
-
+import acadevs.entreculturas.util.Utilidad;
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.IAdministracionFisicaDAO;
 
@@ -28,29 +28,6 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 
 	public MySQLAdministracionFisicaDAO (Connection conexion) {
 		this.conexion = conexion;
-	}
-	
-//MÉTODOS DE DESCONEXIÓN
-	private void cierraStat(PreparedStatement stat) throws DAOException{
-		
-		if (stat != null) {
-			try {
-				stat.close();
-			} catch (SQLException e) {
-				throw new DAOException("Error al cerrar la llamada a la tabla Administraciones", e);
-			}
-		}
-	}
-	
-	private void cierraRs(ResultSet rs) throws DAOException{
-		
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				throw new DAOException ("Error al cerrrar el resultado de la llamada a la tabla Administraciones", e);
-			}
-		}
 	}
 
 //MÉTODOS DE UTILIDAD
@@ -100,8 +77,8 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al intentar guardar datos en la tabla Administraciones", e);
 		} finally {
-			cierraRs(rs);
-			cierraStat(stat);
+			Utilidad.cierraRs(rs);
+			Utilidad.cierraStat(stat);
 		}
 	}
 		
@@ -122,7 +99,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Administraciones", e);
 		} finally {
-			cierraStat(stat);
+			Utilidad.cierraStat(stat);
 		}
 	}
 
@@ -140,7 +117,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Administraciones", e);
 		} finally {
-			cierraStat(stat);
+			Utilidad.cierraStat(stat);
 		}
 	}
 
@@ -160,8 +137,8 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Administraciones", e);
 		} finally {
-			cierraRs(rs);
-			cierraStat(stat);
+			Utilidad.cierraRs(rs);
+			Utilidad.cierraStat(stat);
 		}
 		return administraciones;
 	}
@@ -184,8 +161,8 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Administraciones", e);
 		} finally {
-			cierraRs(rs);
-			cierraStat(stat);
+			Utilidad.cierraRs(rs);
+			Utilidad.cierraStat(stat);
 		}
 		return sede;
 	}
@@ -208,8 +185,8 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Administraciones", e);
 		} finally {
-			cierraRs(rs);
-			cierraStat(stat);
+			Utilidad.cierraRs(rs);
+			Utilidad.cierraStat(stat);
 		}
 		return sede;
 	}

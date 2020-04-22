@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.regex.Matcher;
@@ -93,16 +95,6 @@ public class Utilidad {
 	        return mather.find();
 	}
 	
-	public static void cierraConexionMySQL() throws DAOException {
-		if (conexion != null) {
-			try {
-				conexion.close();
-			} catch (SQLException e) {
-				throw new DAOException("Error al intentar cerrar la base de datos", e);
-				}
-		}
-	}
-	
 	public static boolean archivoLegible (File archivo) {
 		
 		try {
@@ -126,6 +118,38 @@ public class Utilidad {
 			} catch (SQLException e) {
 				System.out.println("Imposible conectar con la base de datos");
 				}
+		}
+	}
+	
+	public static void cierraConexionMySQL() throws DAOException {
+		if (conexion != null) {
+			try {
+				conexion.close();
+			} catch (SQLException e) {
+				throw new DAOException("Error al intentar cerrar la base de datos", e);
+				}
+		}
+	}
+	
+	public static void cierraStat(PreparedStatement stat) throws DAOException{
+		
+		if (stat != null) {
+			try {
+				stat.close();
+			} catch (SQLException e) {
+				throw new DAOException("Error al cerrar la llamada a la tabla Administraciones", e);
+			}
+		}
+	}
+	
+	public static void cierraRs(ResultSet rs) throws DAOException{
+		
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				throw new DAOException ("Error al cerrrar el resultado de la llamada a la tabla Administraciones", e);
+			}
 		}
 	}
 	

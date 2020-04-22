@@ -86,29 +86,6 @@ public class MySQLSocioDAO implements ISocioDAO {
 			this.conexion = conexion;
 		}
 		
-//MÉTODOS DE DESCONEXIÓN
-		private void cierraStat(PreparedStatement stat) throws DAOException{
-			
-			if (stat != null) {
-				try {
-					stat.close();
-				} catch (SQLException e) {
-					throw new DAOException("Error al cerrar la llamada a la tabla Administraciones", e);
-				}
-			}
-		}
-		
-		private void cierraRs(ResultSet rs) throws DAOException{
-			
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					throw new DAOException ("Error al cerrrar el resultado de la llamada a la tabla Administraciones", e);
-				}
-			}
-		}
-
 //MÉTODOS DE UTILIDAD
 		private Socio convertir(ResultSet rs) throws SQLException, DAOException {
 			
@@ -181,8 +158,8 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al intentar guardar datos en las tablas Contactos y/o Socios", e);
 		} finally {
-			cierraRs(rs);
-			cierraStat(statContacto);
+			Utilidad.cierraRs(rs);
+			Utilidad.cierraStat(statContacto);
 		}
 	
 		Utilidad.activaAutoCommit(conexion, true);
@@ -205,8 +182,8 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Socios", e);
 			} finally {
-				cierraRs(rs);
-				cierraStat(stat);
+				Utilidad.cierraRs(rs);
+				Utilidad.cierraStat(stat);
 				}
 		return socio;
 	}
@@ -249,7 +226,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
 		} finally {
-			cierraStat(stat);
+			Utilidad.cierraStat(stat);
 		}
 		
 		Utilidad.activaAutoCommit (conexion, true);
@@ -275,7 +252,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Hubo un problema en la actualización del dato de la tabla Socios", e);
 		} finally {
-			cierraStat(stat);
+			Utilidad.cierraStat(stat);
 		}
 	}
 
@@ -294,7 +271,7 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Socios", e);
 		} finally {
-			cierraStat(stat);
+			Utilidad.cierraStat(stat);
 			System.out.println("El socio "+t.getNombre()+" "+t.getApellidos()+" ha sido eliminado de la base de datos.");
 		}
 	}
@@ -315,8 +292,8 @@ public class MySQLSocioDAO implements ISocioDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error al acceder al registro de Socios", e);
 		} finally {
-			cierraRs(rs);
-			cierraStat(stat);
+			Utilidad.cierraRs(rs);
+			Utilidad.cierraStat(stat);
 		}
 		return socios;
 	}

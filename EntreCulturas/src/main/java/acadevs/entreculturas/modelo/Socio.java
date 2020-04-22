@@ -20,16 +20,12 @@ import acadevs.entreculturas.enums.TipoCuota;
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 public class Socio extends Persona {
     
-// ATRIBUTOS DEL MODELO
+// ATRIBUTOS DEL MODELO SOCIO
 	
 	private Integer id = null;
-	
 	private String pass;
-	
 	private float cuotaAportacion;
-	
 	boolean estadoAportacion = false;
-	
 	private TipoCuota tipoCuota;
 
 	
