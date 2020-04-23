@@ -87,7 +87,7 @@ public class MenuPrincipal {
         	  break;   
            case 0:
         	  System.out.println("...La sesión se ha cerrado con �xito.");
-        	  Application.salirDelPrograma();
+        	  App.salirDelPrograma();
         	  Utilidad.limpiaPantalla();
               break;
         }

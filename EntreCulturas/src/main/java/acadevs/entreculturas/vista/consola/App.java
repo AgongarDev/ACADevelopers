@@ -1,5 +1,10 @@
 package acadevs.entreculturas.vista.consola;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
 import acadevs.entreculturas.modelo.ViewException;
@@ -11,12 +16,16 @@ import acadevs.entreculturas.vista.javafx.HelloFX;
  *Clase que lanza la aplicación
  *
  */
-public class Application {
+public class App {
 	
 	public MySQLDAOFactory accesoMySQL;
 	
 	public static void main(String [] args) throws ViewException {
 	
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int opcion = 0;
+		
 		Utilidad.cargaConfiguracion();
 		Utilidad.conectarMySQL("MySQL");
 		
@@ -37,40 +46,59 @@ public class Application {
 		 * 	-Aquí vendría la llamada a un método menú de selección que permita que el usuario decida el modo de visualización de la aplicación.
 		 *-Pendiente implementar un método que tome el texto de un archivo .txt en el que expliquemos el proyecto y lo muestre en consola.
 		 */
-		tiempoDeCreditos();
-		
-		HelloFX.ver();
-		//new MenuInvitado ();
-	}
-	
-	public static void tiempoDeCreditos() throws ViewException {
+		Integer[] opciones = new Integer[] {0, 1, 2};
+		do {		
+			System.out.println(" 1 - MODO GRÁFICO");
+			System.out.println(" 2 - EN CONSOLA");
+			System.out.println("\n 0 - SALIR DE LA APLICACIÓN");
 			
-		for (int i = 1 ; i < 80 ; i++) {
+			System.out.println("\n\n  Seleccione cómo desea continuar con la aplicación");
+				
 			try {
-				 System.out.print("*");
-			     Thread.currentThread();
-				Thread.sleep(30);
-			       }
-			     catch (InterruptedException e) {
-			       e.printStackTrace();
-			       throw new ViewException("Error al intentar parar el proceso actual en el menú start", e);
-			       }
+				opcion = Integer.parseInt(br.readLine());
+			} catch (IOException e) {
+				System.out.println("Por favor, introduzca un valor entre 0 y 2");
+			}
+				
+		} while (!Arrays.asList(opciones).contains(opcion));
+		
+		if (opcion == 1) {
+			HelloFX.ver();
+		} else if (opcion == 2) {
+			new MenuPrincipal();
+		} else {
+			salirDelPrograma();
 		}
+		
 	}
 	
 	
 	public static void salirDelPrograma() {
+		
 		try {
 			Utilidad.cierraConexionMySQL();
 		} catch (DAOException e) {
 			System.out.println("No se pudo cerrar la conexión a la base de datos");			
 			}
+		
 		Utilidad.limpiaPantalla();
+		
 		System.out.println("*****************************************************************************");
 		System.out.println("*                              MUCHAS GRACIAS                               *");
 		System.out.println("*****************************************************************************");
 		System.out.println("                                                                 @ Abril 2020");
-		tiempoDeCreditos();
+		
+		for (int i = 1 ; i < 80 ; i++) {
+			
+			try {
+				 System.out.print("*");
+			     Thread.currentThread();
+				Thread.sleep(30);
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			    throw new ViewException("Error al intentar parar el proceso actual en el menú start", e);
+			}
+		}
 	}
 	
 }

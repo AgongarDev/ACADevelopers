@@ -120,7 +120,7 @@ public class MenuAdministrador {
         	   
            case 0:
         	   System.out.println("La sesión se ha cerrado con éxito.");
-        	   Application.salirDelPrograma();
+        	   App.salirDelPrograma();
                break;
         }
 	}
