@@ -9,7 +9,7 @@ import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
 import acadevs.entreculturas.modelo.ViewException;
 import acadevs.entreculturas.util.Utilidad;
-import acadevs.entreculturas.vista.javafx.HelloFX;
+import acadevs.entreculturas.vista.javafx.MenuPrincipalFX;
 
 /**
  * 
@@ -63,7 +63,7 @@ public class App {
 		} while (!Arrays.asList(opciones).contains(opcion));
 		
 		if (opcion == 1) {
-			HelloFX.ver();
+			MenuPrincipalFX.ver();
 		} else if (opcion == 2) {
 			new MenuPrincipal();
 		} else {
