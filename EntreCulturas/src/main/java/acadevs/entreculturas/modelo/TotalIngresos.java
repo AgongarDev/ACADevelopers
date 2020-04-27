@@ -1,8 +1,9 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class TotalIngresos {
+public class TotalIngresos implements Serializable {
 
 	private int any;
 	private float importe;

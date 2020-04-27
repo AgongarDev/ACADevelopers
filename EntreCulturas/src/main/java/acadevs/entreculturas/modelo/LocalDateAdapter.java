@@ -3,7 +3,7 @@ package acadevs.entreculturas.modelo;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import java.io.Serializable;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * @version 1.0
  *
  */
-public class LocalDateAdapter extends XmlAdapter<String, Date> {
+public class LocalDateAdapter extends XmlAdapter<String, Date> implements Serializable{
 	
 	private final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	

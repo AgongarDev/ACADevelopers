@@ -1,6 +1,6 @@
 package acadevs.entreculturas.modelo;
-
-public class Accion {
+import java.io.Serializable;
+public class Accion implements Serializable {
 
 	private String codeAccion;
 	private String descripcionAccion;
