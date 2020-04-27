@@ -1,6 +1,7 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -14,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name = "trabajadores")
-public class ListadoTrabajadores {
+public class ListadoTrabajadores implements Serializable {
 	
 	// CAMPOS
     private List<Trabajador> listadoTrabajadores;
@@ -24,7 +25,7 @@ public class ListadoTrabajadores {
 	/**
 	 * Constructor que llama a un nuevo objeto ListadoTrabajadores sin inicializar sus campos.
 	 */
-	public ListadoTrabajadores() {
+	public ListadoTrabajadores(){
 		super();
 	}
 	
