@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
-import java.io.Serializable;
+
 
 /**
  * Esta clase que representa el listado de proyectos que se estan realizando en la ONG.
@@ -15,7 +15,7 @@ import java.io.Serializable;
  *
  */
 @XmlRootElement(name = "proyectos")
-public class ListadoProyectos implements Serializable {
+public class ListadoProyectos {
 	
 	// CAMPOS
 	private List<Proyecto> listadoProyectos;

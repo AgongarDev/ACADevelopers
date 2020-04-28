@@ -1,7 +1,6 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.Date;
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -22,7 +21,7 @@ import acadevs.entreculturas.util.DateTimeAdapter;
 @XmlRootElement(name = "personal")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"delegacionAsignada", "antiguedad", "proyectosAsignados"})
-public class Personal extends Persona implements Serializable {
+public class Personal extends Persona {
 
 	// CAMPOS
 	

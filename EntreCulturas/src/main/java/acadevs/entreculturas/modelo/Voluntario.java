@@ -1,9 +1,8 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.Date;
-import java.io.Serializable;
 
-public class Voluntario extends Persona implements Serializable {
+public class Voluntario extends Persona {
 	
 	public Voluntario () {
 		super();

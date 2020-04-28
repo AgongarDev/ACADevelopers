@@ -1,7 +1,6 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
  */
 @XmlRootElement(name = "Socios")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-public class ListadoSocios implements Serializable{
+public class ListadoSocios {
 	
 	// CAMPOS
 	private List<Socio> listaSocios = new ArrayList<Socio>();

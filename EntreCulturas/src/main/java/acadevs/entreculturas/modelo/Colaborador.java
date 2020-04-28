@@ -1,7 +1,6 @@
 package acadevs.entreculturas.modelo;
-import java.io.Serializable;
 
-public class Colaborador extends Persona implements Serializable{
+public class Colaborador extends Persona {
 
 	public Colaborador () {
 		super();

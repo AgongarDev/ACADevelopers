@@ -1,7 +1,6 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.Date;
-import java.io.Serializable;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "trabajador")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"horarioLaboral", "pass"})
-public class Trabajador extends Persona implements Serializable{
+public class Trabajador extends Persona{
 
 	// CAMPOS
 

@@ -1,4 +1,5 @@
 package acadevs.entreculturas.modelo;
+
 /**
  * Esta clase representa la excepcion que se lanza cuando el
  * numero de telefono introducido no es valido.
@@ -7,7 +8,7 @@ package acadevs.entreculturas.modelo;
  * @version 1.0
  *
  */
-public class ViewException extends RuntimeException{
+public class ViewException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,6 @@
 package acadevs.entreculturas.modelo;
 
 import javax.xml.bind.annotation.XmlAccessType;
-import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,7 +20,7 @@ import java.util.Date;
 @XmlType(propOrder={"dni", "nombre", "apellidos", "domicilio", "telefono", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})
 @XmlSeeAlso ({Socio.class, Administrador.class})
-public abstract class Persona implements Serializable {
+public abstract class Persona {
 
 	    // CAMPOS
 		protected String dni;

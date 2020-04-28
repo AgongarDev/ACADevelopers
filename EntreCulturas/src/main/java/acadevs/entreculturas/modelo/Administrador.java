@@ -2,7 +2,6 @@ package acadevs.entreculturas.modelo;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.xml.bind.JAXBException;
@@ -16,7 +15,7 @@ import javax.xml.bind.JAXBException;
  * @version 1.0
  *
  */
-public class Administrador extends Persona implements Serializable {
+public class Administrador extends Persona {
 	
 	// CAMPOS
 

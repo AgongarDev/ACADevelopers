@@ -2,7 +2,6 @@ package acadevs.entreculturas.modelo;
 
 
 import java.util.Date;
-import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,7 +18,7 @@ import acadevs.entreculturas.enums.TipoCuota;
  */
 @XmlRootElement(name = "Socio")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-public class Socio extends Persona implements Serializable {
+public class Socio extends Persona {
     
 // ATRIBUTOS DEL MODELO SOCIO
 	

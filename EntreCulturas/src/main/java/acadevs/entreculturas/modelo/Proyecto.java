@@ -1,7 +1,6 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
-import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,7 +20,7 @@ import acadevs.entreculturas.enums.LineaDeAccion;
 @XmlRootElement(name = "proyecto")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"idProyecto", "nombre", "direccion","pais", "socioLocal","financiador","financiacion", "fechaInicio","fechaFinalizacion","lAccion","sublineaDeAccion","accionesARealizar","voluntariosAsignados","contratadosAsignados"})
-public class Proyecto implements Serializable {
+public class Proyecto {
 	// CAMPOS
 	private String idProyecto;
 	private LineaDeAccion lAccion;

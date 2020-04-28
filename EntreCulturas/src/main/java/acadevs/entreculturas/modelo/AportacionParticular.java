@@ -1,9 +1,8 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.Date;
-import java.io.Serializable;
 
-public class AportacionParticular implements Serializable{
+public class AportacionParticular {
 	
 	private String codAportacion;
 	private float importe;

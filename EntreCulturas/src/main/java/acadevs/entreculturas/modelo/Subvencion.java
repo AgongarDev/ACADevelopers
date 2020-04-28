@@ -1,11 +1,10 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.Date;
-import java.io.Serializable;
 
 import acadevs.entreculturas.enums.TipoSubvencion;
 
-public class Subvencion  implements Serializable{
+public class Subvencion {
 
 	private String idSubvencion;
 	private String OrganismoConcesion;
