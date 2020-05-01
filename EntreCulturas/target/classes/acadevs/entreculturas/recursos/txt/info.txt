@@ -1,0 +1,6 @@
+Esta aplicación es el resultado de 3 meses de investigación, aprendizaje y práctica de programación orientada a objetos mediante Java y MySQL. 
+Se trata de un ejercicio práctico dentro del contexto académico de Jesuitas Formación Profesional junto a UOC.
+
+El desarrollo del proyecto contempla desde el diseño de la aplicación mediante diagramas de casos de uso y diagramas de clase hasta el resultado gráfico que puede observar en este mismo momento.
+
+Para el desarrollo de la aplicación se han utilizado patrones de diseño Abstract Factory para la centralización del acceso a datos de origen XML y MySQL, Factory para la gestión de pantallas gráficas, MVC como estructura de diseño y DAO para el acceso a datos.
