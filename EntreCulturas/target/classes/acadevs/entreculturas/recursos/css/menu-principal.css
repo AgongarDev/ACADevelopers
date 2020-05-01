@@ -1,0 +1,92 @@
+
+#barra-contacto {
+	-fx-background-color: #9b949b;
+}
+
+#bye {
+    -fx-font-size: 60pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: ;
+    -fx-opacity: 1;
+}
+
+#centro {
+	-fx-background-color: linear-gradient(to bottom, #F4F4F4, white);
+}
+
+#herramientas {
+	-fx-padding: 15 0 15 15;
+	-fx-spacing: 20;
+}
+
+#intro-app {
+	-fx-alignment: center;
+	-fx-pref-height: 80px;
+}
+
+#logo-aca {
+	-fx-font: 30px Tahoma;
+	-fx-text-fill: white;
+	-fx-background-color: #04047b;
+	-fx-pref-width: 300px;
+	-fx-pref-height: 80px;
+	-fx-alignment: center;
+}
+
+#titulo-opcion {
+	-fx-alignment: center;
+	-fx-background-color: #045cb4;
+	-fx-pref-width: 780px;
+	-fx-pref-height: 80px;
+	-fx-text-fill: white;
+	-fx-font-size: 16px;
+}
+
+.detalle {
+	-fx-hgap: 10px;
+	-fx-vgap: 10px;
+	-fx-background-size: 400px 200px;
+	-fx-alignment: center;
+}
+
+.error-msg {
+	-fx-text-fill: red;
+}
+
+.hbox {
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+.vbox {
+    -fx-background-color: #04047b;
+    -fx-pref-width: 300;
+    -fx-pref-height: 600;    
+    -fx-padding: 50px 0 0 0;
+}
+
+.vbox Button {
+	-fx-pref-width:300;
+	-fx-pref-height:50;
+	-fx-background-color: #04047b;
+	-fx-text-fill: white;
+	-fx-font-size: 14px;
+	-fx-alignment: baseline-left;
+	-fx-padding: 0 0 0 50px;
+}
+
+.vbox Button:hover {
+	-fx-background-color: #599ee3;
+}
+
+.vbox Button:pressed {
+	-fx-background-color: #04047b;
+}
+
+
+
+
+
+
+
+

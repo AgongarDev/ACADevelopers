@@ -20,6 +20,7 @@ import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.modelo.ViewException;
 import acadevs.entreculturas.util.Config;
 import acadevs.entreculturas.util.Utilidad;
+import acadevs.entreculturas.vista.javafx.App;
 
 public class MenuAdministrador {
 	
