@@ -2,7 +2,9 @@ package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
 
-public class Ong {
+import java.io.Serializable;
+
+public class Ong implements Serializable{
 
 	private String id;
 	private String nombre;

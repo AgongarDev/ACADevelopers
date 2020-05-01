@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import java.io.Serializable;
+
 import acadevs.entreculturas.enums.TipoCuota;
 
 /**
@@ -18,7 +20,7 @@ import acadevs.entreculturas.enums.TipoCuota;
  */
 @XmlRootElement(name = "Socio")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
-public class Socio extends Persona {
+public class Socio extends Persona implements Serializable{
     
 // ATRIBUTOS DEL MODELO SOCIO
 	

@@ -1,7 +1,6 @@
 package acadevs.entreculturas.vista.javafx;
 
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 public class HomePaneFactory {
 

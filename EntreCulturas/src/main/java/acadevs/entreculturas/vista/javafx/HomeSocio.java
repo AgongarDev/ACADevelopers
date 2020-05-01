@@ -1,7 +1,10 @@
 package acadevs.entreculturas.vista.javafx;
 
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -62,8 +65,6 @@ public class HomeSocio extends BorderPane {
 	
 	public void msgError(String msg, boolean muestra) {
 		
-		
-		
 		if (muestra) {
 			Label lblError = new Label(msg);
 			lblError.getStyleClass().add("error-msg");
@@ -71,7 +72,10 @@ public class HomeSocio extends BorderPane {
 			datos.add(lblError, 0, 0);
 			
 		} else {
-			datos.getChildren().remove(5);// el último nodo añadido a la lista de elementos observables
+			List<Node> elementos = datos.getChildren();
+			if (elementos.size() > 4) {
+				datos.getChildren().remove(elementos.size()-1);// el último nodo añadido a la lista de elementos observables
+			}
 		}
 	}
 	

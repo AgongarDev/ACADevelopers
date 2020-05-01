@@ -1,6 +1,8 @@
 package acadevs.entreculturas.modelo;
 
-public class AdministracionFisica {
+import java.io.Serializable;
+
+public class AdministracionFisica implements Serializable{
 
 	//ATRIBUTOS DEL MODELO ADMINISTRACION FISICA
 	

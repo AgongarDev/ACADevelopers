@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
+import java.io.Serializable;
+
 import java.util.Date;
 
 /**
@@ -20,7 +22,7 @@ import java.util.Date;
 @XmlType(propOrder={"dni", "nombre", "apellidos", "domicilio", "telefono", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})
 @XmlSeeAlso ({Socio.class, Administrador.class})
-public abstract class Persona {
+public abstract class Persona implements Serializable{
 
 	    // CAMPOS
 		protected String dni;

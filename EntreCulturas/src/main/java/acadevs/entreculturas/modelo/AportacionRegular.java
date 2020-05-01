@@ -1,8 +1,9 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.Date ;
+import java.io.Serializable;
 
-public class AportacionRegular extends AportacionParticular{
+public class AportacionRegular extends AportacionParticular implements Serializable{
 
 	private Socio aportador;
 

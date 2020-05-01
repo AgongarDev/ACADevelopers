@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import java.io.Serializable;
+
 import acadevs.entreculturas.util.DateTimeAdapter;
 
 /**
@@ -21,7 +23,7 @@ import acadevs.entreculturas.util.DateTimeAdapter;
 @XmlRootElement(name = "personal")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"delegacionAsignada", "antiguedad", "proyectosAsignados"})
-public class Personal extends Persona {
+public class Personal extends Persona implements Serializable{
 
 	// CAMPOS
 	

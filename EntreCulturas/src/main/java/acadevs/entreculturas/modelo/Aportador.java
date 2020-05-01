@@ -2,10 +2,11 @@ package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.Serializable;
 
 import acadevs.entreculturas.enums.TipoAportador;
 
-public class Aportador {
+public class Aportador implements Serializable{
 	private String idAportador;
 	private TipoAportador tipoAportador;
 	private ArrayList<AportacionPuntual> aportacionesHechas;

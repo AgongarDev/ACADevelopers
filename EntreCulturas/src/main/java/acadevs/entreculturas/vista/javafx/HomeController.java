@@ -100,9 +100,6 @@ public class HomeController {
 				adminPane.setTxtUsuario("");
 				adminPane.setTxtPassword("");
 			}
-			
-			
-			
 		}
 		
 	}

@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import java.io.Serializable;
+
 import acadevs.entreculturas.enums.LineaDeAccion;
 
 /**
@@ -20,7 +22,7 @@ import acadevs.entreculturas.enums.LineaDeAccion;
 @XmlRootElement(name = "proyecto")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"idProyecto", "nombre", "direccion","pais", "socioLocal","financiador","financiacion", "fechaInicio","fechaFinalizacion","lAccion","sublineaDeAccion","accionesARealizar","voluntariosAsignados","contratadosAsignados"})
-public class Proyecto {
+public class Proyecto implements Serializable{
 	// CAMPOS
 	private String idProyecto;
 	private LineaDeAccion lAccion;
