@@ -11,7 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 import acadevs.entreculturas.enums.TipoCuota;
+import javax.persistence.*;
 
+@Entity
+@Table(name="socios")
 /**
  * Clase que representa cada uno de los socios que forman la ONG
  * @author Antonio, Cristina y Ana.
@@ -23,11 +26,16 @@ import acadevs.entreculturas.enums.TipoCuota;
 public class Socio extends Persona implements Serializable{
     
 // ATRIBUTOS DEL MODELO SOCIO
-	
+	@Id
+	@Column(name="id_socio")
 	private Integer id = null;
+	@Column(name="password")
 	private String pass;
+	@Column(name="cuota")
 	private float cuotaAportacion;
+	@Column(name="estado")
 	boolean estadoAportacion = false;
+	@Column(name="tipoCuota")
 	private TipoCuota tipoCuota;
 
 	

@@ -1,10 +1,16 @@
 package acadevs.entreculturas.modelo;
 
 import java.io.Serializable;
+import javax.persistence.*;
+
+@Entity
+@Table(name="acciones")
 
 public class Accion implements Serializable{
-
+	@Id
+	@Column(name="id_accion")
 	private String codeAccion;
+	@Column(name="descripcion")
 	private String descripcionAccion;
 	
 	//constructores de la clase

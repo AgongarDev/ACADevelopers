@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+<rutaXML>xml/</rutaXML>
+<MySQLHost>localhost</MySQLHost>
+<MySQLPuerto>3306</MySQLPuerto>
+<MySQLTimeZone></MySQLTimeZone>
+<MySQLUsuario>ACADevelopers</MySQLUsuario>
+<MySQLPass>321998</MySQLPass>
+</Config>

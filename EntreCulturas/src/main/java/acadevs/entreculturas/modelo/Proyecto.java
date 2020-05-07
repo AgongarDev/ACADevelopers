@@ -1,6 +1,11 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -19,23 +24,37 @@ import acadevs.entreculturas.enums.LineaDeAccion;
  * @version 1.0
  *
  */
+@Entity
+@Table(name="proyectos")
 @XmlRootElement(name = "proyecto")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"idProyecto", "nombre", "direccion","pais", "socioLocal","financiador","financiacion", "fechaInicio","fechaFinalizacion","lAccion","sublineaDeAccion","accionesARealizar","voluntariosAsignados","contratadosAsignados"})
 public class Proyecto implements Serializable{
 	// CAMPOS
+	@Id
+    @Column(name="id_proyecto")
 	private String idProyecto;
+	@Column(name="linea_accion")
 	private LineaDeAccion lAccion;
+	@Column(name="nombre")
 	private String nombre;
+	@Column(name="fecha_inicio")
 	private String fechaInicio;
+	@Column(name="fecha_fin")
 	private String fechaFinalizacion;
+	@Column(name="sublinea_accion")
 	private String sublineaDeAccion;
+	@Column(name="pais")
 	private String pais;
+	@Column(name="direccion")
 	private String direccion;
+	@Column(name="socio_local")
 	private Colaborador socioLocal;
+	@Column(name="financiador")
 	private Aportador financiador; 
 	//estas variables se cebar�n de manera independiente.
 	private ArrayList<Accion> accionesARealizar = new ArrayList<Accion>();
+	@Column(name="financiacion")
 	private float financiacion = 0;
 	private ArrayList<Voluntario> voluntariosAsignados = new ArrayList<Voluntario>();
 	private ArrayList<Administrador> contratadosAsignados = new ArrayList<Administrador>();

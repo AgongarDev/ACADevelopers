@@ -1,5 +1,9 @@
 package acadevs.entreculturas.modelo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -17,7 +21,14 @@ import java.util.Date;
  * Socios y Voluntarios
  *
  */
-
+/**
+ * Clase que representa cada uno de los socios que forman la ONG
+ * @author Antonio, Cristina y Ana.
+ * @version 1.0
+ *
+ */
+@Entity
+@Table(name="contactos")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"dni", "nombre", "apellidos", "domicilio", "telefono", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})
@@ -25,15 +36,26 @@ import java.util.Date;
 public abstract class Persona implements Serializable{
 
 	    // CAMPOS
+	    @Id
+	    @Column(name="dni")
 		protected String dni;
+	    @Column(name="nombre")
 		protected String nombre;
+	    @Column(name="apellido")
 		protected String apellidos;
+	    @Column(name="telefono")
 		protected int telefono = 0;
+	    @Column(name="direccion")
 		protected String domicilio;
+	    @Column(name="fecha_inicio")
 		protected Date fechaInicio;
+	    @Column(name="fecha_fin")
 		protected Date fechaFin;
+	    @Column(name="sede")
 		private AdministracionFisica sedeAsignada;
+	    @Column(name="cargo")
 		protected String cargo;
+	    @Column(name="correo")
 		protected String correo;
 		
 		// CONSTRUCTORES

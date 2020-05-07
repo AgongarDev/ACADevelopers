@@ -2,15 +2,27 @@ package acadevs.entreculturas.modelo;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="administraciones")
 public class AdministracionFisica implements Serializable{
 
 	//ATRIBUTOS DEL MODELO ADMINISTRACION FISICA
-	
+	@Id
+    @Column(name="id_sede")
 	private Integer idAdmin = null;
+	@Column(name="nombre")
 	private String nombre;
+	@Column(name="direccion")
 	private String direccion;
+	@Column(name="numEmpleados")
 	private short numEmpleados;
+	@Column(name="correo")
 	private String correo;
+	@Column(name="telefono")
 	private int telefono;
 	
 	//CONSTRUCTORES

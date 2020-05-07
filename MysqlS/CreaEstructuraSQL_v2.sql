@@ -104,6 +104,6 @@ create table if not exists ACCIONES_PROYECTO (
     foreign key FK_proyecto_accion (id_proyecto) references PROYECTOS (id_proyecto)
     on update cascade on delete restrict);
     
-    
+ALTER TABLE SOCIOS  ADD password VARCHAR(5) AFTER id_socio;
     
     
