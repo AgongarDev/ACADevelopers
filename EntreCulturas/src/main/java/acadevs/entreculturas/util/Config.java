@@ -6,6 +6,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+/*
+ * Clase POJO o DTO de información de configuración de la aplicación, como el acceso a la base de datos.
+ * */
 @XmlType(propOrder = {"rutaXML","mySQLHost","mySQLPuerto","mySQLUsuario","mySQLPass"})
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlRootElement

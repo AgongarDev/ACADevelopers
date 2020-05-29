@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<BorderPane fx:id="menuAdmin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="1333.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="acadevs.entreculturas.vista.javafx.MenuAdminController">
+   <top>
+      <VBox prefHeight="79.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="81.0" prefWidth="1080.0">
+               <children>
+                  <Label id="logo-aca" fx:id="logoAca" prefHeight="79.0" prefWidth="238.0" stylesheets="@../../recursos/css/menu-admin.css" text="ACADevelopers" textAlignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <effect>
+                        <ColorAdjust />
+                     </effect></Label>
+                  <Region prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" HBox.hgrow="ALWAYS" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
+                     <children>
+                        <ImageView fitHeight="73.0" fitWidth="321.0" layoutX="-118.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../recursos/img/logo_entreculturas.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <VBox prefHeight="421.0" prefWidth="184.0" styleClass="vbox" stylesheets="@../../recursos/css/menu-admin.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Gestión Administrativa" textFill="#fcfcfc">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" />
+               </VBox.margin>
+            </Label>
+            <Region prefHeight="140.0" prefWidth="300.0" style="-fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 15;">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="10.0" />
+               </VBox.margin>
+            </Region>
+            <Button fx:id="btnSocios" mnemonicParsing="false" onAction="#showAdminSocios" text="Socios" textAlignment="CENTER" />
+            <Button fx:id="btnAdministraciones" mnemonicParsing="false" onAction="#showAdminSedes" text="Administraciones" />
+            <Button fx:id="btnPersonal" mnemonicParsing="false" onAction="#showAdminPersonal" text="Personal" />
+            <Label text="Gestión de Proyectos" textFill="#fcfcfc">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="10.0" top="20.0" />
+               </VBox.margin>
+            </Label>
+            <Region prefHeight="140.0" prefWidth="300.0" style="-fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 15;">
+               <VBox.margin>
+                  <Insets left="20.0" right="20.0" top="10.0" />
+               </VBox.margin>
+            </Region>
+            <Button fx:id="btnProyectos" mnemonicParsing="false" onAction="#showAdminProyectos" text="Proyectos" />
+            <Button fx:id="btnAcciones" mnemonicParsing="false" onAction="#showAdminAcciones" text="Acciones" />
+            <Button fx:id="btnSociosLocales" mnemonicParsing="false" onAction="#showAdminColaboradores" text="Socios Locales" />
+            <Region prefHeight="272.0" prefWidth="300.0" VBox.vgrow="ALWAYS" />
+            <Button fx:id="btnSalir" mnemonicParsing="false" onAction="#salirAMenu" text="Volver al Menú Principal" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

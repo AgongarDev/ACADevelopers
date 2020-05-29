@@ -15,12 +15,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+/**
+ * @author Ana Iglesias
+ * @author Antonio González
+ *
+ * Border panel de detalle que contiene los créditos de la aplicación.
+ */
 public class HomeInfo extends BorderPane {
 
+	// constructor de la clase: tipo = info -> créditos. tipo = salir -> agradecimiento
 	public HomeInfo (String tipo) {
 	
 		if (tipo.equals("info")) {
 			
+		//bloque de imágenes en el lateral izquierdo del panel de detalle.
+			//iniciamos las imagenes para poder actuar con ellas fuera del try.
 			Image logoJava = null;
 			Image logoXml = null;
 			Image logoMysql = null;
@@ -49,11 +58,12 @@ public class HomeInfo extends BorderPane {
 				setLeft(imagenes);
 				
 			} catch (RuntimeException | FileNotFoundException e) {
-	
+				// controlamos que la aplicación continúe en caso de haber algún problema con las imágenes ya que no es relevante.
 				System.out.println("No se encontró la imagen");
 			}
 			
-	
+		// bloque de texto informativo. 
+		// Los estilos se han asignado directamente en java para comprobar las diferencias entre hacerlo desde aquí y en css
 			Label lblTitulo = new Label ("PROYECTO ICB05 - Programación orientada a objetos con acceso a bases de datos");
 			lblTitulo.setId("titulo-opcion");
 			
@@ -67,7 +77,7 @@ public class HomeInfo extends BorderPane {
 			VBox infoConsultor = new VBox (lblConsul, lblConsultor);
 			infoConsultor.setPadding(new Insets(0, 5, 0, 5));
 			
-			Text info = new Text(cargaTexto().toString());
+			Text info = new Text(cargaTexto().toString());// el texto contenido en el panel de info o créditos se obtiene de un archivo txt.
 			info.setWrappingWidth(500);
 			info.setTextAlignment(TextAlignment.JUSTIFY);
 			
@@ -75,8 +85,9 @@ public class HomeInfo extends BorderPane {
 			centro.setPadding(new Insets(15));
 			centro.setSpacing(10);
 					
-			/*if paginación setbottom con el link a nueva carga de info.*/
-			
+			/*if paginación setbottom con el link a nueva carga de info.*/ 
+		
+		// asignamos los elementos al panel detalle.
 			setTop(lblTitulo);
 			setCenter(centro);
 			setRight(infoConsultor);
@@ -90,9 +101,13 @@ public class HomeInfo extends BorderPane {
 		
 		
 	}
-	
+	/*
+	 * @return txtInfo, un stringbuffer con el contenido de info.txt
+	 * */
 	private StringBuffer cargaTexto() {
-		
+	
+		/*podemos utilizar un escaner o un bufferRenderer. Nos decantamos por el escaner por que simplifica el recorrido por las lineas. Es importante cerrar el escaner.
+		 * añadiremos las lineas leídas a un stringbuffer para devolverlo finalmente.*/ 
 		Scanner escaner;
 		StringBuffer txtInfo = new StringBuffer();
 		
@@ -102,7 +117,7 @@ public class HomeInfo extends BorderPane {
 
 			escaner = new Scanner (reader);
 			
-			while (escaner.hasNextLine()) {
+			while (escaner.hasNextLine()) { //mientras haya líneas que leer añadimos la información al stringbuffer.
 				
 				txtInfo.append(escaner.nextLine());
 				txtInfo.append("\n");
@@ -111,6 +126,7 @@ public class HomeInfo extends BorderPane {
 			escaner.close();
 			
 		} catch (FileNotFoundException e) {
+			//si no encuentra el archivo, muestra la ruta en la que se encuentra para poder analizar el estado.
 			System.out.println("no se encontró el archivo. La ruta actual es: \n "+ new File(".").getAbsolutePath());
 		}
 		return txtInfo;

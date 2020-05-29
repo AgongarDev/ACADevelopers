@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 /**
  * Esta clase permite formatear las fechas al trabajar con XML.
  * 
- * @author Yaiza, Teresa y Marc.
+ * @author Ana Iglesias, Antonio González
  * @version 1.0
  *
  */

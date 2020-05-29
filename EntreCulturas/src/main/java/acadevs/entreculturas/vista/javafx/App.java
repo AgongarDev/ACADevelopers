@@ -15,9 +15,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 /**
- * 
- *Clase que lanza la aplicación
- *
+ * @author Ana Iglesias
+ * @author Antonio González
+ */
+/*
+ *Clase que lanza la aplicación. Extiende de Application necesariamente para poder utilizar las propiedades y métodos de JavaFX.
  */
 public class App extends Application{
 	
@@ -25,8 +27,6 @@ public class App extends Application{
 	
 	public static void main(String [] args) throws ViewException {
 	
-		//BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		
 		int opcion = 0;
 		
 		Utilidad.cargaConfiguracion();
@@ -45,28 +45,6 @@ public class App extends Application{
 		System.out.println("*                                                   Consultor: Josep Vaño Chic *");
 		System.out.println("********************************************************************************");
 		
-		/*-Pendiente implementar una abstract factory para ver la aplicación en modo consola o en modo gráfico.
-		 * 	-Aquí vendría la llamada a un método menú de selección que permita que el usuario decida el modo de visualización de la aplicación.
-		 *-Pendiente implementar un método que tome el texto de un archivo .txt en el que expliquemos el proyecto y lo muestre en consola.
-		 */
-		/*
-		Integer[] opciones = new Integer[] {0, 1, 2};
-		do {		
-			System.out.println(" 1 - MODO GRÁFICO");
-			System.out.println(" 2 - EN CONSOLA");
-			System.out.println("\n 0 - SALIR DE LA APLICACIÓN");
-			
-			System.out.println("\n\n  Seleccione cómo desea continuar con la aplicación");
-				
-			try {
-				opcion = Integer.parseInt(br.readLine());
-			} catch (IOException e) {
-				System.out.println("Por favor, introduzca un valor entre 0 y 2");
-			}
-				
-		} while (!Arrays.asList(opciones).contains(opcion));
-		
-		 */
 		opcion = 1; // Inicio automático de la aplicación gráfica
 		
 		if (opcion == 1) {
@@ -79,6 +57,13 @@ public class App extends Application{
 		
 	}
 	
+	/*
+	 * En la función start incluimos todos los objetos relacionados con la interfaz gráfica.
+	 * La clase Home es la interfaz gráfica de la pantalla de inicio.
+	 * Creamos una escena necesariamente para poder introducir los items en ella y asignamos la escena al stage o ventana.
+	 * La función asParent nos permite llamar a la escena del objeto home. De esta manera conseguimos aplicar el MVC.
+	 * Para asignar 
+	 * */
 	@Override
     public void start(Stage primaryStage) {
 		

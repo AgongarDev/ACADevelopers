@@ -27,7 +27,7 @@
 #logo-aca {
 	-fx-font: 30px Tahoma;
 	-fx-text-fill: white;
-	-fx-background-color: #04047b;
+	-fx-background-color: #757575;
 	-fx-pref-width: 300px;
 	-fx-pref-height: 80px;
 	-fx-alignment: center;
@@ -35,11 +35,30 @@
 
 #titulo-opcion {
 	-fx-alignment: center;
-	-fx-background-color: #045cb4;
-	-fx-pref-width: 780px;
-	-fx-pref-height: 80px;
+	-fx-background-color: #e4051f;
 	-fx-text-fill: white;
-	-fx-font-size: 16px;
+	-fx-font-size: 20px;
+}
+
+.crud-button {
+	-fx-background-color: transparent;
+	-fx-border-radius: 30;
+	-fx-border-color: #e4051f;
+	-fx-border-width: 3;
+}
+
+.crud-button:hover {
+	-fx-background-color: linear-gradient(#e4051f, #be1d00);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
+
+.crud-button:pressed {
+	-fx-background-color: linear-gradient(#be1d00, #e4051f);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
 }
 
 .detalle {
@@ -53,35 +72,37 @@
 	-fx-text-fill: red;
 }
 
+
 .hbox {
     -fx-padding: 15;
     -fx-spacing: 10;
 }
 
 .vbox {
-    -fx-background-color: #04047b;
+    -fx-background-color: #757575;
     -fx-pref-width: 300;
     -fx-pref-height: 600;    
-    -fx-padding: 50px 0 0 0;
+    -fx-padding: 100px 0 0 0;
 }
 
 .vbox Button {
 	-fx-pref-width:300;
-	-fx-pref-height:50;
-	-fx-background-color: #04047b;
+	-fx-pref-height:200;
+	-fx-background-color: #757575;
 	-fx-text-fill: white;
 	-fx-font-size: 14px;
-	-fx-alignment: baseline-left;
+	-fx-alignment: center-left;
 	-fx-padding: 0 0 0 50px;
 }
 
 .vbox Button:hover {
-	-fx-background-color: #fbe304;
-	-fx-text-fill: #04047b;
+	-fx-background-color: white;
+	-fx-text-fill: red;
 }
 
 .vbox Button:pressed {
-	-fx-background-color: linear-gradient(#d0b518, #fbe304);
+	-fx-background-color: #e4051f;
+	-fx-text-fill: white;
 }
 
 

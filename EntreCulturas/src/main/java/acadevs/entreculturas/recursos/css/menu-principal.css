@@ -76,11 +76,12 @@
 }
 
 .vbox Button:hover {
-	-fx-background-color: #599ee3;
+	-fx-background-color: #fbe304;
+	-fx-text-fill: #04047b;
 }
 
 .vbox Button:pressed {
-	-fx-background-color: #04047b;
+	-fx-background-color: linear-gradient(#d0b518, #fbe304);
 }
 
 

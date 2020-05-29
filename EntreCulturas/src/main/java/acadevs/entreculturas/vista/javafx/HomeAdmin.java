@@ -15,6 +15,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
+/**
+ * @author Ana Iglesias
+ * @author Antonio González
+ * 
+ * BorderPane con el formulario de acceso como administrador.
+ *
+ */
 public class HomeAdmin extends BorderPane {
 
 	private Button btnEntrar;
@@ -36,8 +43,9 @@ public class HomeAdmin extends BorderPane {
 
 		Text infoText = new Text("Introduzca un nombre y una contraseña para acceder al menú de administrador.\nDesde este menú podrá "
 				+ "gestionar proyectos, socios y otras acciones exclusivas de este perfil.");
-		infoText.setWrappingWidth(300);
+		infoText.setWrappingWidth(300); // limita las líneas del texto a 300bytes o carácteres.
 		
+		//El gridPane nos permite estructurar items en una cuadrícula o tabla. (item, columna, fila) 
 		GridPane datos = new GridPane();
 		datos.add(nombreAdmin, 0, 0);
 		datos.add(password, 0, 1);
@@ -46,13 +54,13 @@ public class HomeAdmin extends BorderPane {
 		datos.add(btnEntrar, 0, 2);
 		datos.add(btnLimpiar, 1, 2);
 		datos.add(infoText, 0, 4);
-		GridPane.setColumnSpan(infoText, 4);
+		GridPane.setColumnSpan(infoText, 4); //una especie de combinación de celdas que extiende el nodo hasta la columna 4.
 		datos.getStyleClass().add("detalle");
 		
-		Region margen = new Region();
+		Region margen = new Region();//región en blanco para separar los items.
 		HBox.setHgrow(margen, Priority.ALWAYS);
-		Image logoONGF = new Image(Home.class.getResourceAsStream("/acadevs/entreculturas/recursos/img/logo_entreculturas.png"));
-		ImageView logoONG = new ImageView(logoONGF);
+		Image logoONGF = new Image(Home.class.getResourceAsStream("/acadevs/entreculturas/recursos/img/logo_entreculturas.png")); //obtiene una imagen mediante una ruta relativa
+		ImageView logoONG = new ImageView(logoONGF);//frame para la imagen, que permite interactuar con él y transformarlo.
 		logoONG.setFitWidth(195);
 		logoONG.setFitHeight(47.4);
 		HBox ONGRef = new HBox(margen, logoONG);
@@ -64,11 +72,13 @@ public class HomeAdmin extends BorderPane {
 		
 	}
 	
+	// Carga handlers a los botones centrales
 	public void activaFormHandler (EventHandler<ActionEvent> event) {
 		this.btnEntrar.setOnAction(event);
 		this.btnLimpiar.setOnAction(event);
 	}
 
+//getters y setters
 	public String getTxtUsuario() {
 		return txtUsuario.getText();
 	}

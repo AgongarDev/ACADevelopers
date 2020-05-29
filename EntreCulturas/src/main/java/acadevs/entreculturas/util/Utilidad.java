@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,10 +22,15 @@ import javax.xml.bind.Unmarshaller;
 
 import acadevs.entreculturas.dao.DAOException;
 
+/**
+ * @author Ana Iglesias, Antonio González
+ * Clase formada por métodos estáticos o de clase variados y comunes a varias clases de la aplicación para simplificar y unificar estas acciones.
+ */
 public class Utilidad {
 
 	public static Connection conexion = null;
 	
+	//limpia pantalla de emulador de terminal cmd windows
 	public static void limpiaPantalla() {
 		try {
 			new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -32,23 +39,36 @@ public class Utilidad {
 		} 
 	}
 	
+	//conversor java.util -> java.sql
 	public static Date conversorFecha(java.util.Date uFecha) {
 		Date sqlDate = new Date (uFecha.getTime());
 		
 		return sqlDate;
 	}
 	
+	//conversor java.sql -> java.util
 	public static java.util.Date conversorFecha(Date sqlDate) {
 		java.util.Date uDate = new java.util.Date (sqlDate.getTime());
 		
 		return uDate;
 	}
 	
+	public static LocalDate toDateToLocal(java.util.Date date) {
+	    return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+	}
+	
+	public static java.util.Date toDateToLocal(LocalDate localDate) {
+	    return java.util.Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+	}
+	
+	// valida Dni con el formato y letras aceptados por el sistema nacional de identificación de personas fisicas.
 	public static boolean validarNIF(String nif) {
 
 	    boolean valido = false;
 
-	    Pattern pattern = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])");
+	  //patrón de expresión regular: debe empezar con almenos un dígito y máximo 8 y continuar con una letra del grupo.
+	    Pattern pattern = Pattern.compile("(\\d{1,8})([TRWAGMYFPDXBNJZSQVHLCKEtrwagmyfpdxbnjzsqvhlcke])"); 
+	    
 	    Matcher matcher = pattern.matcher(nif);
 
 	    if (matcher.matches()) {
@@ -69,6 +89,7 @@ public class Utilidad {
 	    return valido;
 	}
 	
+	//valida el número de telefono sólo números y solo 9
 	public static boolean validarNumeroTelefono(String numero) {
 		final String regexStr = "\\d{9}";
 		 CharSequence inputStr = numero;
@@ -78,6 +99,7 @@ public class Utilidad {
 	       return (matcher.matches());
 	}
 	
+	//valida que el valor pasado (leído) sea un entero o un numero de coma flotante.
 	public static boolean validarFloat(String numero) {
 			try {
 				Integer.parseInt(numero);
@@ -87,6 +109,7 @@ public class Utilidad {
 			}
 		}
 	
+	//valida que el email tenga un formato correcto
 	public static boolean validarMail(String mail) {
 		
 			Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
@@ -95,6 +118,7 @@ public class Utilidad {
 	        return mather.find();
 	}
 	
+	//valida que el archivo pasado exista, tenga información y sea legible.
 	public static boolean archivoLegible (File archivo) {
 		
 		try {
@@ -107,6 +131,7 @@ public class Utilidad {
 		return false;
 	}
 	
+	// conecta a la base de datos.
 	public static void conectarMySQL(String sgbd) {
 		
 		if (sgbd.equalsIgnoreCase("MySQL")) {

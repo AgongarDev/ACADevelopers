@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="771.0" prefWidth="1033.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="acadevs.entreculturas.vista.javafx.AdminSocioController">
+   <children>
+      <BorderPane>
+         <bottom>
+            <VBox prefHeight="389.0" prefWidth="1032.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tbSocios" onKeyPressed="#muestraSocio" onMouseClicked="#seleccionaSocio" prefHeight="370.0" prefWidth="1032.0">
+                     <columns>
+                        <TableColumn fx:id="cNombre" prefWidth="141.0" text="Nombre" />
+                        <TableColumn fx:id="cApellidos" prefWidth="622.0" text="Apellidos" />
+                        <TableColumn prefWidth="112.0" text="Cuota">
+                           <columns>
+                              <TableColumn fx:id="cImporte" prefWidth="88.0" text="Importe" />
+                              <TableColumn fx:id="cTipoCuota" prefWidth="98.0" text="Periodicidad" />
+                              <TableColumn fx:id="cEstado" prefWidth="79.0" text="Estado" />
+                           </columns>
+                        </TableColumn>
+                     </columns>
+                  </TableView>
+                  <HBox prefHeight="69.0" prefWidth="1032.0" spacing="10.0">
+                     <children>
+                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevoSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Nuevo" />
+                        <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Modificar" />
+                        <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borraSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Eliminar" />
+                     </children>
+                     <padding>
+                        <Insets bottom="15.0" left="15.0" top="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </bottom>
+         <top>
+            <HBox id="titulo-opcion" prefHeight="54.0" prefWidth="780.0" stylesheets="@../../recursos/css/menu-admin.css" BorderPane.alignment="CENTER">
+               <children>
+                  <Label prefHeight="54.0" prefWidth="253.0" text="Panel de Administrador" textFill="WHITE">
+                     <padding>
+                        <Insets left="10.0" />
+                     </padding>
+                  </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label style="-fx-font-weight: bold;" text="Gestión de Socios" textFill="#f8f8f8">
+                     <HBox.margin>
+                        <Insets right="50.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <GridPane fx:id="formGridPane" alignment="CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Datos de Socio" textFill="#e4051f">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </Label>
+                  <HBox fx:id="formButtonsPane" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                     <children>
+                        <Region prefHeight="30.0" prefWidth="70.0" />
+                        <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiaDatos" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Limpiar">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="btnEnviar" mnemonicParsing="false" onAction="#insertarDatosSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Guardar">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="5.0" top="2.0" />
+                     </padding>
+                  </HBox>
+                  <Label text="Datos de Cuota" textFill="#e4051f" GridPane.columnIndex="5" GridPane.columnSpan="2">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="15.0" />
+                     </padding>
+                  </Label>
+                  <Pane prefHeight="271.0" prefWidth="2.0" style="-fx-border-color: #e4051f; -fx-border-width: 3; -fx-border-radius: 10;" GridPane.columnIndex="4" GridPane.rowIndex="1" GridPane.rowSpan="5" />
+                  <Label text="Nombre" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Apellidos" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Email" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Teléfono" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Inicio Suscripción" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label alignment="CENTER" text="Importe Cuota" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Estado de la Cuota" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Periodicidad" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="Fin Suscripción" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Label text="DNI" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label text="Contraseña" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                  <Label text="Sede Asignada" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <TextField fx:id="nombre" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <PasswordField fx:id="password" GridPane.columnIndex="6" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </PasswordField>
+                  <TextField fx:id="dni" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="apellidos" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="email" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="telefono" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <DatePicker fx:id="fechaIni" prefHeight="25.0" prefWidth="401.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </DatePicker>
+                  <DatePicker fx:id="fechaFin" prefHeight="25.0" prefWidth="401.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </DatePicker>
+                  <ComboBox fx:id="sede" prefHeight="25.0" prefWidth="195.0" GridPane.columnIndex="6" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <TextField fx:id="importe" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <ComboBox fx:id="tipoCuota" prefHeight="25.0" prefWidth="195.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </ComboBox>
+                  <CheckBox fx:id="activo" mnemonicParsing="false" text="Suscripción Activa" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                  </CheckBox>
+                  <TextField fx:id="direccion" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Dirección" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                  <TextField fx:id="cargo" prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Cargo" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                  <Label fx:id="lblID" textFill="RED" GridPane.columnIndex="1" GridPane.halignment="RIGHT">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="515.0" minWidth="10.0" prefWidth="125.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="683.0" minWidth="10.0" prefWidth="219.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="0.0" prefWidth="104.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="0.0" prefWidth="195.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="0.0" prefWidth="0.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="0.0" prefWidth="128.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0" prefWidth="154.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0" prefWidth="90.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="110.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="149.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="162.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="189.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="217.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+            </GridPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
