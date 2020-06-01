@@ -1,16 +1,9 @@
-<!--
-
-  ~ Hibernate, Relational Persistence for Idiomatic Java
-  ~
-  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
-  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
-  
--->
+<?xml version="1.0" encoding="UTF-8"?>
 <hibernate-configuration>
 <session-factory>
 <!-- Database connection settings -->
 <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-<property name="connection.url">jdbc:mysql://localhost/EntreCulturasDB_v1</property>
+<property name="connection.url">jdbc:mysql://localhost:3306/EntreCulturasDB_v1?useLegacyDatetimeCode=false&amp;serverTimezone=UTC</property>
 <property name="connection.username">ACADevelopers</property>
 <property name="connection.password">321998</property>
 <!-- JDBC connection pool (use the built-in) -->
@@ -21,11 +14,11 @@
 <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 <!-- Echo all executed SQL to stdout -->
 <property name="show_sql">true</property>
-<!--
- Drop and re-create the database schema on startup 
--->
-<property name="hbm2ddl.auto">create</property>
-	 <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Accion.java"/>
+
+<property name="hbm2ddl.auto">validate</property>
+
+	 <mapping class="acadevs.entreculturas.modelo.Accion"/>
+    <!--
      <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Socio.java"/>
      <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Administracion.java"/>
      <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/AdministracionFisica.java"/>
@@ -33,6 +26,6 @@
      <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Colaborador.java"/>
      <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Persona.java"/>
      <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Proyecto.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Socio.java"/>
+     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Socio.java"/> -->
 </session-factory>
 </hibernate-configuration>

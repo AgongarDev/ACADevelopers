@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.mysql.MySQLDAOFactory;
+import acadevs.entreculturas.modelo.HibernateUtil;
 import acadevs.entreculturas.modelo.ViewException;
 import acadevs.entreculturas.util.Utilidad;
 import acadevs.entreculturas.vista.consola.MenuPrincipal;
@@ -31,6 +32,7 @@ public class App extends Application{
 		
 		Utilidad.cargaConfiguracion();
 		Utilidad.conectarMySQL("MySQL");
+		HibernateUtil.crearSessionFactory();
 		
 		System.out.println("********************************************************************************");
 		System.out.println("*                  Persistencia de datos con Java y MySQL                      *");
@@ -95,11 +97,18 @@ public class App extends Application{
 	
 	public static void salirDelPrograma() {
 		
+		//cerramos la conexión con JPA 
+		HibernateUtil.cerrarSessionFactory();
+		
+		//cerramos la conexión con jdbc de los DAO
 		try {
 			Utilidad.cierraConexionMySQL();
 		} catch (DAOException e) {
 			System.out.println("No se pudo cerrar la conexión a la base de datos");			
 			}
+		
+		
+		
 		
 		Utilidad.limpiaPantalla();
 		

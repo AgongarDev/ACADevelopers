@@ -27,7 +27,7 @@ import acadevs.entreculturas.dao.DAOException;
  * Clase formada por métodos estáticos o de clase variados y comunes a varias clases de la aplicación para simplificar y unificar estas acciones.
  */
 public class Utilidad {
-
+	
 	public static Connection conexion = null;
 	
 	//limpia pantalla de emulador de terminal cmd windows

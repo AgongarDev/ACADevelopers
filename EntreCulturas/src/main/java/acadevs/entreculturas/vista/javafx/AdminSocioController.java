@@ -1,17 +1,13 @@
 package acadevs.entreculturas.vista.javafx;
 
 import java.net.URL;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;
 
 import acadevs.entreculturas.dao.DAOException;
 import acadevs.entreculturas.dao.DAOFactory;
@@ -22,11 +18,15 @@ import acadevs.entreculturas.enums.TipoCuota;
 import acadevs.entreculturas.modelo.AdministracionFisica;
 import acadevs.entreculturas.modelo.Socio;
 import acadevs.entreculturas.util.Utilidad;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -37,13 +37,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -65,7 +64,8 @@ public class AdminSocioController implements Initializable {
 	@FXML private TableColumn<Socio, Float> cImporte;
 	@FXML private TableColumn<Socio, Boolean> cEstado;
 	
-	@FXML private Button btnLimpiar, btnEnviar, btnNuevo, btnEditar, btnBorrar;
+	@FXML private Button btnLimpiar, btnEnviar, btnBorrar;
+	@FXML private ToggleButton btnNuevo, btnEditar;
 
 	MySQLDAOFactory mysqlf;
 	MySQLSocioDAO socios;
@@ -85,7 +85,6 @@ public class AdminSocioController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		//condiciones visuales de consulta
-		formButtonsPane.setVisible(false);
 		fechaIni.setValue(LocalDate.now(ZoneId.systemDefault()));
 		fechaFin.setValue(LocalDate.now(ZoneId.systemDefault()).plusYears(1));
 	
@@ -129,13 +128,20 @@ public class AdminSocioController implements Initializable {
 		cEstado.setCellValueFactory(new PropertyValueFactory<Socio, Boolean>("estadoAportacion"));
 		
 		updateTb();
+
+		btnNuevo.fire();
+		btnNuevo.setSelected(true);
+		nombre.requestFocus();
 	}
 	
 	public void borraSocio(ActionEvent event) {
+		
+		btnNuevo.disarm();
+		btnEditar.disarm();
+		
 		Socio socio = tbSocios.getSelectionModel().getSelectedItem();
-		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setHeaderText("Está seguro que quiere eliminar el socio ");
-		a.setContentText(socio.getNombre());
+		Alert a = new Alert(AlertType.NONE);
+		a.setHeaderText("Está seguro que quiere eliminar el socio "+socio.getNombre()+socio.getApellidos());
 		
 		ButtonType borrar = new ButtonType("Eliminar");
 		ButtonType cancelar = new ButtonType("Cancelar");
@@ -169,6 +175,7 @@ public class AdminSocioController implements Initializable {
 		
 		try {
 			administracion = administraciones.obtener(sede.getValue());
+			
 		} catch (DAOException e) {
 			Alert a = new Alert(AlertType.ERROR);
 			a.setContentText("Imposible hallar la administración física "+sede.getValue());
@@ -204,6 +211,7 @@ public class AdminSocioController implements Initializable {
 			if (accionNuevo) {
 				socios.crearNuevo(socio);
 				a.setHeaderText("Socio Guardado");
+				
 			} else {
 				socios.actualizar(socio);
 				a.setHeaderText("Socio Actualizado");
@@ -228,7 +236,8 @@ public class AdminSocioController implements Initializable {
 		lblID.setText("");
 		
 		for (Node elem : formGridPane.getChildren()) {
-				if (elem instanceof TextField) {
+				
+			if (elem instanceof TextField) {
 					((TextField) elem).setText("");
 				}
 					else if (elem instanceof CheckBox) {
@@ -249,6 +258,7 @@ public class AdminSocioController implements Initializable {
 		formButtonsPane.setVisible(true);
 	}
 	
+	
 	public void rellenaSocio(Socio socio) {
 		
 		lblID.setText(String.valueOf((int) socio.getId()));
@@ -268,6 +278,13 @@ public class AdminSocioController implements Initializable {
 	}
 
 	public void seleccionaSocio() {
+		
+		if (accionNuevo) { 
+			btnNuevo.setSelected(false);
+			accionNuevo = false;
+			formButtonsPane.setVisible(false);
+		}
+		
 		Socio socio = tbSocios.getSelectionModel().getSelectedItem();
 		rellenaSocio(socio);
 	}

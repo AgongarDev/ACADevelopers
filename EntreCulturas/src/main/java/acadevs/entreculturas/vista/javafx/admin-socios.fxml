@@ -27,8 +27,12 @@
                   </TableView>
                   <HBox prefHeight="69.0" prefWidth="1032.0" spacing="10.0">
                      <children>
-                        <Button fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevoSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Nuevo" />
-                        <Button fx:id="btnEditar" mnemonicParsing="false" onAction="#editarSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Modificar" />
+                        <ToggleButton fx:id="btnNuevo" mnemonicParsing="false" onAction="#nuevoSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Nuevo">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="CRUD" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="btnEditar" mnemonicParsing="false" onAction="#editarSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Editar" toggleGroup="$CRUD" />
                         <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borraSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Eliminar" />
                      </children>
                      <padding>
@@ -74,7 +78,7 @@
                               <Insets top="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="btnEnviar" mnemonicParsing="false" onAction="#insertarDatosSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Guardar">
+                        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#insertarDatosSocio" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Guardar">
                            <HBox.margin>
                               <Insets top="10.0" />
                            </HBox.margin>

@@ -29,6 +29,7 @@ public class Config {
 			
 	public Config () {
 		
+		
 		Config.rutaXML = "xml/socios.xml";
 		Config.MySQLHost = "localhost";
 		Config.MySQLPuerto = "3306";

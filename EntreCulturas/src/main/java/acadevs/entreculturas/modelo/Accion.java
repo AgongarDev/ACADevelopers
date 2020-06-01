@@ -1,50 +1,65 @@
 package acadevs.entreculturas.modelo;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="acciones")
-
 public class Accion implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@Column(name="id_accion")
-	private String codeAccion;
-	@Column(name="descripcion")
-	private String descripcionAccion;
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name = "id_accion")
+	private int id;
+	
+	@Column(name = "nombre")
+	private String nombre;
+	
+	@Column(name = "descripcion")
+	private String descripcion;
 	
 	//constructores de la clase
 	
 	public Accion() {
-		super();
-	}
-	public Accion(String codigo, String descripcion) {
-		this.codeAccion = codigo;
-		this.descripcionAccion = descripcion;
+		
 	}
 	
-	// getters y setters
-	
-	public void setCodigo (String codigo) {
-		this.codeAccion = codigo;
+	public Accion(String nombre, String descripcion) {
+		this.nombre = nombre;
+		this.descripcion = descripcion;
 	}
 	
-	public String getCodigo () {
-		return codeAccion;
+	public int getId() {
+		return id;
 	}
 	
-	public void setDescripcion (String descripcion) {
-		this.descripcionAccion = descripcion;
+	public void setId(int id) {
+		this.id = id;
 	}
 	
-	public String getDescripcion () {
-		return descripcionAccion;
+	public String getNombre() {
+		return nombre;
 	}
 	
-	//m�todos
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 	
-	/*@Override 
-	 * public String toString() {
-	 * return 
-	 * }*/
+	public String getDescripcion() {
+		return descripcion;
+	}
+	
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	 
+	@Override
+	public String toString() {
+		return "Accion [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + "]";
+	}
+	
+	
 }

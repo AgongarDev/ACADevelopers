@@ -6,24 +6,27 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="771.0" prefWidth="1033.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="771.0" prefWidth="1033.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="acadevs.entreculturas.vista.javafx.AdminAccionesController">
    <children>
       <BorderPane>
          <bottom>
             <VBox prefHeight="389.0" prefWidth="1032.0" BorderPane.alignment="CENTER">
                <children>
-                  <TableView prefHeight="370.0" prefWidth="1032.0">
+                  <TableView fx:id="tbAcciones" onKeyPressed="#SeleccionaConKey" onMouseClicked="#selecciona" prefHeight="370.0" prefWidth="1032.0">
                      <columns>
-                        <TableColumn prefWidth="133.0" text="ID" />
-                        <TableColumn prefWidth="141.0" text="Nombre" />
-                        <TableColumn prefWidth="756.0" text="Descripción" />
+                        <TableColumn fx:id="cNombre" prefWidth="141.0" text="Nombre" />
+                        <TableColumn fx:id="cDescripcion" prefWidth="756.0" text="Descripción" />
                      </columns>
                   </TableView>
                   <HBox prefHeight="69.0" prefWidth="1032.0" spacing="10.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Nuevo" />
-                        <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Modificar" />
-                        <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Eliminar" />
+                        <ToggleButton fx:id="btnNuevo" mnemonicParsing="false" onAction="#limpiaDatos" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Nuevo">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="CRUD" />
+                           </toggleGroup>
+                        </ToggleButton>
+                        <ToggleButton fx:id="btnEditar" mnemonicParsing="false" onAction="#irANombre" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Editar" toggleGroup="$CRUD" />
+                        <Button fx:id="btnBorrar" mnemonicParsing="false" onAction="#borrar" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Eliminar" />
                      </children>
                      <padding>
                         <Insets bottom="15.0" left="15.0" top="5.0" />
@@ -63,15 +66,15 @@
                         <Insets left="15.0" />
                      </padding>
                   </Label>
-                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="7">
+                  <HBox fx:id="formButtonsPane" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="5" GridPane.columnSpan="2" GridPane.rowIndex="7">
                      <children>
                         <Region prefHeight="30.0" prefWidth="70.0" />
-                        <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Limpiar">
+                        <Button fx:id="btnLimpiar" mnemonicParsing="false" onAction="#limpiaDatos" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Limpiar">
                            <HBox.margin>
                               <Insets top="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Guardar">
+                        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardaDatos" prefHeight="64.0" prefWidth="83.0" styleClass="crud-button" stylesheets="@../../recursos/css/menu-admin.css" text="Guardar">
                            <HBox.margin>
                               <Insets top="10.0" />
                            </HBox.margin>
@@ -90,19 +93,14 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Label text="DNI" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                  <Label fx:id="lblId" text="ID" textFill="RED" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
                   <Label text="Descripción" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-                  <TextField prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <TextField fx:id="nombre" prefHeight="25.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </TextField>
-                  <TextField prefHeight="25.0" prefWidth="166.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </GridPane.margin>
-                  </TextField>
-                  <TextArea prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="5">
+                  <TextArea fx:id="descripcion" prefHeight="200.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="5">
                      <GridPane.margin>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </GridPane.margin>
