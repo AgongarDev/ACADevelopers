@@ -1,10 +1,22 @@
 package acadevs.entreculturas.modelo;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import acadevs.entreculturas.enums.LineaDeAccion;
 
@@ -29,35 +42,63 @@ import acadevs.entreculturas.enums.LineaDeAccion;
 @XmlRootElement(name = "proyecto")
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"idProyecto", "nombre", "direccion","pais", "socioLocal","financiador","financiacion", "fechaInicio","fechaFinalizacion","lAccion","sublineaDeAccion","accionesARealizar","voluntariosAsignados","contratadosAsignados"})
-public class Proyecto implements Serializable{
+public class Proyecto implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
 	// CAMPOS
 	@Id
     @Column(name="id_proyecto")
-	private String idProyecto;
+	@GeneratedValue ( strategy = GenerationType.IDENTITY)
+	private int idProyecto;
+	
 	@Column(name="linea_accion")
+	@Enumerated(EnumType.STRING)
 	private LineaDeAccion lAccion;
+	
 	@Column(name="nombre")
 	private String nombre;
+	
 	@Column(name="fecha_inicio")
-	private String fechaInicio;
+	private Date fechaInicio;
+	
 	@Column(name="fecha_fin")
-	private String fechaFinalizacion;
+	private Date fechaFinalizacion;
+	
 	@Column(name="sublinea_accion")
 	private String sublineaDeAccion;
+	
 	@Column(name="pais")
 	private String pais;
+	
 	@Column(name="direccion")
 	private String direccion;
-	@Column(name="socio_local")
-	private Colaborador socioLocal;
+	
+	@ManyToMany( cascade = {CascadeType.ALL})
+	@JoinTable(
+			name = "proyecto_colaborador",
+			joinColumns = { @JoinColumn (name = "id_proyecto") },
+			inverseJoinColumns = { @JoinColumn (name = "id_colaborador") }
+			)
+	private Set<Colaborador> colaboradores = new HashSet<>();
+	
 	@Column(name="financiador")
-	private Aportador financiador; 
-	//estas variables se cebar�n de manera independiente.
-	private ArrayList<Accion> accionesARealizar = new ArrayList<Accion>();
+	@Enumerated(EnumType.STRING)
+	private FINANCIACION financiador; 
+	
+	@ManyToMany(cascade = {CascadeType.ALL})
+	@JoinTable(
+			name = "acciones_proyecto",
+			joinColumns = { @JoinColumn (name = "id_proyecto") },
+			inverseJoinColumns = { @JoinColumn (name = "id_accion") }
+			)
+	private Set<Accion> accionesARealizar = new HashSet<>();
+
 	@Column(name="financiacion")
-	private float financiacion = 0;
-	private ArrayList<Voluntario> voluntariosAsignados = new ArrayList<Voluntario>();
-	private ArrayList<Administrador> contratadosAsignados = new ArrayList<Administrador>();
+	private BigDecimal financiacion;
+	
+	@ManyToMany(mappedBy = "proyectos")
+	private Set<Personal> personalAsignado = new HashSet<>(); 
 	
 	// CONSTRUCTORES
 	
@@ -65,9 +106,14 @@ public class Proyecto implements Serializable{
 		 * Constructor que crea un nuevo objeto Proyecto sin iniciar sus campos.
 		 */
 
-	public Proyecto () {
-		super();
+	enum FINANCIACION {
+		Institucion, Empresa, Particular, Herencias
 	}
+	
+	public Proyecto () {
+
+	}
+	
 	/**
 	 * Constructor que crea un nuevo objeto Proyecto inicializando sus campos.
 	 * 
@@ -82,7 +128,16 @@ public class Proyecto implements Serializable{
 	 * @param sociolocal Atributo que guarda la identidad del socio local del proyecto. 
 	 * @param financiador Atributo que guarda la identidad del financiador del proyecto. 
 	 */
-	public Proyecto (String id, String nombre, LineaDeAccion lAccion, String fechaInicio,String fechaFin, String subLineaDeAccion, String pais, String direccion, Colaborador socioLocal, Aportador financiador) {
+	public Proyecto (int id, 
+			String nombre, 
+			LineaDeAccion lAccion, 
+			Date fechaInicio,
+			Date fechaFin, 
+			String subLineaDeAccion, 
+			String pais, 
+			String direccion, 
+			FINANCIACION financiador,
+			BigDecimal importeFinanciado) {
 		super();
 		this.idProyecto = id;
 		this.nombre = nombre;
@@ -92,10 +147,9 @@ public class Proyecto implements Serializable{
 		this.sublineaDeAccion = subLineaDeAccion;
 		this.pais = pais;
 		this.direccion = direccion;
-		this.socioLocal = socioLocal;
 		this.financiador = financiador;
+		this.financiacion = importeFinanciado;
 	}
-	
 
 	//Getters y Setters
 	/**
@@ -105,7 +159,7 @@ public class Proyecto implements Serializable{
 	 *
 	 */
 	@XmlElement(name = "idProyecto")
-	public String getIdProyecto() {
+	public int getIdProyecto() {
 		return idProyecto;
 	}
 
@@ -114,7 +168,7 @@ public class Proyecto implements Serializable{
 	 * 
 	 * @param idProyecto id del proyecto.
 	 */
-	public void setIdProyecto(String idProyecto) {
+	public void setIdProyecto(int idProyecto) {
 		this.idProyecto = idProyecto;
 	}
 	/**
@@ -160,7 +214,7 @@ public class Proyecto implements Serializable{
 	 *
 	 */
 	@XmlElement(name = "fechaInicio")
-	public String getFechaInicio() {
+	public Date getFechaInicio() {
 		return fechaInicio;
 	}
 	/**
@@ -168,7 +222,7 @@ public class Proyecto implements Serializable{
 	 * 
 	 * @param fechaInicio Inicio del proyecto.
 	 */
-	public void setFechaInicio(String fechaInicio) {
+	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 	/**
@@ -178,7 +232,7 @@ public class Proyecto implements Serializable{
 	 *
 	 */
 	@XmlElement(name = "fechaFinalizacion")
-	public String getFechaFinalizacion() {
+	public Date getFechaFinalizacion() {
 		return fechaFinalizacion;
 	}
 	/**
@@ -186,7 +240,7 @@ public class Proyecto implements Serializable{
 	 * 
 	 * @param fechaInicio Inicio del proyecto.
 	 */
-	public void setFechaFinalizacion(String fechaFinalizacion) {
+	public void setFechaFinalizacion(Date fechaFinalizacion) {
 		this.fechaFinalizacion = fechaFinalizacion;
 	}
 	/**
@@ -243,24 +297,25 @@ public class Proyecto implements Serializable{
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	/**
-	 * Metodo accesor de lectura que nos da el socio local del Proyecto.
-	 * 
-	 * @return nos devuelve el socio local del proyecto.	 
-	 *
-	 */
-	@XmlElement(name = "socioLocal")
-	public Colaborador getSocioLocal() {
-		return socioLocal;
+
+	public Set<Colaborador> getColaboradores() {
+		return colaboradores;
 	}
-	/**
-	 * Metodo accesor de escritura que asigna un Colaborador como socio local.
-	 * 
-	 * @param socioLocal  socio local del proyecto.
-	 */
-	public void setSocioLocal(Colaborador socioLocal) {
-		this.socioLocal = socioLocal;
+	
+	public void addColaborador ( Colaborador c ) {
+		this.colaboradores.add(c);
+		c.addProyecto(this);
 	}
+
+	public void removeColaborador ( Colaborador c ) {
+		this.colaboradores.remove(c);
+		c.removeProyecto(this);
+	}
+
+	public void setColaboradores(Set<Colaborador> colaboradores) {
+		this.colaboradores = colaboradores;
+	}
+
 	/**
 	 * Metodo accesor de lectura que nos da el financiador del Proyecto.
 	 * 
@@ -268,7 +323,7 @@ public class Proyecto implements Serializable{
 	 *
 	 */
 	@XmlElement(name = "financiador")
-	public Aportador getFinanciador() {
+	public FINANCIACION getFinanciador() {
 		return financiador;
 	}
 	/**
@@ -276,7 +331,7 @@ public class Proyecto implements Serializable{
 	 * 
 	 * @param socioLocal  financiador del proyecto.
 	 */
-	public void setFinanciador(Aportador financiador) {
+	public void setFinanciador(FINANCIACION financiador) {
 		this.financiador = financiador;
 	}
 	/**
@@ -284,6 +339,23 @@ public class Proyecto implements Serializable{
 	 * 
 	 * @param acciones a realizar lista de acciones.
 	 */
+	
+	public Set<Accion> getAccionesARealizar() {
+		return accionesARealizar;
+	}
+
+	public void setAccionesARealizar(Set<Accion> accionesARealizar) {
+		this.accionesARealizar = accionesARealizar;
+	}
+
+	public Set<Personal> getPersonalAsignado() {
+		return personalAsignado;
+	}
+
+	public void setPersonalAsignado(Set<Personal> personalAsignado) {
+		this.personalAsignado = personalAsignado;
+	}
+	
 	@XmlElement(name = "accionesARealizar")
 	public void listAccionesARealizar() {
 		for (Accion elem : accionesARealizar) {
@@ -304,7 +376,7 @@ public class Proyecto implements Serializable{
      * @return la financiacion de un proyecto.
      */
 	@XmlElement(name = "financiacion")
-	public float getFinanciacion() {
+	public BigDecimal getFinanciacion() {
 		return financiacion;
 	}
 	/**
@@ -312,54 +384,24 @@ public class Proyecto implements Serializable{
 	 * 
 	 * @param financiación, la financiación del proyecto.
 	 */
-	public void setFinanciacion(float financiacion) {
+	public void setFinanciacion(BigDecimal financiacion) {
 		this.financiacion = financiacion;
 	}
-	/**
-	 * Metodo que lista los voluntarios asignados al proyecto. 
-	 * 
-	 * @param listVoluntariosAsignador, lista de voluntarios asignados al proyecto.
-	 */
-	@XmlElement(name = "voluntariosAsignados")
-	public void listVoluntariosAsignados() {
-		for (Voluntario elem : voluntariosAsignados) {
-			elem.toString();
-		}
+
+	public String getNombre() {
+		return nombre;
 	}
-	/**
-	 * Metodo que añade los voluntarios asignados al proyecto. 
-	 * 
-	 * @param voluntariosAsignados,lista de voluntarios asignados al proyecto.
-	 */
-	public void addVoluntariosAsignados(Voluntario voluntario) {
-		this.voluntariosAsignados.add(voluntario);
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	/**
-	 * Metodo que lista los trabajadores asignados al proyecto. 
-	 * 
-	 * @param listtrabajadores, lista de trabajadores contratados asignados al proyecto.
-	 */
-	@XmlElement(name = "contratadosAsignados")
-	public void listContratadosAsignados() {
-		for (Administrador elem : contratadosAsignados) {
-			elem.toString();
-		}
-	}
-	/**
-	 * Metodo que añade los trabajadores contratados asignados al proyecto. 
-	 * 
-	 * @param voluntariosAsignados,lista de trabajadores contratados asignados al proyecto.
-	 */
-	public void addContratado(Administrador trabajador) {
-		this.contratadosAsignados.add(trabajador);
-	}
+
 	
 	/**
      * Crea una cadena de caracteres con los datos principales del proyecto.
      * 
      * @return Cadena con los datos del proyecto.
      */
-
 	 public String toString() {
 		
 			 return this.nombre + this.idProyecto + this.pais ;

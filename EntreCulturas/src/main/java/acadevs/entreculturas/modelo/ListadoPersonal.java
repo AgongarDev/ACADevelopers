@@ -16,17 +16,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name = "trabajadores")
-public class ListadoTrabajadores implements Serializable{
+public class ListadoPersonal implements Serializable{
 	
 	// CAMPOS
-    private List<Trabajador> listadoTrabajadores;
+    private List<Personal> listadoTrabajadores;
     
 	// CONSTRUCTORES
 	
 	/**
 	 * Constructor que llama a un nuevo objeto ListadoTrabajadores sin inicializar sus campos.
 	 */
-	public ListadoTrabajadores() {
+	public ListadoPersonal() {
 		super();
 	}
 	
@@ -36,7 +36,7 @@ public class ListadoTrabajadores implements Serializable{
 	 * 
 	 * @param listadoTrabajadores Listado con todos los trabajadores de la ONG.
 	 */
-	public ListadoTrabajadores(ArrayList<Trabajador> listadoTrabajadores) {
+	public ListadoPersonal(ArrayList<Personal> listadoTrabajadores) {
 		super();
 		this.listadoTrabajadores = listadoTrabajadores;
 	}
@@ -50,7 +50,7 @@ public class ListadoTrabajadores implements Serializable{
      * @return Nos devuelve el listado de trabajadores. 
      */
     @XmlElement(name = "trabajador")
-    public List<Trabajador> getListadoTrabajadores() {
+    public List<Personal> getListadoTrabajadores() {
         return listadoTrabajadores;
     }
 
@@ -59,7 +59,7 @@ public class ListadoTrabajadores implements Serializable{
      * 
      * @param listadoTrabajadores El listado de trabajadores.
      */
-    public void setListadoTrabajadores(List<Trabajador> listadoTrabajadores) {
+    public void setListadoTrabajadores(List<Personal> listadoTrabajadores) {
         this.listadoTrabajadores = listadoTrabajadores;
     }
 
@@ -69,10 +69,10 @@ public class ListadoTrabajadores implements Serializable{
      * 
      * @param t Trabajador.
      */ 
-    public void add(Trabajador t) {
+    public void add(Personal t) {
     	
         if (this.listadoTrabajadores == null) {
-            this.listadoTrabajadores = new ArrayList<Trabajador>();
+            this.listadoTrabajadores = new ArrayList<Personal>();
         }
         
         this.listadoTrabajadores.add(t);

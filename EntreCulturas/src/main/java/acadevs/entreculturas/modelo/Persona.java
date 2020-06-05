@@ -1,8 +1,18 @@
 package acadevs.entreculturas.modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,6 +39,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="contactos")
+@Inheritance(strategy = InheritanceType.JOINED)
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlType(propOrder={"dni", "nombre", "apellidos", "domicilio", "telefono", "fechaInicio", 
 		"fechaFin", "sedeAsignada", "cargo", "correo"})
@@ -37,6 +48,9 @@ public abstract class Persona implements Serializable{
 
 	    // CAMPOS
 	    @Id
+	    @Column(name = "id_contacto")
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    protected int Id;
 	    @Column(name="dni")
 		protected String dni;
 	    @Column(name="nombre")
@@ -51,7 +65,8 @@ public abstract class Persona implements Serializable{
 		protected Date fechaInicio;
 	    @Column(name="fecha_fin")
 		protected Date fechaFin;
-	    @Column(name="sede")
+	    @ManyToOne
+	    @JoinColumn(name = "sede")
 		private AdministracionFisica sedeAsignada;
 	    @Column(name="cargo")
 		protected String cargo;
@@ -106,9 +121,15 @@ public abstract class Persona implements Serializable{
 		 * 
 		 * @return devuelve el dni de la persona
 		 */
+		
+		
 		@XmlAttribute(name = "dni")
 		public String getDni() {
 			return dni;
+		}
+
+		public int getId() {
+			return Id;
 		}
 
 		/**

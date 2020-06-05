@@ -135,7 +135,7 @@ public class XMLProyectoDAO {// implements IDAO<Proyecto>{
 	 * @param params Parametros del objeto proyecto a modificar.
 	 */
 
-	public void actualizar(String id) {
+	public void actualizar(int id) {
 		encontrarProyectoPorId(id);
         System.out.println("El proyecto con ID " + id + " ha sido actualizada"); 
 	}
@@ -189,9 +189,9 @@ public class XMLProyectoDAO {// implements IDAO<Proyecto>{
 	 * @param id Id de la delegacion buscada.
 	 * @return Delegacion buscada.
 	 */
-    public Proyecto encontrarProyectoPorId(String id) {
+    public Proyecto encontrarProyectoPorId(int id) {
     	for (Proyecto p : listadoProyectos.getListadoProyectos()) {
-    		if (p.getIdProyecto().equals(id)) {
+    		if (p.getIdProyecto() == id) {
     			return p;
     		}
     	}

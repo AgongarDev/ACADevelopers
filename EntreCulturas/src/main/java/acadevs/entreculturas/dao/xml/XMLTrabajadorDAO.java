@@ -9,8 +9,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.PropertyException;
 
-import acadevs.entreculturas.modelo.ListadoTrabajadores;
-import acadevs.entreculturas.modelo.Trabajador;
+import acadevs.entreculturas.modelo.ListadoPersonal;
+import acadevs.entreculturas.modelo.Personal;
 
 /**
  * Esta clase instancia objetos XML DAO para interaccionar con
@@ -25,7 +25,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	//DAO NO IMPLEMENTADO
 	// CAMPOS
 	
-	private ListadoTrabajadores listadoTrabajadores = new ListadoTrabajadores();
+	private ListadoPersonal listadoTrabajadores = new ListadoPersonal();
 	
 	
 	// CONSTRUCTORES
@@ -42,7 +42,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * 
 	 * @param listadoTrabajadores Atributo que guarda el listado de los trabajadores de la ONG.
 	 */
-	public XMLTrabajadorDAO(ListadoTrabajadores listadoTrabajadores) {
+	public XMLTrabajadorDAO(ListadoPersonal listadoTrabajadores) {
 		super();
 		this.listadoTrabajadores = listadoTrabajadores;
 	}
@@ -55,7 +55,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * 
 	 * @return Nos devuelve el listado de trabajadores.
 	 */
-	public ListadoTrabajadores getListadoTrabajadores() {
+	public ListadoPersonal getListadoTrabajadores() {
 		return listadoTrabajadores;
 	}
 	
@@ -64,7 +64,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * 
 	 * @param listadoTrabajadores El listado de trabajadores de la ONG.
 	 */
-	public void setListadoTrabajadores(ListadoTrabajadores listadoTrabajadores) {
+	public void setListadoTrabajadores(ListadoPersonal listadoTrabajadores) {
 		this.listadoTrabajadores = listadoTrabajadores;
 	}
 
@@ -74,11 +74,11 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * 
 	 * @param t Objeto trabajador a persistir.
 	 */
-	public void crearNuevo(Trabajador t) {
+	public void crearNuevo(Personal t) {
 		listadoTrabajadores.add(t);
 		JAXBContext context = null;
 		try {
-			context = JAXBContext.newInstance(Trabajador.class);
+			context = JAXBContext.newInstance(Personal.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,7 +119,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * @return Objeto trabajador persistido.
 	 */
 
-	public Optional<Trabajador> obtener(String id) {
+	public Optional<Personal> obtener(int id) {
 		System.out.println("Se ha obtenido un trabajador");
         //return encontrarTrabajadorPorId(id); 
 		return null;
@@ -132,7 +132,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * @param params Parametros del objeto trabajador a modificar.
 	 */
 
-	public void actualizar(String id) {
+	public void actualizar(int id) {
     	encontrarTrabajadorPorId(id); 
         System.out.println("El trabajador con ID " + id  + " ha sido actualizado"); 
 		
@@ -144,7 +144,7 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * @param t Objeto trabajador a borrar.
 	 */
 
-	public void borrar(Trabajador t) {
+	public void borrar(Personal t) {
         System.out.println("El trabajador con ID " + t.getDni() + "ha sido eliminado"); 
 	}
 
@@ -154,15 +154,15 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * @return Listado con los objetos trabajador persistidos.
 	 */
 
-	public List<Trabajador> obtenerTodos() {
+	public List<Personal> obtenerTodos() {
 		if (listadoTrabajadores.getListadoTrabajadores() != null) {
 			System.out.println("La ONG cuenta con " + listadoTrabajadores.getListadoTrabajadores().size() + " trabajadores:");
-	    	for (Trabajador t : listadoTrabajadores.getListadoTrabajadores()) {
+	    	for( Personal t : listadoTrabajadores.getListadoTrabajadores()) {
 	    		System.out.println(t.toString());
 	    	}
 	    	try {
 	    		
-	    		JAXBContext context = JAXBContext.newInstance(ListadoTrabajadores.class);
+	    		JAXBContext context = JAXBContext.newInstance(ListadoPersonal.class);
 	    		Marshaller marshaller = context.createMarshaller();
 	    		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);	
 	    		marshaller.marshal(listadoTrabajadores, new File("xml/trabajadores.xml"));
@@ -190,8 +190,8 @@ public class XMLTrabajadorDAO {// implements IDAO<Trabajador>{
 	 * @param id Id del trabajador buscado.
 	 * @return Trabajador buscado.
 	 */
-    public Trabajador encontrarTrabajadorPorId(String id) {
-    	for (Trabajador t : listadoTrabajadores.getListadoTrabajadores()) {
+    public Personal encontrarTrabajadorPorId(int id) {
+    	for (Personal t : listadoTrabajadores.getListadoTrabajadores()) {
     		if (t.getDni().equals(id)) {
     			return t;
     		}

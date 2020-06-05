@@ -18,14 +18,10 @@
 <property name="hbm2ddl.auto">validate</property>
 
 	 <mapping class="acadevs.entreculturas.modelo.Accion"/>
-    <!--
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Socio.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Administracion.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/AdministracionFisica.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Aportador.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Colaborador.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Persona.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Proyecto.java"/>
-     <mapping class="/Entreculturas/src/main/java/acadevs/entreculturas/modelo/Socio.java"/> -->
+	 <mapping class="acadevs.entreculturas.modelo.Colaborador"/>
+	 <mapping class="acadevs.entreculturas.modelo.AdministracionFisica"/>
+     <mapping class="acadevs.entreculturas.modelo.Personal"/>
+     <mapping class="acadevs.entreculturas.modelo.Proyecto"/>
+
 </session-factory>
 </hibernate-configuration>

@@ -84,6 +84,21 @@ public class HibernateDBManager {
 		}
 	
 	}
-	
-
+	/*
+	 * Une las claves id de la tabla primera y la segunda en una tarcera tabla, siguiendo las reglas de normalización de BD. 
+	 * */
+	public <T, K> void joinMuchosAMuchos(Class<T> tClass, int idT, Class<K> kClass, int idK) {
+		
+		try {
+			HibernateUtil.abrirSession();
+			
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			
+			session.load(tClass, idT);
+			session.load(kClass, idK);
+			
+		} finally {
+			HibernateUtil.cerrarSession();
+		}
+	}
 }

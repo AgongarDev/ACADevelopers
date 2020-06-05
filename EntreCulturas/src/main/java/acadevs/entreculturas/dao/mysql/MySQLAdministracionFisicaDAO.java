@@ -41,7 +41,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 		
 		AdministracionFisica sede = new AdministracionFisica (nombre, direccion, telefono, correo, numEmpleados);
 		
-		sede.setIdAdmin(rs.getInt("id_sede"));
+		sede.setIdAdmin(rs.getShort("id_sede"));
 		
 		return sede;
 		
@@ -70,7 +70,7 @@ public class MySQLAdministracionFisicaDAO implements IAdministracionFisicaDAO {
 			rs = stat.getGeneratedKeys();
 			
 			if (rs.next()) {
-				t.setIdAdmin(rs.getInt(1));
+				t.setIdAdmin(rs.getShort(1));
 			} else {
 				throw new DAOException("Hubo algún problema para recuperar el ID de la administración");
 			}

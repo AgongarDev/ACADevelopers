@@ -53,7 +53,7 @@ public class Administrador extends Persona implements Serializable{
 	 */
 	public Administrador(String dni, String nombre, String apellidos, String domicilio, int telefono,
 		       Date fechaInicio, Date fechaFin, AdministracionFisica sedeAsignada, 
-		       String cargo, String correo, Ong ong, String pass) throws JAXBException {
+		       String cargo, String correo, String pass) throws JAXBException {
 		super(dni, nombre, apellidos, domicilio, telefono, fechaInicio, fechaFin, sedeAsignada, cargo, correo);
 		
 		this.rootPass = pass;

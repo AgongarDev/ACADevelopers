@@ -48,14 +48,10 @@ create table if not exists PERSONAL (
     foreign key FK_personal_contacto(id_trabajador) references CONTACTOS (id_contacto)
     on update cascade on delete cascade);    
     
-create table if not exists APORTADORES (
-	id_aportador int not null auto_increment,
-    tipo_aportador enum ("Institucion", "Empresa", "Particular", "Herencias"),
-    primary key (id_aportador));
-    
 create table if not exists COLABORADORES (
 	id_colaborador int not null auto_increment,
-    nombre varchar(32) not null,
+    nif varchar(9) not null,
+    nombre varchar(32),
     direccion varchar(100),
     telefono integer,
     correo varchar(100),
@@ -67,19 +63,25 @@ create table if not exists PROYECTOS (
     nombre varchar(64),
     fecha_inicio date,
     fecha_fin date,
-    linea_accion enum ("COOP", "ACC", "FORT", "EDU"),
+    linea_accion varchar(30),
     sublinea_accion varchar(120),
     pais varchar(40),
     direccion varchar(100),
     socio_local int,
-    financiador int,
+    financiador varchar(15),
     financiacion dec,
     primary key (id_proyecto),
-    foreign key FK_financiador_proyecto (financiador) references APORTADORES (id_aportador)
-    on update cascade on delete cascade,
     foreign key FK_socio_local_proyecto (socio_local) references COLABORADORES (id_colaborador)
     on update cascade on delete cascade);
     
+create table if not exists PROYECTO_COLABORADOR (
+	id_proyecto int not null,
+    id_colaborador int not null,
+    primary key (id_proyecto, id_colaborador),
+    key id_proyecto (id_proyecto),
+    constraint proyecto_colaborador_fk_1 foreign key (id_proyecto) references PROYECTOS (id_proyecto),
+    constraint proyecto_colaborador_fk_2 foreign key (id_colaborador) references COLABORADORES (id_colaborador));
+
 create table if not exists ACCIONES (
 	id_accion int not null auto_increment,
     nombre varchar(120),

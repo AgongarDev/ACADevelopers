@@ -1,27 +1,43 @@
 package acadevs.entreculturas.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 @Entity
 @Table(name="administraciones")
 public class AdministracionFisica implements Serializable{
 
 	//ATRIBUTOS DEL MODELO ADMINISTRACION FISICA
 	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name="id_sede")
-	private Integer idAdmin = null;
+	private Short idAdmin;
+	
 	@Column(name="nombre")
 	private String nombre;
+	
 	@Column(name="direccion")
 	private String direccion;
-	@Column(name="numEmpleados")
+	
+	@Column(name="num_empleados")
 	private short numEmpleados;
+	
+	@OneToMany (cascade = CascadeType.ALL, mappedBy = "sedeAsignada")
+	private List<Persona> personalAsignado;
+	
 	@Column(name="correo")
 	private String correo;
+	
 	@Column(name="telefono")
 	private int telefono;
 	
@@ -44,11 +60,11 @@ public class AdministracionFisica implements Serializable{
 	}
 	
 	//getters y setters
-		public Integer getIdAdmin() {
+		public Short getIdAdmin() {
 		return idAdmin;
 	}
 
-	public void setIdAdmin(int idAdmin) {
+	public void setIdAdmin(short idAdmin) {
 		this.idAdmin = idAdmin;	
 	}
 	
@@ -74,6 +90,14 @@ public class AdministracionFisica implements Serializable{
 
 	public void setNumEmpleados(short numEmpleados) {
 		this.numEmpleados = numEmpleados;
+	}
+
+	public List<Persona> getPersonalAsignado() {
+		return personalAsignado;
+	}
+
+	public void setPersonalAsignado(List<Persona> personalAsignado) {
+		this.personalAsignado = personalAsignado;
 	}
 
 	public String getCorreo() {

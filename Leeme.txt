@@ -1,0 +1,18 @@
+Aunque todavía no está terminado, esta aplicación cumple con todos los requisitos solicitados en el enunciado. 
+
+Para poder correr la aplicación, es necesario que se configure el archivo config.xml con los datos de una base de datos disponible ya que se ha hecho con bases de datos en local.
+
+Se encuentran disponibles de interacción:
+
+-el menú principal completo, con comprobación de datos, validación de entradas e interacción entre pantallas.
+-la interacción completa con las pantallas del menú de administrador, 
+-las funcionalidades de las secciones de socios y acciones del menú administrador, aunque se puede mejorar la experiencia de usuario. 
+
+Si bien, la entrega se hace en estas circunstancias, el estado final de la misma tiene objeto de cubrir todas las funcionalidades existententes en el diseño.
+
+Esperamos poder entregar el proyecto completo para la presentación en los próximos días y en ello estamos trabajando.
+
+Cordialmente.
+
+ACADevelopers: Antonio González García y Ana Iglesias Sanchez.
+
